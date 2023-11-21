@@ -1,0 +1,161 @@
+body {
+    background-color: aliceblue;
+    font-family: 'Noto Sans', sans-serif;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    max-height: 800px;
+    background: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.container header {
+    font-size: 1.4rem;
+    color: #333;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.container .form {
+    margin-top: 7px;
+}
+
+.form .input-box {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.input-box label {
+    color: #333;
+}
+
+.form .input-box input,
+.form .select-box select {
+    position: relative;
+    height: 35px;
+    width: 100%;
+    outline: none;
+    font-size: 0.9rem;
+    color: #707070;
+    margin-top: 4px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 6px;
+    display: flex;
+}
+
+
+.input-box input:focus {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.form .column {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+}
+
+.form .gender-box {
+    margin-top: 8px;
+}
+
+.gender-box h3 {
+    color: #333;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 4px;
+}
+
+.form .gender-option,
+.form .gender {
+    display: flex;
+    align-items: center;
+    column-gap: 40px;
+    flex-wrap: wrap;
+}
+
+.form .gender {
+    column-gap: 6px;
+}
+
+.gender input {
+    accent-color: rgb(130, 106, 251);
+}
+
+.form .gender input,
+.form .gender label {
+    cursor: pointer;
+}
+
+.gender label {
+    color: #707070;
+}
+
+.address input,
+.address .select-box select {
+    margin-top: 8px;
+}
+
+.select-box select {
+    height: 35px;
+    width: 100%;
+    outline: none;
+    border: none;
+    color: #707070;
+    font-size: 0.9rem;
+}
+
+.form button {
+    height: 35px;
+    width: 100%;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #2B5BA4;
+}
+
+.form button:hover {
+    background: rgb(20, 0, 117);
+}
+
+.button-container {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+.form .input-box input[type="password"] {
+  width: calc(50% - 4px); /* Adjust the width as needed, considering the margin between inputs */
+  margin-right: 8px; /* Adjust the margin as needed */
+}
+
+.form .input-box label {
+  color: #333;
+  margin-bottom: 4px; /* Adjust the margin as needed */
+}
+
+
+/* Responsive */
+@media screen and (max-width: 500px) {
+    .form .column {
+        flex-wrap: nowrap;
+    }
+    .form .gender-option,
+    .form .gender {
+        row-gap: 6px;
+    }
+}
