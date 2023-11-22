@@ -38,7 +38,11 @@ body {
 
 .input-box label {
     color: #333;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
 }
+
 
 .form .input-box input,
 .form .select-box select {
@@ -47,12 +51,13 @@ body {
     width: 100%;
     outline: none;
     font-size: 0.9rem;
-    color: #707070;
+    color: #000000;
     margin-top: 4px;
     border: 1px solid #ddd;
     border-radius: 6px;
     padding: 6px;
     display: flex;
+    margin-top: 8px;
 }
 
 
@@ -139,14 +144,33 @@ body {
     justify-content: center;
 }
 .form .input-box input[type="password"] {
-  width: calc(50% - 4px); /* Adjust the width as needed, considering the margin between inputs */
-  margin-right: 8px; /* Adjust the margin as needed */
+  width: calc(50% - 4px);
+  margin-right: 8px; 
 }
 
 .form .input-box label {
   color: #333;
-  margin-bottom: 4px; /* Adjust the margin as needed */
+  margin-bottom: 4px; 
 }
+.input-box {
+    margin-bottom: 10px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  select {
+    width: 100%;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #4d4d4d;
+  }
+
 
 
 /* Responsive */

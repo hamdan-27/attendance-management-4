@@ -10,39 +10,70 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/stylelogin.css">
+<script src="https://kit.fontawesome.com/2ba669933d.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+
     <title>EduTrack - Login</title>
 
 </head>
 
 <body>
     <main>
+
+
+        <main>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand text-dark" href="#">EduTrack</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav ml-auto">
+                            <a class="nav-link active mr-3 text-dark" aria-current="page" href="index.html">Home</a>
+                            <a class="nav-link mr-3 text-dark" href="aboutus.html">About Us</a>
+                            <a class="nav-link text-dark" href="signup.html">SignUp</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <br><br><br><br><br>
         <div class="container">
+            <center><h4>Welcome Back Teachers</h4></center>
             <header>Login to EduTrack</header>
+           
             <form class="form">
                 <div class="input-box">
-                    <label for="email">Email address</label>
+                    <i class="fa-solid fa-envelope"></i>
+                    <label for="email">&nbsp; Email address</label>
                     <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 </div>
 
                 <div class="input-box">
-                    <label for="password">Password</label>
+                    <i class="fa-solid fa-lock"></i>
+                    <label for="password">&nbsp; Password</label>
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="input-box">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="input-box mb-3">
                         <a href="#" class="text-body-secondary">Forgot password?</a>
                     </div>
-                    <div class="button-container">
-                        
-                        <div class="button-container">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                            <button id="smallHomeBtn">Home</button>
-                        </div>
+                
+                    <div class="button-container text-center">
+                        <button type="submit" class="btn btn-primary mb-3">Login</button>
                     </div>
+                
+                    <div class="signup-link text-center font-weight-bold">
+                        Not a member? <a href="signup.html">Signup now</a>
+                    </div>
+                </div>
                 </div>
             </form>
         </div>
+        
         <script>
             document.getElementById("smallHomeBtn").addEventListener("click", function() {
                 window.location.href = "index.html";
