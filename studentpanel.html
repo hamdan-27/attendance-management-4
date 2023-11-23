@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Sidebar Example</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script src="js/studentpanelscript.js"></script>
+<script src="https://kit.fontawesome.com/2ba669933d.js" crossorigin="anonymous"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/stylestudentpanel.css">
+
+</head>
+<body>
+
+<div id="sidebar">
+  <h2>&nbsp; EduTrack</h2> <br>
+  <ul class="nav flex-column">
+    <li class="nav-item">
+        <button class="btn btn-dark" onclick="loadContent('dashboard')">Dashboard</button>
+    </li>
+    <li class="nav-item">
+        <button class="btn btn-dark" onclick="loadContent('attendance')">View My Attendance</button>
+    </li>
+    <li class="nav-item">
+        <button class="btn btn-dark" onclick="loadContent('manage')">Manage My Class</button>
+    </li>
+    <li class="nav-item">
+        <button class="btn btn-dark" onclick="loadContent('application')">Attendance Application</button>
+    </li>
+    <li class="nav-item">
+        <button class="btn btn-dark" onclick="loadContent('profile')">Edit My Profile</button>
+    </li> <br><br><br><br><br><br><br><br><br>
+    <li class="nav-item">
+      <button class="btn btn-dark" onclick="loadContent('logout')">Logout</button>
+  </li>
+  </ul>
+</div>
+
+<div id="content">
+  <!-- Content will be loaded here -->
+</div>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- Your custom script for loading content -->
+
+
+</body>
+</html>
