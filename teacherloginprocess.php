@@ -6,7 +6,6 @@ if(isset($_POST['loginsubmit'])){
     $user_email = $_POST['email'];
     $user_password = $_POST['password'];
 
-    // Add a condition to check for 'admin' role
     $sql = "SELECT * FROM users WHERE user_email = '$user_email' AND user_password = '$user_password' AND user_role = 'teacher'";
     
     $result = mysqli_query($conn, $sql);

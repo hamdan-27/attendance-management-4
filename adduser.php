@@ -3,7 +3,7 @@ require('connection.php');
 
 
 if (isset($_POST['submit'])) {
-    // Get form data
+ 
     $user_fname = $_POST['full-name'];
     $user_email = $_POST['email-address'];
     $phone_number = $_POST['phone-number'];
