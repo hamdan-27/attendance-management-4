@@ -1,5 +1,5 @@
 function loadContent(page) {
-    // Use fetch to load content from another HTML page
+
     fetch(page + '.html') 
       .then(response => response.text())
       .then(data => {

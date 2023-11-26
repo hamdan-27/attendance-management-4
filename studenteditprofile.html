@@ -1,0 +1,23 @@
+<?php
+require("studentloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: studentlogin.php');
+    exit();
+} 
+?>
+
+<?php
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    // Fetch the data
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+
+    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <h5>Edit/Customize your profiless.</h5> <hr></center>";
+}
+?>

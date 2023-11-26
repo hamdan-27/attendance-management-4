@@ -45,7 +45,7 @@
             <center><h4>Welcome Back Students</h4></center>
             <header>Login to EduTrack</header>
            
-            <form class="form">
+            <form class="form" action="studentloginprocess.php" method="post">
                 <div class="input-box">
                     <i class="fa-solid fa-envelope"></i>
                     <label for="email">&nbsp; Email address</label>
@@ -64,7 +64,7 @@
                     </div>
                 
                     <div class="button-container text-center">
-                        <button type="submit" class="btn btn-primary mb-3">Login</button>
+                        <button type="submit" name="loginsubmit" class="btn btn-primary mb-3">Login</button>
                     </div>
                 
                     <div class="signup-link text-center font-weight-bold">

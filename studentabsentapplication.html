@@ -1,0 +1,80 @@
+<?php
+require("studentloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: studentlogin.php');
+    exit();
+} 
+?>
+
+<?php
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    // Fetch the data
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+
+    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <h5>Send a absent application to teachers.</h5> <hr></center>";
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student's Page</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-warning text-white"><h4>Absent Application Form</h4></div>
+            <div class="card-body">
+                <form action="absentapplication.php" method="post" class="form">
+                    <div class="form-group">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Reason for Absence:</label>
+                        <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
+                    </div>
+                    <input type="hidden" name="submit" value="submit">
+                    <button type="submit" class="button" onclick="validate()">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    hr {
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-color: #b8b8b8;
+        border-width: 5px;
+    }
+    .button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .button:hover {
+        background-color: #08860f;
+    }
+</style>

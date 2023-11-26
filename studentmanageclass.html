@@ -1,0 +1,120 @@
+<?php
+require("studentloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: studentlogin.php');
+    exit();
+} 
+?>
+
+<?php
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    // Fetch the data
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+
+    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <h5>Manage and view your scheduled class & time table</h5> <hr></center>";
+
+    // Fetch today's class data
+    $today = date("Y-m-d");
+    $today_class_query = "SELECT * FROM class WHERE class_date = '$today'";
+    $today_class_result = mysqli_query($conn, $today_class_query);
+
+    if ($today_class_result && mysqli_num_rows($today_class_result) > 0) {
+        // Display Bootstrap box for Today's Class
+        echo "<div class='container mt-4'>";
+        echo "<div class='card'>";
+        echo "<div class='card-header bg-info text-white'><h4>Today's Class</h4></div>";
+        echo "<div class='card-body'>";
+        
+        while ($today_class_data = mysqli_fetch_assoc($today_class_result)) {
+            echo "<div class='card mb-3'>";
+            echo "<div class='card-body'>";
+            echo "<h5 class='card-title'>{$today_class_data['class_name']}</h5>";
+            echo "<p class='card-text'><strong>Date:</strong> {$today_class_data['class_date']}</p>";
+            echo "<p class='card-text'><strong>Time:</strong> {$today_class_data['class_time']}</p>";
+            echo "<p class='card-text'><strong>Location:</strong> {$today_class_data['class_location']}</p>";
+            echo "<p class='card-text'><strong>Tutor Name:</strong> {$today_class_data['class_tutor_name']}</p>";
+            echo "</div>";
+            echo "</div>";
+        }
+
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+    } else {
+        echo "<div class='container mt-4'>";
+        echo "<div class='alert alert-warning' role='alert'>";
+        echo "<strong>No class scheduled for today.</strong>";
+        echo "</div>";
+        echo "</div>";
+    }
+
+    // Fetch timetable data
+    $timetable_query = "SELECT * FROM class";
+    $timetable_result = mysqli_query($conn, $timetable_query);
+
+    if ($timetable_result && mysqli_num_rows($timetable_result) > 0) {
+        // Display Bootstrap box for Timetable
+        echo "<div class='container mt-4'>";
+        echo "<div class='card'>";
+        echo "<div class='card-header bg-primary text-white'><h4>Timetable</h4></div>";
+        echo "<div class='card-body'>";
+        
+        while ($timetable_data = mysqli_fetch_assoc($timetable_result)) {
+            echo "<div class='card mb-3'>";
+            echo "<div class='card-body'>";
+            echo "<h5 class='card-title'>{$timetable_data['class_name']}</h5>";
+            echo "<p class='card-text'><strong>Date:</strong> {$timetable_data['class_date']}</p>";
+            echo "<p class='card-text'><strong>Time:</strong> {$timetable_data['class_time']}</p>";
+            echo "<p class='card-text'><strong>Location:</strong> {$timetable_data['class_location']}</p>";
+            echo "<p class='card-text'><strong>Tutor Name:</strong> {$timetable_data['class_tutor_name']}</p>";
+            echo "</div>";
+            echo "</div>";
+        }
+
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+    } else {
+        echo "<div class='container mt-4'>";
+        echo "<div class='alert alert-warning' role='alert'>";
+        echo "<strong>No classes in the timetable.</strong>";
+        echo "</div>";
+        echo "</div>";
+    }
+
+} else {
+    echo "Error retrieving user details: " . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student's Page</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  
+</body>
+</html>
+<style>
+    hr {
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-color: #b8b8b8;
+        border-width: 5px;
+    }
+</style>

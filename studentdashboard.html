@@ -1,0 +1,127 @@
+<?php
+require("studentloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: studentlogin.php');
+    exit();
+} 
+?>
+
+<?php
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    // Fetch the data
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+
+    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <hr></center>";
+
+    // Fetch attendance data
+    $attendance_query = "SELECT present_percentage, absent_percentage FROM attendance WHERE attendance_student = '$user_fname'";
+    $attendance_result = mysqli_query($conn, $attendance_query);
+
+    if ($attendance_result) {
+        $present_percentage = 0;
+        $absent_percentage = 0;
+
+        while ($attendance_row = mysqli_fetch_assoc($attendance_result)) {
+            $present_percentage += $attendance_row['present_percentage'];
+            $absent_percentage += $attendance_row['absent_percentage'];
+        }
+
+        // Display Bootstrap boxes for attendance
+        echo "<div class='container mt-4'>";
+        echo "<div class='row'>";
+        
+        // Present Box
+        echo "<div class='col-md-6'>";
+        echo "<div class='card'>";
+        echo "<div class='card-header bg-success text-white'><h5>Present Percentage</h5></div>";
+        echo "<div class='card-body'>";
+        echo "<p class='card-text'><strong>Percentage:</strong> $present_percentage%</p>";
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+
+        // Absent Box
+        echo "<div class='col-md-6'>";
+        echo "<div class='card'>";
+        echo "<div class='card-header bg-danger text-white'><h5>Absent Percentage</h5></div>";
+        echo "<div class='card-body'>";
+        echo "<p class='card-text'><strong>Percentage:</strong> $absent_percentage%</p>";
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+
+        echo "</div>"; // Close row
+        echo "</div>"; // Close container
+    } else {
+        echo "Error retrieving attendance details: " . mysqli_error($conn);
+    }
+
+    $today = date("Y-m-d");
+    $class_query = "SELECT * FROM class WHERE class_date = '$today'";
+    $class_result = mysqli_query($conn, $class_query);
+
+    if ($class_result && mysqli_num_rows($class_result) > 0) {
+        // Display Bootstrap box for Today's Class
+        echo "<div class='container mt-4'>";
+        echo "<div class='card'>";
+        echo "<div class='card-header bg-info text-white'><h4>Today's Class</h4></div>";
+        echo "<div class='card-body'>";
+        
+        while ($class_data = mysqli_fetch_assoc($class_result)) {
+            echo "<div class='card mb-3'>";
+            echo "<div class='card-body'>";
+            echo "<h5 class='card-title'>{$class_data['class_name']}</h5>";
+            echo "<p class='card-text'><strong>Date:</strong> {$class_data['class_date']}</p>";
+            echo "<p class='card-text'><strong>Time:</strong> {$class_data['class_time']}</p>";
+            echo "<p class='card-text'><strong>Location:</strong> {$class_data['class_location']}</p>";
+            echo "<p class='card-text'><strong>Tutor Name:</strong> {$class_data['class_tutor_name']}</p>";
+            echo "</div>";
+            echo "</div>";
+        }
+
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+    } else {
+        echo "<div class='container mt-4'>";
+        echo "<div class='alert alert-warning' role='alert'>";
+        echo "<strong>No classes scheduled for today.</strong>";
+        echo "</div>";
+        echo "</div>";
+    }
+} else {
+    echo "Error retrieving user details: " . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student's Page</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- You HTML content here -->
+</body>
+</html>
+<style>
+    hr {
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-color: #b8b8b8;
+        border-width: 5px;
+    }
+</style>

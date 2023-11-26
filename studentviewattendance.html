@@ -1,0 +1,83 @@
+<?php
+require("studentloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: studentlogin.php');
+    exit();
+} 
+?>
+
+<?php
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    // Fetch the data
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+
+    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <h5>View your past attendance record</h5> <hr></center>";
+
+    // Fetch attendance data for the logged-in student
+    $attendance_query = "SELECT * FROM attendance WHERE attendance_student = '$user_fname'";
+    $attendance_result = mysqli_query($conn, $attendance_query);
+
+    if ($attendance_result) {
+        // Display Bootstrap box for attendance records
+        echo "<div class='container mt-4'>";
+        echo "<div class='card'>";
+        echo "<div class='card-header bg-primary text-white'><h4>Attendance Records</h4></div>";
+        echo "<div class='card-body'>";
+        
+        while ($attendance_data = mysqli_fetch_assoc($attendance_result)) {
+            echo "<div class='card mb-3'>";
+            echo "<div class='card-body'>";
+            echo "<p><strong>Class:</strong> {$attendance_data['attendance_class']}</p>";
+            echo "<p><strong>Status:</strong> {$attendance_data['attendance_status']}</p>";
+            echo "<p><strong>Present Percentage:</strong> {$attendance_data['present_percentage']}%</p>";
+            echo "<p><strong>Absent Percentage:</strong> {$attendance_data['absent_percentage']}%</p>";
+            echo "<p><strong>Date:</strong> {$attendance_data['date']}</p>";
+            echo "</div>";
+            echo "</div>";
+        }
+
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
+    } else {
+        echo "Error retrieving attendance details: " . mysqli_error($conn);
+    }
+
+    // ... (the rest of your existing code)
+
+} else {
+    echo "Error retrieving user details: " . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student's Page</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  
+</body>
+</html>
+<style>
+    hr {
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-color: #b8b8b8;
+        border-width: 5px;
+    }
+</style>

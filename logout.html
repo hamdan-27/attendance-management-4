@@ -1,0 +1,155 @@
+<?php 
+header("Content-Type: text/html; charset=UTF-8");
+session_start();
+session_destroy();
+?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <style>
+  body {
+    background-image: url('smoky5.jpg');
+    background-position: center center;
+
+  }
+  h3 {
+    font-family: Open Sans;
+  
+  }
+  .container {
+    background-color: lightblue;
+    border: 6px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+  }
+  
+  h3 {
+    color: black;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+  }
+  
+  a {
+    color: black;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  a:hover {
+    background-color: black;
+    color: white;
+  }
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  footer {
+      position: absolute;
+      bottom: -360px;
+      left: -350;
+      right: 20;
+      background: grey;
+      height: auto;
+      width: 100vw;
+      font-family: "Open Sans";
+      padding: 0.25px; /* adjust the padding values here */
+      color: #fff;
+  }
+
+.footer-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 4px auto;
+}
+.footer-content h3{
+  padding-top: -10px;
+  font-size: 1.8rem;
+  font-weight: 400;
+  text-transform: capitalize;
+  line-height: 3rem;
+  color: #000; 
+}
+.footer-content p{
+    max-width: 500px;
+    margin: 5px auto;
+    line-height: 28px;
+    font-size: 14px;
+    color: #000
+}
+.socials{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 3rem 0;
+
+}
+.socials li{
+    margin: 0 10px;
+    
+}
+.socials a{
+    text-decoration: none;
+    color: #000;
+}
+.socials a i{
+    font-size: 1.1rem;
+    transition: color .4s ease;
+
+}
+.socials a:hover i{
+    color: white;
+}
+
+.footer-bottom{
+    background: #000;
+    width: 100vw;
+    padding: 20px 0;
+    text-align: center;
+    bottom: 100px;
+}
+.footer-bottom p{
+    font-size: 14px;
+    word-spacing: 2px;
+    text-transform: capitalize;
+}
+.footer-bottom span{
+    text-transform: uppercase;
+    opacity: .4;
+    font-weight: 200;
+}
+
+
+</style>
+
+
+</style>
+
+  </head>
+  <body> <br><br>
+  
+  <div class="container">
+    <h3>You Have Been Logged Out.</h3>
+    <br><br>
+    <a href="index.html">Home</a>
+  </div>
