@@ -45,7 +45,7 @@
              </div>
              <div class="input-box">
             <label for="role">
-              <i class="fa-solid fa-envelope"></i>&nbsp; Role
+            <i class="fa-solid fa-repeat"></i>&nbsp; Role
             </label>
             <input type="text" id="role" name="role" placeholder="Enter student or teacher" required />
           </div>
