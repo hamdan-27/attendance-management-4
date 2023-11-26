@@ -20,57 +20,54 @@
     
     <section class="container">
         <header>EduTrack Registration Form</header>
-        <form action="#" class="form">
+        <form action="adduser.php" method="post" class="form">
           <div class="input-box">
             <label for="full-name">
                 <i class="fa-solid fa-user"></i>&nbsp; Full Name
             </label>
-            <input type="text" id="full-name" placeholder="Enter full name" required />
+            <input type="text" id="full-name" name="full-name" placeholder="Enter full name" required />
         </div>
         
           <div class="input-box">
             <label for="email-address">
               <i class="fa-solid fa-envelope"></i>&nbsp; Email Address
             </label>
-            <input type="text" placeholder="Enter email address" required />
+            <input type="text" id="email-address" name="email-address" placeholder="Enter email address" required />
           </div>
           <div class="column">
             <div class="input-box">
               <label for="phone-number">
                 <i class="fa-solid fa-phone"></i>&nbsp; Phone Number
               </label>
-              <input type="number" placeholder="Enter phone number" required />
+              <input type="number" id="phone-number" name="phone-number" placeholder="Enter phone number" required />
             </div>
            
              </div>
              <div class="input-box">
-              <label for="role">
-                <i class="fa-solid fa-circle-user"></i>&nbsp; Role
-              </label>
-              <select id="role" name="role" required>
-                  <option value="" disabled selected>Select a Role</option>
-                  <option value="teacher">Teacher</option>
-                  <option value="student">Student</option>
-              </select>
+            <label for="role">
+              <i class="fa-solid fa-envelope"></i>&nbsp; Role
+            </label>
+            <input type="text" id="role" name="role" placeholder="Enter student or teacher" required />
           </div>
           
               <div class="input-box">
                 <label for="password">
                   <i class="fa-solid fa-lock"></i>&nbsp; Password
                 </label>
-                <input type="password" placeholder="Create A New Password" required />
+                <input type="password" id="password" name="password" placeholder="Create A New Password" required />
                 <div class="input-box confirm-password">
                 <label for="confirm-password">
                   <i class="fa-solid fa-lock"></i>&nbsp; Confirm Password
                 </label>
-                <input type="password" placeholder="Confirm Your Password" required />
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Your Password" required />
               </div>
             </div>
    
          
           <div class="button-container">  
             <button id="homeButton" onclick="goToHomePage()">Home</button>
-            <button id="submitButton">Submit</button>
+            <input type="hidden" name="submit" value="submit">
+            <button type="submit" class="button" onclick="validate()">Submit</button>
             <button id="loginButton" onclick="goToLoginPage()">Login</button>
         </div>
         <script>
