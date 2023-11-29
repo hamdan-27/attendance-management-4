@@ -1,0 +1,122 @@
+<?php
+require("teacherloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: teacherlogin.php');
+    exit();
+} 
+
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT * FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+}
+
+
+$attendance_query = "SELECT * FROM attendance";
+$attendance_result = mysqli_query($conn, $attendance_query);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
+    while ($row = mysqli_fetch_assoc($attendance_result)) {
+        $attendance_id = $row['attendance_id'];
+        $new_attendance_status = $_POST["new_attendance_status"][$attendance_id];
+
+ 
+        $update_query = "UPDATE attendance SET attendance_status = '$new_attendance_status' WHERE attendance_id = '$attendance_id'";
+        $update_result = mysqli_query($conn, $update_query);
+
+        if (!$update_result) {
+            echo "<br><br><center><h3>Error updating attendance status. Please try again.</h3></center>";
+            exit;
+        }
+    }
+    echo "<br><br><center><h3>Attendance status updated successfully!</h3></center>";
+    echo "<script>window.location.href = 'teacherpanel.php';</script>";
+
+}
+
+
+mysqli_data_seek($attendance_result, 0);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher's Page</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <br><br>
+    <div class="container">
+        <center>
+            <h1>Welcome Back Mr <?php echo $user_fname; ?>!</h1>
+            <h5>Mark Student Attendance</h5>
+        </center>  
+        <hr>
+        <br><br><br>
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Attendance ID</th>
+                                <th>Student Name</th>
+                                <th>Class</th>
+                                <th>Attendance Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            while ($row = mysqli_fetch_assoc($attendance_result)) {
+                                echo "<tr>";
+                                echo "<td>{$row['attendance_id']}</td>";
+                                echo "<td>{$row['attendance_student']}</td>";
+                                echo "<td>{$row['attendance_class']}</td>";
+                                echo "<td>";
+                                $attendance_status = $row['attendance_status'];
+                                if ($attendance_status == 'Present') {
+                                    echo '<i class="fas fa-check text-success"></i> Present';
+                                } else {
+                                    echo '<i class="fas fa-times text-danger"></i> Absent';
+                                }
+                                echo "</td>";
+                                echo "<td>
+                                        <div class='form-group'>
+                                            <select class='form-control' name='new_attendance_status[{$row['attendance_id']}]'>
+                                                <option value='Present'>Present</option>
+                                                <option value='Absent'>Absent</option>
+                                            </select>
+                                        </div>
+                                      </td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                    <button type='submit' name='final_submit' class='btn btn-primary'>Submit Attendance</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        hr {
+            width: 90%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-color: #b8b8b8;
+            border-width: 5px;  
+        /* NEED TO DISPLAY STUDENTS ONLY AS PER COURSE and teacher login session (BIOLOGY ONLY BIO STUDENTS MENTION FOR ATTENDANCE)*/
+        }
+    </style>
+</body>
+</html>

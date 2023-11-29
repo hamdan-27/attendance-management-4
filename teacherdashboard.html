@@ -1,0 +1,119 @@
+<?php
+require("teacherloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: teacherlogin.php');
+    exit();
+} 
+
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT * FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+  
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+    $user_email = $row['user_email'];
+    $phone_number = $row['phone_number'];
+    $user_role = $row['user_role'];
+   
+}
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $new_user_fname = $_POST['new_user_fname'];
+    $new_user_email = $_POST['new_user_email'];
+    $new_phone_number = $_POST['new_phone_number'];
+    $new_user_role = $_POST['new_user_role'];
+
+
+    $row['user_email'] = $new_user_email;
+
+    $update_query = "UPDATE users SET 
+        user_fname='$new_user_fname', 
+        user_email='$new_user_email', 
+        phone_number='$new_phone_number', 
+        user_role='$new_user_role' 
+        WHERE user_email='$user_email'";
+    $update_result = mysqli_query($conn, $update_query);
+
+    if ($update_result) {
+        echo "<br><br><center><h3>Profile updated successfully!</h3></center>";
+
+   
+        $_SESSION['email'] = $new_user_email;
+   
+        header('Location: teacherpanel.php');
+        exit();
+    } else {
+        echo "<br><br><center><h3>Error updating profile. Please try again.</h3></center>";
+    }
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher's Page</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <br><br>
+    <div class="container">
+        <center>
+            <h1>Welcome Back Mr <?php echo $user_fname; ?>!</h1>
+            <h5>View your personal details & edit them</h5>
+        </center>  
+        <hr>
+    <br><br><br>
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <div class="row">
+                      
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="new_user_fname">First Name:</label>
+                                <input type="text" class="form-control" name="new_user_fname" value="<?php echo $user_fname; ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new_user_email">Email:</label>
+                                <input type="email" class="form-control" name="new_user_email" value="<?php echo $user_email; ?>" required>
+                            </div>
+                        </div>
+
+          
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="new_phone_number">Phone Number:</label>
+                                <input type="text" class="form-control" name="new_phone_number" value="<?php echo $phone_number; ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new_user_role">User Role:</label>
+                                <input type="text" class="form-control" name="new_user_role" value="<?php echo $user_role; ?>" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+<style>
+    hr {
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-color: #b8b8b8;
+        border-width: 5px;
+    }
+</style>
+</body>
+</html>
