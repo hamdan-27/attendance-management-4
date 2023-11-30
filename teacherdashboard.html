@@ -12,47 +12,70 @@ $query = "SELECT * FROM users WHERE user_email = '$user_email'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-  
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
     $user_email = $row['user_email'];
     $phone_number = $row['phone_number'];
     $user_role = $row['user_role'];
-   
+    $class_name = $row['class_name'];
 }
 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
+    // Updating the profile logic
     $new_user_fname = $_POST['new_user_fname'];
     $new_user_email = $_POST['new_user_email'];
     $new_phone_number = $_POST['new_phone_number'];
     $new_user_role = $_POST['new_user_role'];
-
-
-    $row['user_email'] = $new_user_email;
+    $new_class_name = $_POST['new_class_name'];
 
     $update_query = "UPDATE users SET 
         user_fname='$new_user_fname', 
         user_email='$new_user_email', 
         phone_number='$new_phone_number', 
-        user_role='$new_user_role' 
+        user_role='$new_user_role', 
+        class_name='$new_class_name'
         WHERE user_email='$user_email'";
+
     $update_result = mysqli_query($conn, $update_query);
 
     if ($update_result) {
         echo "<br><br><center><h3>Profile updated successfully!</h3></center>";
 
-   
         $_SESSION['email'] = $new_user_email;
-   
+
         header('Location: teacherpanel.php');
         exit();
     } else {
         echo "<br><br><center><h3>Error updating profile. Please try again.</h3></center>";
     }
 }
-?>
 
+// Creating class logic
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_class'])) {
+    $new_class_name = $_POST['new_class_name'];
+    $class_date = $_POST['class_date'];
+    $class_time = date("h:i A", strtotime($_POST['class_time'])); // Format time to 12-hour format
+    $class_location = $_POST['class_location'];
+    $class_tutor_name = $user_fname; // Assuming the tutor's name is the teacher's first name
+
+    $insert_query = "INSERT INTO class (class_name, class_date, class_time, class_location, class_tutor_name) 
+                VALUES ('$new_class_name', '$class_date', '$class_time', '$class_location', '$class_tutor_name')";
+    
+    $insert_result = mysqli_query($conn, $insert_query);
+
+    if ($insert_result) {
+        echo "<br><br><center><h3>Class created successfully!</h3></center>";
+
+        // Redirect to teacherpanel.php
+        header('Location: teacherpanel.php');
+        exit();
+    } else {
+        echo "<br><br><center><h3>Error creating class. Please try again.</h3></center>";
+    }
+}
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -70,12 +93,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h5>View your personal details & edit them</h5>
         </center>  
         <hr>
-    <br><br><br>
+    
         <div class="card">
             <div class="card-body">
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                     <div class="row">
-                      
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="new_user_fname">First Name:</label>
@@ -86,8 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="email" class="form-control" name="new_user_email" value="<?php echo $user_email; ?>" required>
                             </div>
                         </div>
-
-          
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="new_phone_number">Phone Number:</label>
@@ -97,23 +117,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="new_user_role">User Role:</label>
                                 <input type="text" class="form-control" name="new_user_role" value="<?php echo $user_role; ?>" required>
                             </div>
+                            <div class="form-group">
+                                <label for="new_class_name">Class Name:</label>
+                                <input type="text" class="form-control" name="new_class_name" value="<?php echo $class_name; ?>" required>
+                            </div>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <button type="submit" class="btn btn-primary" name="update_profile">Update Profile</button>
                 </form>
             </div>
         </div>
     </div>
-    
-<style>
-    hr {
-        width: 90%;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border-color: #b8b8b8;
-        border-width: 5px;
-    }
-</style>
+
+    <!-- Additional HTML for Create a Class section -->
+    <hr>
+    <div class="card">
+        <div class="card-body">
+            <h2>Create a Class</h2>
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <div class="form-group">
+                    <label for="new_class_name">Class Name:</label>
+                    <input type="text" class="form-control" name="new_class_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="class_date">Class Date:</label>
+                    <input type="date" class="form-control" name="class_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="class_time">Class Time:</label>
+                    <input type="time" class="form-control" name="class_time" required>
+                </div>
+                <div class="form-group">
+                    <label for="class_location">Class Location:</label>
+                    <input type="text" class="form-control" name="class_location" required>
+                </div>
+                <button type="submit" class="btn btn-primary" name="create_class">Create Class</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        hr {
+            width: 90%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-color: #b8b8b8;
+            border-width: 5px;
+        }
+    </style>
 </body>
 </html>

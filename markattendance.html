@@ -1,6 +1,7 @@
 <?php
 require("teacherloginprocess.php");
-if (!isset($_SESSION['loggedin'])){ 
+
+if (!isset($_SESSION['loggedin'])) { 
     header('Location: teacherlogin.php');
     exit();
 } 
@@ -8,16 +9,26 @@ if (!isset($_SESSION['loggedin'])){
 require('connection.php');
 
 $user_email = $_SESSION['email'];
-$query = "SELECT * FROM users WHERE user_email = '$user_email'";
-$result = mysqli_query($conn, $query);
 
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $user_fname = $row['user_fname'];
+// Fetch user details from the users table
+$user_query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$user_result = mysqli_query($conn, $user_query);
+
+if ($user_result) {
+    $user_row = mysqli_fetch_assoc($user_result);
+    $user_fname = $user_row['user_fname'];
 }
 
+// Fetch class_tutor_name from the class table
+$class_query = "SELECT class_tutor_name FROM class WHERE class_tutor_name = '$user_fname'";
+$class_result = mysqli_query($conn, $class_query);
 
-$attendance_query = "SELECT * FROM attendance";
+if ($class_result) {
+    $class_row = mysqli_fetch_assoc($class_result);
+    $class_tutor_name = $class_row['class_tutor_name'];
+}
+
+$attendance_query = "SELECT * FROM attendance WHERE class_tutor_name = '$class_tutor_name'";
 $attendance_result = mysqli_query($conn, $attendance_query);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
@@ -25,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
         $attendance_id = $row['attendance_id'];
         $new_attendance_status = $_POST["new_attendance_status"][$attendance_id];
 
- 
+        // Update attendance status
         $update_query = "UPDATE attendance SET attendance_status = '$new_attendance_status' WHERE attendance_id = '$attendance_id'";
         $update_result = mysqli_query($conn, $update_query);
 
@@ -33,12 +44,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
             echo "<br><br><center><h3>Error updating attendance status. Please try again.</h3></center>";
             exit;
         }
+
+        // Update present_percentage and absent_percentage
+        $update_percentage = 0; // Default value
+        if ($new_attendance_status == 'Present') {
+            $update_percentage = 10;
+        } elseif ($new_attendance_status == 'Absent') {
+            $update_percentage = -10;
+        }
+
+        $update_percentage_query = "UPDATE attendance SET present_percentage = present_percentage + $update_percentage, 
+                                                               absent_percentage = absent_percentage - $update_percentage 
+                                    WHERE attendance_id = '$attendance_id'";
+
+        $update_percentage_result = mysqli_query($conn, $update_percentage_query);
+
+        if (!$update_percentage_result) {
+            echo "<br><br><center><h3>Error updating percentages. Please try again.</h3></center>";
+            exit;
+        }
+
+        // Insert data into reports table
+        $report_date = date("Y-m-d"); // Adjust this based on your date input
+        $insert_report_query = "INSERT INTO reports (attendance_id, report_date, report_status, 
+                                                      attendance_student, attendance_class, 
+                                                      present_percentage, absent_percentage, class_tutor_name) 
+                                VALUES ('$attendance_id', '$report_date', '$new_attendance_status', 
+                                        '{$row['attendance_student']}', '{$row['attendance_class']}', 
+                                        '{$row['present_percentage']}', '{$row['absent_percentage']}', '$class_tutor_name')";
+        $insert_report_result = mysqli_query($conn, $insert_report_query);
+
+        if (!$insert_report_result) {
+            echo "<br><br><center><h3>Error inserting data into reports. Please try again.</h3></center>";
+            exit;
+        }
     }
-    echo "<br><br><center><h3>Attendance status updated successfully!</h3></center>";
+    echo "<br><br><center><h3>Attendance status, percentages, and report data updated successfully!</h3></center>";
     echo "<script>window.location.href = 'teacherpanel.php';</script>";
-
 }
-
 
 mysqli_data_seek($attendance_result, 0);
 ?>
@@ -115,7 +158,7 @@ mysqli_data_seek($attendance_result, 0);
             margin-bottom: 20px;
             border-color: #b8b8b8;
             border-width: 5px;  
-        /* NEED TO DISPLAY STUDENTS ONLY AS PER COURSE and teacher login session (BIOLOGY ONLY BIO STUDENTS MENTION FOR ATTENDANCE)*/
+        /* HAVE TO MAKE VIEW ENROLLED COURSES, VIEW MY MADE CLASS (SCHDULED CLASSES), GENERATE ATTEDNDANCE REPORT FROM REPORT TABLES */
         }
     </style>
 </body>
