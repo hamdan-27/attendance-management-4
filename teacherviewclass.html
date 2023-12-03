@@ -1,0 +1,78 @@
+<?php
+require("teacherloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: teacherlogin.php');
+    exit();
+} 
+?>
+
+<?php
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    // Fetch the data
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+
+    echo "<br><br><center><h1>Welcome Back Mr. $user_fname!</h1> <h5>View your scheduled classes</h5> <hr></center>";
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher's Page</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-3">
+        <div class="card">
+            <div class="card-body">
+                <h4>Your Scheduled Classes:</h4>
+                <?php
+                // Fetch scheduled classes for the logged-in teacher
+                $class_query = "SELECT * FROM class WHERE class_tutor_name = '$user_fname'";
+                $class_result = mysqli_query($conn, $class_query);
+
+                if ($class_result && mysqli_num_rows($class_result) > 0) {
+                    while ($class_row = mysqli_fetch_assoc($class_result)) {
+                        echo "<div class='mb-3'>";
+                        echo "<strong>Class Name:</strong> {$class_row['class_name']}<br>";
+                        echo "<strong>Date:</strong> {$class_row['class_date']}<br>";
+                        echo "<strong>Time:</strong> {$class_row['class_time']}<br>";
+                        echo "<strong>Location:</strong> {$class_row['class_location']}<br>";
+
+                        
+
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>No scheduled classes.</p>";
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        hr {
+            width: 90%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-color: #b8b8b8;
+            border-width: 5px;
+        }
+    </style>
+
+
+</body>
+
+</html>

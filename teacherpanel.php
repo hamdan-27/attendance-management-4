@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student's page</title>
+  <title>Teacher's page</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -89,13 +89,13 @@
       <button class="btn btn-dark" onclick="loadContent('markattendance')">Mark Attendance</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('studentmanageclass')">View Courses</button>
+      <button class="btn btn-dark" onclick="loadContent('viewcourse')">View Courses</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('studentabsentapplication')">View Classes</button>
+      <button class="btn btn-dark" onclick="loadContent('teacherviewclass')">View Classes</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('studenteditprofile')">Generate Attendance Report</button>
+      <button class="btn btn-dark" onclick="loadContent('generateattendancereport')">Generate Attendance Report</button>
     </li> <br><br><br><br><br><br><br><br><br>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('logout')">Logout</button>
