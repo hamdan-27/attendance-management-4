@@ -3,7 +3,6 @@
 include_once("connection.php");
 include_once("fpdf184/fpdf.php");
 
-
 $server = 'localhost';
 $username = 'root';
 $password = '';
@@ -22,7 +21,7 @@ class PDF extends FPDF {
         $this->Image('imgs/edutrack2.jpg', 10, -1, 20);
         $this->SetFont('Arial', 'B', 13);
         $this->Cell(80);
-        $this->Cell(80, 10, 'Attendance Report', 1, 0, 'C');
+        $this->Cell(80, 10, 'Report', 1, 0, 'C');
         $this->Ln(20);
     }
 
@@ -34,23 +33,23 @@ class PDF extends FPDF {
         $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 }
+
 $pdf = new PDF();
-$pdf->SetAutoPageBreak(true, 15); // Allowing for auto page break with a margin of 15 units
+$pdf->SetAutoPageBreak(true, 15); 
 $pdf->SetMargins(10, 10, 10);
 
+$result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, present_percentage, absent_percentage, class_tutor_name FROM reports") or die("database error:" . mysqli_error($conn));
 
-$result = mysqli_query($conn, "SELECT attendance_id, attendance_student, attendance_class, attendance_status, present_percentage, absent_percentage, date, class_tutor_name FROM attendance") or die("database error:" . mysqli_error($conn));
-
-$header = mysqli_query($conn, "SHOW columns FROM attendance");
+$header = mysqli_query($conn, "SHOW columns FROM reports");
 
 $pdf = new PDF();
 $pdf->AddPage();
 $pdf->AliasNbPages();
-$pdf->SetFont('Arial', 'B', 8);
+$pdf->SetFont('Arial', 'B', 7);
 
-// Find maximum content width for each column
+
 $maxWidths = [];
-$padding = 1; 
+$padding = 3; 
 
 foreach ($header as $heading) {
     $fieldName = $heading['Field'];
@@ -64,9 +63,6 @@ foreach ($header as $heading) {
     }
     $maxWidths[$fieldName] = $maxWidth;
 }
-
-
-
 
 // Header
 foreach ($header as $heading) {
