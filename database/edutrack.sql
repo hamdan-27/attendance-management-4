@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2023 at 03:35 PM
+-- Generation Time: Dec 04, 2023 at 04:17 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -30,21 +30,25 @@ SET time_zone = "+00:00";
 CREATE TABLE `absent` (
   `user_fname` varchar(255) NOT NULL,
   `user_email` varchar(255) NOT NULL,
-  `note` varchar(255) NOT NULL
+  `class` varchar(255) NOT NULL,
+  `note` varchar(255) NOT NULL,
+  `date` varchar(255) NOT NULL,
+  `time` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `absent`
 --
 
-INSERT INTO `absent` (`user_fname`, `user_email`, `note`) VALUES
-('', '', ''),
-('', '', ''),
-('', '', ''),
-('', '', 'i am sick!'),
-('ahmed rafi', '0423rafi@gmail.com', 'high fever'),
-('hamdanmuhammad', 'hamdan121@hotmail.com', 'dead\r\n'),
-('ahmed rafi', '0423rafi@gmail.com', 'Depressition');
+INSERT INTO `absent` (`user_fname`, `user_email`, `class`, `note`, `date`, `time`) VALUES
+('ahmed rafi', '0423rafi@gmail.com', '', 'high fever', '', ''),
+('durjoy', 'durjoy221@gmail.com', '', 'nose flu zukam', '2023-12-04', '3:57 PM'),
+('hamdanmuhammad', 'hamdan121@hotmail.com', '', 'dead\r\n', '', ''),
+('hammad', 'hammad121@gmail.com', 'biology', 'fever and intense abdominal pain', '2023-12-04', '4:14 PM'),
+('sahil', 'sahil21@gmail.com', '', 'very depressed', '2023-12-04', '15:50:29'),
+('saqib al hasan', 'saqib2@gmail.com', '', 'ded inside', '2023-12-04', '3:51 PM'),
+('singh khan', 'singh23@gmail.com', 'biology', 'i dont feel like it anymore blah blah testing the data hehe lol', '2023-12-04', '4:03 PM'),
+('yousef muhammad', 'yousef43@gmail.com', 'biology', 'just for fun', '2023-12-04', '7:16 PM');
 
 -- --------------------------------------------------------
 
@@ -212,6 +216,12 @@ INSERT INTO `users` (`user_fname`, `user_email`, `phone_number`, `user_role`, `u
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `absent`
+--
+ALTER TABLE `absent`
+  ADD PRIMARY KEY (`user_fname`);
 
 --
 -- Indexes for table `attendance`

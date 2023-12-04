@@ -1,0 +1,75 @@
+<?php
+require("teacherloginprocess.php");
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: teacherlogin.php');
+    exit();
+} 
+?>
+
+<?php
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    // Fetch the user data
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+
+    echo "<br><br><center><h1>Welcome Back Mr. $user_fname!</h1> <h5>View Student's Absent Applications</h5> <hr></center>";
+
+    // Display data from the "absent" table
+    $absentQuery = "SELECT * FROM absent";
+    $absentResult = mysqli_query($conn, $absentQuery);
+
+    if ($absentResult) {
+        echo "<div class='container'>";
+        echo "<h2>Absent Data</h2>";
+        echo "<table class='table'>";
+        echo "<thead><tr><th>User Name</th><th>Email</th><th>Class</th><th>Note</th><th>Date</th><th>Time</th></tr></thead>";
+        echo "<tbody>";
+
+        while ($absentRow = mysqli_fetch_assoc($absentResult)) {
+            echo "<tr>";
+            echo "<td>{$absentRow['user_fname']}</td>";
+            echo "<td>{$absentRow['user_email']}</td>";
+            echo "<td>{$absentRow['class']}</td>";
+            echo "<td>{$absentRow['note']}</td>";
+            echo "<td>{$absentRow['date']}</td>";
+            echo "<td>{$absentRow['time']}</td>";
+            echo "</tr>";
+        }
+
+        echo "</tbody>";
+        echo "</table>";
+        echo "</div>";
+    } else {
+        echo "Error fetching absent data: " . mysqli_error($conn);
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher's Page</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  
+</body>
+</html>
+<style>
+    hr {
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-color: #b8b8b8;
+        border-width: 5px;
+    }
+</style>

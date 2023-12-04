@@ -96,7 +96,10 @@
     </li>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('generateattendancereport')">Generate Attendance Report</button>
-    </li> <br><br><br><br><br><br><br><br><br>
+    </li> 
+    <li class="nav-item">
+      <button class="btn btn-dark" onclick="loadContent('viewabsentapplications')">View Absent Application</button>
+    </li> <br><br><br><br><br><br><br>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('logout')">Logout</button>
     </li>
