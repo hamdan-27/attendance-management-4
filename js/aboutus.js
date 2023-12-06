@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const images = document.querySelectorAll('.image');
     const paragraphs = document.querySelectorAll('.imageParagraph');
 
-    // Show only the first paragraph and image of the first box
+  
     paragraphs.forEach(paragraph => paragraph.style.display = 'none');
     paragraphs[0].style.display = 'block';
 
@@ -13,11 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentIndex = 0;
 
     function toggleBox(index) {
-        // Hide all images and paragraphs
+       
         images.forEach(image => image.style.display = 'none');
         paragraphs.forEach(paragraph => paragraph.style.display = 'none');
 
-        // Display the corresponding image and paragraph
         images[index].style.display = 'block';
         paragraphs[index].style.display = 'block';
 
@@ -25,10 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     boxes.forEach((box, index) => {
-        // Add clickable box styling
+       
         box.style.cursor = 'pointer';
 
-        // Add hover effect
+       
         box.addEventListener('mouseover', function () {
             box.style.backgroundColor = 'lightblue';
         });
