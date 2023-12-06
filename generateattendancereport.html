@@ -52,7 +52,7 @@
     </div>
 
 
-     <!-- New box for generating teacher's report -->
+     <!-- box for generating teacher's report -->
      <div class="card mt-3">
         <div class="card-body">
             <h2>Generate your class attendance report</h2>
@@ -66,6 +66,27 @@
         </div>
     </div>
 </div>
+
+
+<!--  box for generating attendance report on the basis of by date -->
+<div class="card mt-3">
+    <div class="card-body">
+        <h2>Generate attendance report by date</h2>
+
+        <form class="form-inline" method="post" action="generate_date_report.php">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="inputDate" class="sr-only">Select Date:</label>
+                <input type="date" class="form-control" id="inputDate" name="attendance_date" required>
+            </div>
+            <button type="submit" id="datePdf" name="generate_date_pdf" class="btn btn-primary">
+                <i class="fa fa-pdf" aria-hidden="true"></i>
+                Generate PDF
+            </button>
+        </form>
+    </div>
+</div>
+
+
     <style>
         hr {
             width: 90%;
