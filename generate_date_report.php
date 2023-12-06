@@ -34,19 +34,33 @@ class PDF extends FPDF {
     }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['generate_date_pdf'])) {
-    if (isset($_POST['attendance_date'])) {
-        $selectedDate = $_POST['attendance_date'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['generate_date_pdf'])) {
+        if (isset($_POST['attendance_date'])) {
+            $selectedDate = $_POST['attendance_date'];
 
-        // Filter data based on the selected date by the teacher :)
-        $result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, present_percentage, absent_percentage, class_tutor_name 
-                                        FROM reports 
-                                        WHERE report_date = '$selectedDate'") or die("database error:" . mysqli_error($conn));
+            // Fetching class_tutor_name based on user's email so only those reports can be shown which teacher is logged in
+            session_start();
+            $user_email = $_SESSION['email'];
+            $user_query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+            $user_result = mysqli_query($conn, $user_query);
 
-        // Generating PDF with filtered data
-        generatePDF($result);
-    } else {
-        echo "Please select a date.";
+            if ($user_result && $user_row = mysqli_fetch_assoc($user_result)) {
+                $user_fname = $user_row['user_fname'];
+
+                // Fetching reports data based on class_tutor_name and selected date so that teachers can view the report based on their subject and date
+                $result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, present_percentage, absent_percentage, class_tutor_name 
+                                                FROM reports 
+                                                WHERE class_tutor_name = '$user_fname' AND report_date = '$selectedDate'") or die("database error:" . mysqli_error($conn));
+
+                // Generating PDF with filtered data out of all the reports
+                generatePDF($result);
+            } else {
+                die("Error fetching user data");
+            }
+        } else {
+            echo "Please select a date.";
+        }
     }
 }
 
