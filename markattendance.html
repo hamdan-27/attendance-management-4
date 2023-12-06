@@ -10,7 +10,7 @@ require('connection.php');
 
 $user_email = $_SESSION['email'];
 
-// Fetch user details from the users table
+// Fetching user details from the users table
 $user_query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
 $user_result = mysqli_query($conn, $user_query);
 
@@ -19,7 +19,7 @@ if ($user_result) {
     $user_fname = $user_row['user_fname'];
 }
 
-// Fetch class_tutor_name from the class table
+// Fetching class_tutor_name from the class table
 $class_query = "SELECT class_tutor_name FROM class WHERE class_tutor_name = '$user_fname'";
 $class_result = mysqli_query($conn, $class_query);
 
@@ -45,12 +45,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
             exit;
         }
 
-        // Update present_percentage and absent_percentage
+     
         $update_percentage = 0; // Default value
         if ($new_attendance_status == 'Present') {
-            $update_percentage = 10;
+            $update_percentage = 5;
         } elseif ($new_attendance_status == 'Absent') {
-            $update_percentage = -10;
+            $update_percentage = -5;
         }
 
         $update_percentage_query = "UPDATE attendance SET present_percentage = present_percentage + $update_percentage, 
@@ -64,20 +64,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
             exit;
         }
 
-        // Insert data into reports table
+        // Inserting data into reports table
+    
         $report_date = date("Y-m-d"); // Adjust this based on your date input
         $insert_report_query = "INSERT INTO reports (attendance_id, report_date, report_status, 
                                                       attendance_student, attendance_class, 
                                                       present_percentage, absent_percentage, class_tutor_name) 
                                 VALUES ('$attendance_id', '$report_date', '$new_attendance_status', 
-                                        '{$row['attendance_student']}', '{$row['attendance_class']}', 
-                                        '{$row['present_percentage']}', '{$row['absent_percentage']}', '$class_tutor_name')";
+                                        '{$row['attendance_student']}', '{$row['attendance_class']}', ";
+        
+        // Adjusting the percentage based on the new attendance status
+        if ($new_attendance_status == 'Present') {
+            $insert_report_query .= "5, 0, ";
+        } elseif ($new_attendance_status == 'Absent') {
+            $insert_report_query .= "0, -5, ";
+        } else {
+            // Handle other cases as needed
+            $insert_report_query .= "0, 0, ";
+        }
+        
+        $insert_report_query .= "'$class_tutor_name')";
+        
         $insert_report_result = mysqli_query($conn, $insert_report_query);
-
+        
         if (!$insert_report_result) {
             echo "<br><br><center><h3>Error inserting data into reports. Please try again.</h3></center>";
             exit;
         }
+        
     }
     echo "<br><br><center><h3>Attendance status, percentages, and report data updated successfully!</h3></center>";
     echo "<script>window.location.href = 'teacherpanel.php';</script>";

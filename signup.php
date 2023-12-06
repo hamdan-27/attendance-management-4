@@ -44,11 +44,16 @@
            
              </div>
              <div class="input-box">
-            <label for="role">
-            <i class="fa-solid fa-repeat"></i>&nbsp; Role
-            </label>
-            <input type="text" id="role" name="role" placeholder="Enter student or teacher" required />
-          </div>
+    <label for="role">
+        <i class="fa-solid fa-repeat"></i>&nbsp; Role
+    </label>
+    <select id="role" name="role" required>
+        <option value="" disabled selected>Select a role</option>
+        <option value="Student">student</option>
+        <option value="Teacher">teacher</option>
+        <option value="Admin">admin</option>
+    </select>
+</div>
           
               <div class="input-box">
                 <label for="password">
