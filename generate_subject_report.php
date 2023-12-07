@@ -14,7 +14,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Get the selected class from the form
+// Get the selected class from the form (selected_class written in form)
 $selected_class = isset($_POST['selected_class']) ? $_POST['selected_class'] : '';
 
 class PDF extends FPDF
@@ -29,7 +29,7 @@ class PDF extends FPDF
         $this->Ln(20);
     }
 
-    // Page footer
+    // footer
     function Footer()
     {
         $this->SetY(-15);

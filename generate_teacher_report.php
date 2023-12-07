@@ -21,7 +21,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Fetching class_tutor_name based on user's email
+// i am fetching class_tutor_name based on user's email
 $user_email = $_SESSION['email'];
 $user_query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
 $user_result = mysqli_query($conn, $user_query);
@@ -29,7 +29,7 @@ $user_result = mysqli_query($conn, $user_query);
 if ($user_result && $user_row = mysqli_fetch_assoc($user_result)) {
     $user_fname = $user_row['user_fname'];
 
-    // Fetching reports data based on class_tutor_name
+    // i am feetching reports data based on class_tutor_name
     $report_query = "SELECT * FROM reports WHERE class_tutor_name = '$user_fname'";
     $report_result = mysqli_query($conn, $report_query);
 
@@ -83,7 +83,7 @@ function generatePDF($result)
     $maxWidths = [];
     $padding = -6;
 
-    // Specifyin the column names that should be displayed in PDF file
+    // Specifyin the column names that should be displayed in PDF file after opening in new tabs
     $columnsToInclude = [
         'attendance_id',
         'report_date',
@@ -108,7 +108,7 @@ function generatePDF($result)
         }
     }
 
-    // Outputing PDF as our result when runned
+    // Outputing PDF as our result when runned the file
     $pdf->Output();
 }
 
