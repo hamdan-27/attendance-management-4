@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2023 at 04:17 PM
+-- Generation Time: Dec 07, 2023 at 01:54 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,14 +41,7 @@ CREATE TABLE `absent` (
 --
 
 INSERT INTO `absent` (`user_fname`, `user_email`, `class`, `note`, `date`, `time`) VALUES
-('ahmed rafi', '0423rafi@gmail.com', '', 'high fever', '', ''),
-('durjoy', 'durjoy221@gmail.com', '', 'nose flu zukam', '2023-12-04', '3:57 PM'),
-('hamdanmuhammad', 'hamdan121@hotmail.com', '', 'dead\r\n', '', ''),
-('hammad', 'hammad121@gmail.com', 'biology', 'fever and intense abdominal pain', '2023-12-04', '4:14 PM'),
-('sahil', 'sahil21@gmail.com', '', 'very depressed', '2023-12-04', '15:50:29'),
-('saqib al hasan', 'saqib2@gmail.com', '', 'ded inside', '2023-12-04', '3:51 PM'),
-('singh khan', 'singh23@gmail.com', 'biology', 'i dont feel like it anymore blah blah testing the data hehe lol', '2023-12-04', '4:03 PM'),
-('yousef muhammad', 'yousef43@gmail.com', 'biology', 'just for fun', '2023-12-04', '7:16 PM');
+('ahmed rafi', '0423rafi@gmail.com', '', 'high fever', '', '');
 
 -- --------------------------------------------------------
 
@@ -57,12 +50,10 @@ INSERT INTO `absent` (`user_fname`, `user_email`, `class`, `note`, `date`, `time
 --
 
 CREATE TABLE `attendance` (
-  `attendance_id` varchar(255) NOT NULL,
+  `attendance_id` int(11) NOT NULL,
   `attendance_student` varchar(255) NOT NULL,
   `attendance_class` varchar(255) NOT NULL,
   `attendance_status` varchar(255) NOT NULL,
-  `present_percentage` varchar(255) NOT NULL,
-  `absent_percentage` varchar(255) NOT NULL,
   `date` varchar(255) NOT NULL,
   `class_tutor_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -71,22 +62,13 @@ CREATE TABLE `attendance` (
 -- Dumping data for table `attendance`
 --
 
-INSERT INTO `attendance` (`attendance_id`, `attendance_student`, `attendance_class`, `attendance_status`, `present_percentage`, `absent_percentage`, `date`, `class_tutor_name`) VALUES
-('1', 'ahmed rafi', 'biology', 'Present', '70', '-40', '2023-11-26', 'abdur rehman'),
-('10', 'maxwell', 'biology', 'Present', '70', '-10', '2023-11-30', 'abdur rehman'),
-('11', 'warner', 'chemistry', 'Present', '10', '-10', '2023-11-30', 'renuka'),
-('12', 'sahilo', 'computer science', 'Present', '20', '0', '2023-11-30', 'rehna khan'),
-('13', 'essa abbas', 'biology', 'absent', '10', '10', '2023-12-4', 'abdur rehman'),
-('14', 'kumara', 'chemistry', 'Present', '10', '-10', '2023-11-30', 'renuka'),
-('19', 'avinash kumar', 'computer science', 'Present', '10', '10', '2023-11-30', 'rehna khan'),
-('2', 'hamdan muhammad', 'biology', 'Present', '70', '-10', '2023-11-26', 'abdur rehman'),
-('24', 'suhail ashraf', 'biology', 'present', '10', '10', '2023-12-4', 'abdur rehman'),
-('4', 'ahmed rafi', 'computer science', 'Present', '40', '-10', '2023-11-26', 'rehna khan'),
-('5', 'karan singh', 'biology', 'Present', '70', '-40', '2023-11-30', 'abdur rehman'),
-('6', 'rohan', 'biology', 'Present', '80', '-40', '2023-11-30', 'abdur rehman'),
-('7', 'raj', 'chemistry', 'Present', '50', '10', '2023-11-30', 'renuka'),
-('8', 'theekshana', 'computer science', 'Present', '40', '0', '2023-11-30', 'rehna khan'),
-('9', 'rajesh', 'biology', 'Present', '60', '-10', '2023-11-30', 'abdur rehman');
+INSERT INTO `attendance` (`attendance_id`, `attendance_student`, `attendance_class`, `attendance_status`, `date`, `class_tutor_name`) VALUES
+(1, 'student', 'biology', 'Present', '2023-12-7', 'teacher'),
+(2, 'student2', 'chemistry', 'Present', '2023-12-7', 'teacher2'),
+(3, 'student3', 'computer science', 'present', '2023-12-7', 'teacher3'),
+(5, 'hamdan', 'biology', 'Present', '2023-12-07', 'teacher'),
+(8, 'teststudent', 'software', 'Present', '2023-12-07', 'teacher'),
+(9, 'heba', 'chemistry', 'Present', '2023-12-07', 'teacher2');
 
 -- --------------------------------------------------------
 
@@ -108,10 +90,11 @@ CREATE TABLE `class` (
 --
 
 INSERT INTO `class` (`class_id`, `class_name`, `class_date`, `class_time`, `class_location`, `class_tutor_name`) VALUES
-(1, 'chemistry', '2023-11-26', '10:25 AM', 'Ras Al Khaimah', 'renuka'),
-(2, 'biology', '2023-11-26', '1:00 PM', 'Ras Al Khaimah', 'abdur rehman'),
-(3, 'computer science', '2023-11-26', '3:00 PM', 'Dubai', 'rehna khan'),
-(8, 'kanjar khana', '2023-12-03', '11:44 PM', 'Umm Al Quwain', 'abdur rehman');
+(1, 'biology', '2023-11-26', '10:25 AM', 'Ras Al Khaimah', 'teacher'),
+(2, 'chemistry', '2023-11-26', '1:00 PM', 'Ras Al Khaimah', 'teacher2'),
+(3, 'computer science', '2023-11-26', '3:00 PM', 'Dubai', 'teacher3'),
+(8, 'computer science', '2023-12-03', '11:44 PM', 'Umm Al Quwain', 'teacher3'),
+(10, 'software', '2023-12-07', '06:11 PM', 'Dubai', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -130,11 +113,11 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`course_id`, `course_name`, `course_manager_name`) VALUES
-('1', 'SWE6202', 'rehna khan'),
-('2', 'SWE6205', 'renuka '),
-('3', 'SWE6204', 'abdur rehman'),
-('4', 'SWE6201', 'abdur rehman'),
-('5', 'SWE4208', 'abdur rehman');
+('1', 'SWE6209', 'teacher'),
+('2', 'SWE6205', 'teacher2'),
+('3', 'SWE6204', 'teacher3'),
+('4', 'SWE6201', 'teacher3'),
+('5', 'SWE4208', 'teacher3');
 
 -- --------------------------------------------------------
 
@@ -149,8 +132,6 @@ CREATE TABLE `reports` (
   `report_status` enum('Present','Absent') DEFAULT NULL,
   `attendance_student` varchar(255) DEFAULT NULL,
   `attendance_class` varchar(255) DEFAULT NULL,
-  `present_percentage` int(11) DEFAULT NULL,
-  `absent_percentage` int(11) DEFAULT NULL,
   `class_tutor_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -158,21 +139,10 @@ CREATE TABLE `reports` (
 -- Dumping data for table `reports`
 --
 
-INSERT INTO `reports` (`report_id`, `attendance_id`, `report_date`, `report_status`, `attendance_student`, `attendance_class`, `present_percentage`, `absent_percentage`, `class_tutor_name`) VALUES
-(1, '1', '2023-11-30', 'Present', 'ahmed rafi', 'biology', 50, -20, 'abdur rehman'),
-(2, '10', '2023-11-30', 'Present', 'maxwell', 'biology', 50, 10, 'abdur rehman'),
-(3, '2', '2023-11-30', 'Present', 'hamdan muhammad', 'biology', 50, 10, 'abdur rehman'),
-(4, '5', '2023-11-30', 'Present', 'karan singh', 'biology', 50, -20, 'abdur rehman'),
-(5, '6', '2023-11-30', 'Present', 'rohan', 'biology', 60, -20, 'abdur rehman'),
-(6, '9', '2023-11-30', 'Present', 'rajesh', 'biology', 40, 10, 'abdur rehman'),
-(13, '11', '2023-11-30', 'Present', 'warner', 'chemistry', 0, 0, 'renuka'),
-(14, '14', '2023-11-30', 'Present', 'kumara', 'chemistry', 0, 0, 'renuka'),
-(15, '7', '2023-11-30', 'Present', 'raj', 'chemistry', 40, 20, 'renuka'),
-(20, '12', '2023-11-30', 'Present', 'sahilo', 'computer science', 10, 10, 'rehna khan'),
-(21, '19', '2023-11-30', 'Present', 'avinash kumar', 'computer science', 0, 20, 'rehna khan'),
-(22, '4', '2023-11-30', 'Present', 'ahmed rafi', 'computer science', 30, 0, 'rehna khan'),
-(23, '8', '2023-11-30', 'Present', 'theekshana', 'computer science', 30, 10, 'rehna khan'),
-(24, '24', '2023-12-04', 'Present', 'suhail ashraf', 'biology', 10, 10, 'abdur rehman');
+INSERT INTO `reports` (`report_id`, `attendance_id`, `report_date`, `report_status`, `attendance_student`, `attendance_class`, `class_tutor_name`) VALUES
+(129, '1', '2023-12-07', 'Present', 'student', 'biology', 'teacher'),
+(130, '5', '2023-12-07', 'Present', 'hamdan', 'biology', 'teacher'),
+(131, '6', '2023-12-07', 'Present', 'hadman', 'biology', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -197,7 +167,6 @@ CREATE TABLE `users` (
   `phone_number` varchar(255) NOT NULL,
   `user_role` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
-  `user_confirmpassword` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -205,13 +174,12 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_fname`, `user_email`, `phone_number`, `user_role`, `user_password`, `user_confirmpassword`, `class_name`) VALUES
-('abdur rehman', 'abdurrehman12@gmail.com', '99991', 'teacher', '111', '111', 'biology'),
-('admin', 'admin123@gmail.com', '9529592599', 'admin', 'admin', 'admin', ''),
-('ahmed rafi ', '0423rafi@gmail.com', '050481677011', 'student', '123', '123', ''),
-('hamdan muhammad', 'hamdan121@hotmail.com', '0556683794', 'student ', 'hamdan', 'hamdan', ''),
-('rehna khan', 'rehna23@gmail.com', '242242424', 'teacher', '111', '111', 'computer science'),
-('renuka', 'renuka13@gmail.com', '241141', 'teacher', '111', '111', 'chemistry');
+INSERT INTO `users` (`user_fname`, `user_email`, `phone_number`, `user_role`, `user_password`, `class_name`) VALUES
+('admin', 'admin123@gmail.com', '12345', 'admin', 'admin', ''),
+('student', 'student1@gmail.com', '34252', 'student', 'student', ''),
+('teacher', 'teacher1@gmail.com', '25252523', 'teacher', 'teacher', 'biology'),
+('teacher2', 'teacher2@gmail.com', '12345', 'teacher', 'teacher', 'chemistry'),
+('teacher3', 'teacher3@gmail.com', '12345', 'teacher', 'teacher', 'computer science');
 
 --
 -- Indexes for dumped tables
@@ -258,16 +226,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `attendance`
+--
+ALTER TABLE `attendance`
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,5 +1,4 @@
 <?php
-
 include_once("connection.php");
 include_once("fpdf184/fpdf.php");
 
@@ -21,7 +20,7 @@ class PDF extends FPDF {
         $this->Image('imgs/edutrack2.jpg', 10, -1, 20);
         $this->SetFont('Arial', 'B', 13);
         $this->Cell(80);
-        $this->Cell(80, 10, 'Report', 1, 0, 'C');
+        $this->Cell(80, 10, 'Student Report', 1, 0, 'C');
         $this->Ln(20);
     }
 
@@ -35,10 +34,12 @@ class PDF extends FPDF {
 }
 
 $pdf = new PDF();
-$pdf->SetAutoPageBreak(true, 15); 
+$pdf->SetAutoPageBreak(true, 15);
 $pdf->SetMargins(10, 10, 10);
 
-$result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, class_tutor_name FROM reports") or die("database error:" . mysqli_error($conn));
+$selected_student = $_POST['selected_student'] ?? "";
+
+$result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, class_tutor_name FROM reports WHERE attendance_student = '$selected_student'") or die("database error:" . mysqli_error($conn));
 
 $header = mysqli_query($conn, "SHOW columns FROM reports");
 
@@ -47,9 +48,8 @@ $pdf->AddPage();
 $pdf->AliasNbPages();
 $pdf->SetFont('Arial', 'B', 8);
 
-
 $maxWidths = [];
-$padding = 6; 
+$padding = 6;
 
 foreach ($header as $heading) {
     $fieldName = $heading['Field'];

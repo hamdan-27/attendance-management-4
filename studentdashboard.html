@@ -20,49 +20,6 @@ if ($result) {
 
     echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <hr></center>";
 
-    // Fetch attendance data
-    $attendance_query = "SELECT present_percentage, absent_percentage FROM attendance WHERE attendance_student = '$user_fname'";
-    $attendance_result = mysqli_query($conn, $attendance_query);
-
-    if ($attendance_result) {
-        $present_percentage = 0;
-        $absent_percentage = 0;
-
-        while ($attendance_row = mysqli_fetch_assoc($attendance_result)) {
-            $present_percentage += $attendance_row['present_percentage'];
-            $absent_percentage += $attendance_row['absent_percentage'];
-        }
-
-        // Display Bootstrap boxes for attendance
-        echo "<div class='container mt-4'>";
-        echo "<div class='row'>";
-        
-        // Present Box
-        echo "<div class='col-md-6'>";
-        echo "<div class='card'>";
-        echo "<div class='card-header bg-success text-white'><h5>Present Percentage</h5></div>";
-        echo "<div class='card-body'>";
-        echo "<p class='card-text'><strong>Percentage:</strong> $present_percentage%</p>";
-        echo "</div>";
-        echo "</div>";
-        echo "</div>";
-
-        // Absent Box
-        echo "<div class='col-md-6'>";
-        echo "<div class='card'>";
-        echo "<div class='card-header bg-danger text-white'><h5>Absent Percentage</h5></div>";
-        echo "<div class='card-body'>";
-        echo "<p class='card-text'><strong>Percentage:</strong> $absent_percentage%</p>";
-        echo "</div>";
-        echo "</div>";
-        echo "</div>";
-
-        echo "</div>"; // Close row
-        echo "</div>"; // Close container
-    } else {
-        echo "Error retrieving attendance details: " . mysqli_error($conn);
-    }
-
     $today = date("Y-m-d");
     $class_query = "SELECT * FROM class WHERE class_date = '$today'";
     $class_result = mysqli_query($conn, $class_query);

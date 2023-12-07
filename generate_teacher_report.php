@@ -90,8 +90,6 @@ function generatePDF($result)
         'report_status',
         'attendance_student',
         'attendance_class',
-        'present_percentage',
-        'absent_percentage',
         'class_tutor_name'
     ];
 

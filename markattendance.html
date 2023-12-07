@@ -46,43 +46,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
         }
 
      
-        $update_percentage = 0; // Default value
-        if ($new_attendance_status == 'Present') {
-            $update_percentage = 5;
-        } elseif ($new_attendance_status == 'Absent') {
-            $update_percentage = -5;
-        }
-
-        $update_percentage_query = "UPDATE attendance SET present_percentage = present_percentage + $update_percentage, 
-                                                               absent_percentage = absent_percentage - $update_percentage 
-                                    WHERE attendance_id = '$attendance_id'";
-
-        $update_percentage_result = mysqli_query($conn, $update_percentage_query);
-
-        if (!$update_percentage_result) {
-            echo "<br><br><center><h3>Error updating percentages. Please try again.</h3></center>";
-            exit;
-        }
-
+       
         // Inserting data into reports table
     
         $report_date = date("Y-m-d"); // Adjust this based on your date input
         $insert_report_query = "INSERT INTO reports (attendance_id, report_date, report_status, 
                                                       attendance_student, attendance_class, 
-                                                      present_percentage, absent_percentage, class_tutor_name) 
+                                                       class_tutor_name) 
                                 VALUES ('$attendance_id', '$report_date', '$new_attendance_status', 
                                         '{$row['attendance_student']}', '{$row['attendance_class']}', ";
         
-        // Adjusting the percentage based on the new attendance status
-        if ($new_attendance_status == 'Present') {
-            $insert_report_query .= "5, 0, ";
-        } elseif ($new_attendance_status == 'Absent') {
-            $insert_report_query .= "0, -5, ";
-        } else {
-            // Handle other cases as needed
-            $insert_report_query .= "0, 0, ";
-        }
-        
+   
         $insert_report_query .= "'$class_tutor_name')";
         
         $insert_report_result = mysqli_query($conn, $insert_report_query);
@@ -93,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
         }
         
     }
-    echo "<br><br><center><h3>Attendance status, percentages, and report data updated successfully!</h3></center>";
+    echo "<br><br><center><h3>Attendance status  and report data updated successfully!</h3></center>";
     echo "<script>window.location.href = 'teacherpanel.php';</script>";
 }
 

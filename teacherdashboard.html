@@ -16,7 +16,6 @@ if ($result) {
     $user_fname = $row['user_fname'];
     $user_email = $row['user_email'];
     $phone_number = $row['phone_number'];
-    $user_role = $row['user_role'];
     $class_name = $row['class_name'];
 }
 
@@ -25,16 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     $new_user_fname = $_POST['new_user_fname'];
     $new_user_email = $_POST['new_user_email'];
     $new_phone_number = $_POST['new_phone_number'];
-    $new_user_role = $_POST['new_user_role'];
     $new_class_name = $_POST['new_class_name'];
 
     $update_query = "UPDATE users SET 
-        user_fname='$new_user_fname', 
-        user_email='$new_user_email', 
-        phone_number='$new_phone_number', 
-        user_role='$new_user_role', 
-        class_name='$new_class_name'
-        WHERE user_email='$user_email'";
+    user_fname='$new_user_fname', 
+    user_email='$new_user_email', 
+    phone_number='$new_phone_number',  
+    class_name='$new_class_name'
+    WHERE user_email='$user_email'";
+
 
     $update_result = mysqli_query($conn, $update_query);
 
@@ -112,10 +110,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_class'])) {
                             <div class="form-group">
                                 <label for="new_phone_number">Phone Number:</label>
                                 <input type="text" class="form-control" name="new_phone_number" value="<?php echo $phone_number; ?>" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="new_user_role">User Role:</label>
-                                <input type="text" class="form-control" name="new_user_role" value="<?php echo $user_role; ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="new_class_name">Class Name:</label>

@@ -1,6 +1,7 @@
 <?php
 require("studentloginprocess.php");
-if (!isset($_SESSION['loggedin'])){ 
+
+if (!isset($_SESSION['loggedin'])) {
     header('Location: studentlogin.php');
     exit();
 } 
@@ -12,33 +13,29 @@ $query = "SELECT * FROM users WHERE user_email = '$user_email'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-  
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
     $user_email = $row['user_email'];
     $phone_number = $row['phone_number'];
-    $user_role = $row['user_role'];
-   
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_user_fname = $_POST['new_user_fname'];
     $new_user_email = $_POST['new_user_email'];
     $new_phone_number = $_POST['new_phone_number'];
-    $new_user_role = $_POST['new_user_role'];
-   
-
 
     $update_query = "UPDATE users SET 
-        user_fname='$new_user_fname', 
-        user_email='$new_user_email', 
-        phone_number='$new_phone_number', 
-        user_role='$new_user_role' 
-        WHERE user_email='$user_email'";
+    user_fname='$new_user_fname', 
+    user_email='$new_user_email', 
+    phone_number='$new_phone_number' 
+    WHERE user_email='$user_email'";
+
     $update_result = mysqli_query($conn, $update_query);
 
     if ($update_result) {
+  
+        $_SESSION['email'] = $new_user_email;
+        
         echo "<br><br><center><h3>Profile updated successfully!</h3></center>";
    
         header('Location: studentpanel.php');
@@ -76,10 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <label for="new_phone_number">Phone Number:</label>
                 <input type="text" class="form-control" name="new_phone_number" value="<?php echo $phone_number; ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="new_user_role">User Role:</label>
-                <input type="text" class="form-control" name="new_user_role" value="<?php echo $user_role; ?>" required>
             </div>
 
             <button type="submit" class="btn btn-primary">Update Profile</button>

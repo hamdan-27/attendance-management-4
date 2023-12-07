@@ -14,14 +14,18 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-class PDF extends FPDF {
+// Get the selected class from the form
+$selected_class = isset($_POST['selected_class']) ? $_POST['selected_class'] : '';
+
+class PDF extends FPDF
+{
     // Header
     function Header()
     {
         $this->Image('imgs/edutrack2.jpg', 10, -1, 20);
         $this->SetFont('Arial', 'B', 13);
         $this->Cell(80);
-        $this->Cell(80, 10, 'Report', 1, 0, 'C');
+        $this->Cell(80, 10, 'Subject Report', 1, 0, 'C');
         $this->Ln(20);
     }
 
@@ -35,21 +39,19 @@ class PDF extends FPDF {
 }
 
 $pdf = new PDF();
-$pdf->SetAutoPageBreak(true, 15); 
+$pdf->SetAutoPageBreak(true, 15);
 $pdf->SetMargins(10, 10, 10);
 
-$result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, class_tutor_name FROM reports") or die("database error:" . mysqli_error($conn));
+$result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, class_tutor_name FROM reports WHERE attendance_class = '$selected_class'") or die("database error:" . mysqli_error($conn));
 
 $header = mysqli_query($conn, "SHOW columns FROM reports");
 
-$pdf = new PDF();
 $pdf->AddPage();
 $pdf->AliasNbPages();
 $pdf->SetFont('Arial', 'B', 8);
 
-
 $maxWidths = [];
-$padding = 6; 
+$padding = 6;
 
 foreach ($header as $heading) {
     $fieldName = $heading['Field'];

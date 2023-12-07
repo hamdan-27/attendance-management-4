@@ -86,6 +86,9 @@
       <button class="btn btn-dark" onclick="loadContent('teacherdashboard')">Dashboard</button>
     </li>
     <li class="nav-item">
+      <button class="btn btn-dark" onclick="loadContent('teacherenrollstudent')">Enroll Students</button>
+    </li>
+    <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('markattendance')">Mark Attendance</button>
     </li>
     <li class="nav-item">
@@ -99,7 +102,7 @@
     </li> 
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('viewabsentapplications')">View Absent Application</button>
-    </li> <br><br><br><br><br><br><br>
+    </li> <br><br><br>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('logout')">Logout</button>
     </li>

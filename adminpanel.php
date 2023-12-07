@@ -99,7 +99,7 @@
     </li> 
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('#')">Mark Attendance</button>
-    </li> <br><br><br><br><br><br><br>
+    </li> <br><br><br><br><br>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('logout')">Logout</button>
     </li>

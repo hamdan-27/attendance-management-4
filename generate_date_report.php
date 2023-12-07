@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $user_fname = $user_row['user_fname'];
 
                 // Fetching reports data based on class_tutor_name and selected date so that teachers can view the report based on their subject and date
-                $result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, present_percentage, absent_percentage, class_tutor_name 
+                $result = mysqli_query($conn, "SELECT report_id, attendance_id, report_date, report_status, attendance_student, attendance_class, class_tutor_name 
                                                 FROM reports 
                                                 WHERE class_tutor_name = '$user_fname' AND report_date = '$selectedDate'") or die("database error:" . mysqli_error($conn));
 

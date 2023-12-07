@@ -12,8 +12,8 @@ if (isset($_POST['submit'])) {
     $user_confirmpassword = $_POST['confirm-password'];
 
 
-    $sql = "INSERT INTO users (user_fname, user_email, phone_number, user_role, user_password, user_confirmpassword) 
-            VALUES ('$user_fname', '$user_email', '$phone_number', '$user_role', '$user_password', '$user_confirmpassword')";
+    $sql = "INSERT INTO users (user_fname, user_email, phone_number, user_role, user_password) 
+            VALUES ('$user_fname', '$user_email', '$phone_number', '$user_role', '$user_password')";
 
     $result = mysqli_query($conn, $sql);
 
