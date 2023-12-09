@@ -84,14 +84,10 @@ mysqli_data_seek($attendance_result, 0);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-    <br><br>
+  
+    <center><hr><h4>Mark Attendance</h4> <hr></center>
     <div class="container">
-        <center>
-            <h1>Welcome Back Mr <?php echo $user_fname; ?>!</h1>
-            <h5>Mark Student Attendance</h5>
-        </center>  
-        <hr>
-        <br><br><br>
+    <br>
         <div class="card">
             <div class="card-body">
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -139,15 +135,6 @@ mysqli_data_seek($attendance_result, 0);
         </div>
     </div>
     
-    <style>
-        hr {
-            width: 90%;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            border-color: #b8b8b8;
-            border-width: 5px;  
-        /* HAVE TO MAKE VIEW ENROLLED COURSES, VIEW MY MADE CLASS (SCHDULED CLASSES), GENERATE ATTEDNDANCE REPORT FROM REPORT TABLES */
-        }
-    </style>
+  
 </body>
 </html>

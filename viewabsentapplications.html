@@ -18,7 +18,7 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
 
-    echo "<br><br><center><h1>Welcome Back Mr. $user_fname!</h1> <h5>View Student's Absent Applications</h5> <hr></center>";
+    echo "<center><hr><h4>View Student's Absent Applications</h4> <hr></center>";
 
     // Display data from the "absent" table
     $absentQuery = "SELECT * FROM absent";
@@ -64,12 +64,4 @@ if ($result) {
   
 </body>
 </html>
-<style>
-    hr {
-        width: 90%;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border-color: #b8b8b8;
-        border-width: 5px;
-    }
-</style>
+

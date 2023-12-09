@@ -34,6 +34,7 @@
                         <div class="navbar-nav ml-auto">
                             <a class="nav-link active mr-3 text-dark" aria-current="page" href="index.html">Home</a>
                             <a class="nav-link mr-3 text-dark" href="aboutus.html">About Us</a>
+                            <a class="nav-link mr-3 text-dark" href="selectuser.html">Login</a>
                             <a class="nav-link text-dark" href="signup.php">SignUp</a>
                         </div>
                     </div>

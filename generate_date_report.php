@@ -18,9 +18,9 @@ class PDF extends FPDF {
     // Header
     function Header()
     {
-        $this->Image('imgs/edutrack2.jpg', 10, -1, 20);
+        $this->Image('imgs/edutracklogo.png', 12, 2, 26);
         $this->SetFont('Arial', 'B', 13);
-        $this->Cell(80);
+        $this->Cell(60);
         $this->Cell(80, 10, 'Attendance Report', 1, 0, 'C');
         $this->Ln(20);
     }
@@ -92,19 +92,30 @@ function generatePDF($data)
     }
 
     // Header
+    $initialX = $pdf->GetX() + 30; // Increase the offset to move the header more to the right
+    $initialY = $pdf->GetY(); // Save the initial Y position
     foreach ($header as $heading) {
         $fieldName = $heading['Field'];
+        $pdf->SetXY($initialX, $initialY); // Set X and Y position
         $pdf->Cell($maxWidths[$fieldName], 12, ucwords(str_replace('_', ' ', $fieldName)), 1);
+        $initialX += $maxWidths[$fieldName]; // Update initialX for the next cell
     }
 
-    // Data
-    mysqli_data_seek($data, 0);
-    foreach ($data as $row) {
-        $pdf->Ln();
-        foreach ($row as $fieldName => $column) {
-            $pdf->Cell($maxWidths[$fieldName], 12, $column, 1);
-        }
+// Data
+mysqli_data_seek($data, 0);
+$offset = 30; // Increase the offset to move the data table more to the right
+
+foreach ($data as $row) {
+    $pdf->Ln();
+    $pdf->SetX($pdf->GetX() + $offset); // Set X position for each row
+
+    foreach ($row as $fieldName => $column) {
+        $pdf->Cell($maxWidths[$fieldName], 12, $column, 1);
     }
+}
+
+
+
 
     $pdf->Output();
 }

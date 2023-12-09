@@ -18,7 +18,7 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
 
-    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <h5>Send a absent application to teachers.</h5> <hr></center>";
+    echo "<center><hr><h4>Send a absent application to teachers</h4> <hr></center>";
 }
 ?>
 <!DOCTYPE html>
@@ -61,13 +61,7 @@ if ($result) {
 </body>
 </html>
 <style>
-    hr {
-        width: 90%;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border-color: #b8b8b8;
-        border-width: 5px;
-    }
+
     .button {
         background-color: #4CAF50;
         color: white;

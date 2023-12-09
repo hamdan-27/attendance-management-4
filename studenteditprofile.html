@@ -56,10 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <br><br>
     <div class="container">
-      <center><h1>Welcome Back, <?php echo $user_fname; ?>!</h1> <h5>Update Your Profile</h5></center>  
-        <hr>
+        <center><hr><h4>Update Your Profile</h4> <hr></center>
+    
     
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="form-group">
@@ -81,12 +80,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 </html>
 
-<style>
-    hr {
-        width: 90%;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border-color: #b8b8b8;
-        border-width: 5px;
-    }
-</style>

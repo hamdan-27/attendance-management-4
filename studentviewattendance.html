@@ -16,7 +16,7 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
 
-    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <h5>View your past attendance record</h5> <hr></center>";
+    echo "<center><hr><h4>View your past attendance record</h4> <hr></center>";
 
     // Fetchíng attendance data for the logged-in student from reports table
     $attendance_query = "SELECT * FROM reports WHERE attendance_student = '$user_fname'";
@@ -65,12 +65,4 @@ mysqli_close($conn);
   
 </body>
 </html>
-<style>
-    hr {
-        width: 90%;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border-color: #b8b8b8;
-        border-width: 5px;
-    }
-</style>
+

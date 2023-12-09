@@ -48,9 +48,9 @@ function generatePDF($result)
         // Header
         function Header()
         {
-            $this->Image('imgs/edutrack2.jpg', 10, -1, 20);
+            $this->Image('imgs/edutracklogo.png', 12, 2, 26);
             $this->SetFont('Arial', 'B', 14);
-            $this->Cell(80);
+            $this->Cell(60);
             $this->Cell(80, 10, 'Report', 1, 0, 'C');
             $this->Ln(20);
         }
@@ -93,21 +93,32 @@ function generatePDF($result)
         'class_tutor_name'
     ];
 
-    // Header
-    foreach ($columnsToInclude as $columnName) {
-        $pdf->Cell(30 + $padding, 12, ucwords(str_replace('_', ' ', $columnName)), 1);
-    }
+// Header
+$initialX = $pdf->GetX() + 24; // Add an offset to move the header to the right
+$initialY = $pdf->GetY(); // Save the initial Y position
+
+foreach ($columnsToInclude as $columnName) {
+    $pdf->SetXY($initialX, $initialY); // Set X and Y position
+    $pdf->Cell(30 + $padding, 12, ucwords(str_replace('_', ' ', $columnName)), 1, 0, '', 0);
+    $initialX += 30 + $padding; // Update initialX for the next cell
+}
 
   
 
-    // Data
-    while ($row = mysqli_fetch_assoc($result)) {
-        $pdf->Ln();
-        foreach ($columnsToInclude as $columnName) {
-            $pdf->Cell(30 + $padding, 12, $row[$columnName], 1);
-        }
+ // Data
+while ($row = mysqli_fetch_assoc($result)) {
+    $pdf->Ln();
+    
+    
+    for ($i = 0; $i < 1; $i++) {
+        $pdf->Cell(30 + $padding, 12, '', 0);
     }
 
+    // Output the actual data
+    foreach ($columnsToInclude as $columnName) {
+        $pdf->Cell(30 + $padding, 12, $row[$columnName], 1, 0, 'C');
+    }
+}
     // Outputing PDF as our result when runned the file
     $pdf->Output();
 }
