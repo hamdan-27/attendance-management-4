@@ -18,7 +18,7 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
 
-    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <h5>Manage and view your scheduled class & time table</h5> <hr></center>";
+    echo "<center><hr><h4>view your scheduled class & time table</h4> <hr></center>";
 
     // Fetch today's class data
     $today = date("Y-m-d");
@@ -109,12 +109,4 @@ mysqli_close($conn);
   
 </body>
 </html>
-<style>
-    hr {
-        width: 90%;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border-color: #b8b8b8;
-        border-width: 5px;
-    }
-</style>
+

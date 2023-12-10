@@ -16,7 +16,7 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
 
-    echo "<br><br><center><h1>Welcome Back Mr. $user_fname!</h1> <h5>Enroll new students here</h5> <hr></center>";
+    echo "<center><hr><h4>Enroll New Students</h4> <hr></center>";
 }
 
 // Check if the form is submitted
@@ -64,8 +64,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="form-group">
                 <label for="class_name">Class Name:</label>
-                <input type="text" class="form-control" name="class_name" required>
+                <select class="form-control" name="class_name" required>
+                    <?php
+                    // Fetch class names from the database
+                    $class_query = "SELECT class_name FROM class WHERE class_tutor_name = '$user_fname'";
+                    $class_result = mysqli_query($conn, $class_query);
+            
+                    if ($class_result) {
+                        while ($class_row = mysqli_fetch_assoc($class_result)) {
+                            $class_name = $class_row['class_name'];
+                            echo "<option value=\"$class_name\">$class_name</option>";
+                        }
+                    }
+                    ?>
+                </select>
             </div>
+            
             <div class="form-group">
                 <label for="date">Date:</label>
                 <input type="date" class="form-control" name="date" required>

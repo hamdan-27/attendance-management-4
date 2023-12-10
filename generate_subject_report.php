@@ -22,9 +22,9 @@ class PDF extends FPDF
     // Header
     function Header()
     {
-        $this->Image('imgs/edutrack2.jpg', 10, -1, 20);
+        $this->Image('imgs/edutracklogo.png', 12, 2, 26);
         $this->SetFont('Arial', 'B', 13);
-        $this->Cell(80);
+        $this->Cell(60);
         $this->Cell(80, 10, 'Subject Report', 1, 0, 'C');
         $this->Ln(20);
     }

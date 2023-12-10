@@ -12,72 +12,146 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/stylestudentpanel.css">
   <style>
+        #sidebar {
+            position: fixed;
+            height: 100%;
+            width: 250px;
+            z-index: 1;
+            top: 60px; 
+            left: 0;
+            background-color: #2B5BA4;
+            padding-top: 20px;
+            transition: left 0.3s;
+        }
 
+        #content {
+            margin-left: 250px;
+            padding: 16px;
+            margin-top: 60px;
+        }
 
-#sidebar {
-  position: fixed;
-  height: 100%;
-  width: 250px;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #2B5BA4;
-  padding-top: 20px;
-}
+        .navbar {
+            background-color: #2B5BA4;
+        }
+    
 
-#content {
-  margin-left: 250px;
-  padding: 16px;
-}
+        .navbar-brand {
+            font-size: 26px;
+            color: white;
+        }
 
+        .navbar-toggler-icon {
+            color: white;
+        }
+        .navbar-nav .nav-link {
+            display: inline-block;
+            padding: 8px 10px; 
+        }
+        #sidebar h2 {
+            background-color: #2B5BA4;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-#sidebar h2 {
-  background-color: white; 
-  color: #111; 
-  padding: 10px; 
-  text-align: center; 
-}
+        #sidebar .btn-dark {
+            background-color: white;
+            color: #111;
+            width: 100%;
+            margin-bottom: 10px;
+            margin-left: 5px;
+            border-radius: 7px;
+        }
 
+        #sidebar .btn-dark.active {
+            background-color: grey;
+        }
 
-#sidebar .btn-dark {
-  background-color: white;
-  color: #111; 
-  width: 100%; 
-  margin-bottom: 10px;
-  margin-left: 5px;
-  border-radius: 10px;
-  
-  
-}
-#sidebar .btn-dark.active {
-  background-color: grey;
-}
+        #sidebar .btn-dark:hover {
+            background-color: grey;
+        }
 
-#sidebar .btn-dark:hover {
-  background-color: grey; 
-}
+        @media screen and (max-width: 768px) {
+            #sidebar {
+                left: -250px; 
+            }
 
-@media screen and (max-width: 768px) {
-  #sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
+            #content {
+                margin-left: 0;
+                padding-top: 16px;
+            }
 
-  #content {
-    margin-left: 0;
-  }
-
- 
-  #sidebar h2 {
-    padding: 10px;
-  }
-}
-
-
-  </style>
+            #sidebar h2 {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+
+
+
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <a class="navbar-brand" href="#" style="color: white;">
+        EduTrack
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="mx-auto d-flex justify-content-center">
+    <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+            <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-left: 17px;">Student Dashboard</span>
+            </li>
+
+            <!-- Displaying the logged-in user's name -->
+            <?php
+            require("studentloginprocess.php");
+            if (!isset($_SESSION['loggedin'])){ 
+                header('Location: studentlogin.php');
+                exit();
+            } 
+
+            require('connection.php');
+
+            $user_email = $_SESSION['email'];
+            $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+            $result = mysqli_query($conn, $query);
+            if ($result) {
+                // Fetching the data
+                $row = mysqli_fetch_assoc($result);
+                $user_fname = $row['user_fname'];
+
+                echo '<li class="nav-item"> <!-- Remove text-center class -->
+                        <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-right: 10px; padding-top: 8px;">
+                            <i class="fas fa-user"></i> ' . $user_fname . '
+                        </span>
+                      </li>';
+            }
+            ?>
+      
+          </ul>
+        </div>
+    </div>
+   
+    <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+    <a class="nav-link btn btn-danger btn-sm" href="studentlogout.php" style="color: white;">Logout</a>
+    </li>
+            
+</nav>
+
+
+
+
+
 
 <div id="sidebar">
   <h2>&nbsp; EduTrack</h2> <br>
@@ -89,7 +163,7 @@
       <button class="btn btn-dark" onclick="loadContent('studentviewattendance')">View My Attendance</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('studentmanageclass')">Manage My Class</button>
+      <button class="btn btn-dark" onclick="loadContent('studentmanageclass')">View My Class</button>
     </li>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('studentabsentapplication')">Absente Application</button>
