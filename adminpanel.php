@@ -54,7 +54,7 @@
 }
 
 #sidebar .btn-dark:hover {
-  background-color: grey; 
+  background-color: lightgray; 
 }
 
 @media screen and (max-width: 768px) {
@@ -83,25 +83,25 @@
   <h2>&nbsp; EduTrack</h2> <br>
   <ul class="nav flex-column">
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('admindashboard')">Dashboard</button>
+      <button class="btn btn-dark" onclick="loadContent('admindashboard.html')">Dashboard</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('#')">Add New User</button>
+      <button class="btn btn-dark" onclick="loadContent('signup.php')">Add New User</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('#')">Manage Users</button>
+      <button class="btn btn-dark" onclick="loadContent('manageusers.php')">Manage Users</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('#')">Add New Courses</button>
+      <button class="btn btn-dark" onclick="loadContent('adminaddcourses.php')">Add New Courses</button>
     </li>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('#')">Manage Courses</button>
     </li> 
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('#')">Mark Attendance</button>
+      <button class="btn btn-dark" onclick="loadContent('admingeneratereport.php')">Generate Attendance Report</button>
     </li> <br><br><br><br><br>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('logout')">Logout</button>
+      <button class="btn btn-dark" onclick="loadContent('logout.html')">Logout</button>
     </li>
   </ul>
 </div>
@@ -117,7 +117,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
 
-    loadContent('admindashboard');
+    loadContent('admindashboard.html');
   });
 </script>
 
@@ -126,7 +126,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
 
-    loadContent('admindashboard');
+    loadContent('admindashboard.html');
 
 
     var buttons = document.querySelectorAll('.btn-dark');
