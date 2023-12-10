@@ -55,9 +55,9 @@
                 </label>
                 <select id="role" name="role" required>
                     <option value="" disabled selected>Select a role</option>
-                    <option value="Student">student</option>
-                    <option value="Teacher">teacher</option>
-                    <option value="Admin">admin</option>
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Admin">Admin</option>
                 </select>
             </div>
 
