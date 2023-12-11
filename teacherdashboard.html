@@ -26,27 +26,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
     $new_phone_number = $_POST['new_phone_number'];
     $new_class_name = $_POST['new_class_name'];
 
-    $update_query = "UPDATE users SET 
-    user_fname='$new_user_fname', 
-    user_email='$new_user_email', 
-    phone_number='$new_phone_number',  
-    class_name='$new_class_name'
-    WHERE user_email='$user_email'";
+    // Update query for the 'users' table
+    $update_user_query = "UPDATE users SET 
+        user_fname='$new_user_fname', 
+        user_email='$new_user_email', 
+        phone_number='$new_phone_number',  
+        class_name='$new_class_name'
+        WHERE user_email='$user_email'";
 
+    // Update query for the 'class' table
+    $update_class_query = "UPDATE class SET 
+        class_tutor_name='$new_user_fname'
+        WHERE class_tutor_name='$user_fname'";
 
-    $update_result = mysqli_query($conn, $update_query);
+    // Update query for the 'attendance' table
+    $update_attendance_query = "UPDATE attendance SET 
+        class_tutor_name='$new_user_fname'
+        WHERE class_tutor_name='$user_fname'";
 
-    if ($update_result) {
-        echo "<br><br><center><h3>Profile updated successfully!</h3></center>";
+    // Update query for the 'course' table
+    $update_course_query = "UPDATE course SET 
+        course_manager_name='$new_user_fname'
+        WHERE course_manager_name='$user_fname'";
+
+    // Update query for the 'reports' table
+    $update_reports_query = "UPDATE reports SET 
+        class_tutor_name='$new_user_fname'
+        WHERE class_tutor_name='$user_fname'";
+
+    // Performing the updates
+    $update_user_result = mysqli_query($conn, $update_user_query);
+    $update_class_result = mysqli_query($conn, $update_class_query);
+    $update_attendance_result = mysqli_query($conn, $update_attendance_query);
+    $update_course_result = mysqli_query($conn, $update_course_query);
+    $update_reports_result = mysqli_query($conn, $update_reports_query);
+
+    if ($update_user_result && $update_class_result && $update_attendance_result && $update_course_result && $update_reports_result) {
+        echo "<br><br><center><h3>Profile and related tables updated successfully!</h3></center>";
 
         $_SESSION['email'] = $new_user_email;
 
         header('Location: teacherpanel.php');
         exit();
     } else {
-        echo "<br><br><center><h3>Error updating profile. Please try again.</h3></center>";
+        echo "<br><br><center><h3>Error updating profile and related tables. Please try again.</h3></center>";
     }
 }
+
 
 // Creating class logic
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_class'])) {
