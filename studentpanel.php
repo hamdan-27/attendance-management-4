@@ -171,9 +171,6 @@
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('studenteditprofile')">Edit My Profile</button>
     </li> <br><br><br>
-    <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('logout')">Logout</button>
-    </li>
   </ul>
 </div>
 
