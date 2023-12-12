@@ -165,7 +165,7 @@
             <button class="btn btn-dark" onclick="loadContent('adminaddcourses.php')">Add New Courses</button>
         </li>
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('#')">Manage Courses</button>
+            <button class="btn btn-dark" onclick="loadContent('adminmanagecourses.php')">Manage Courses</button>
         </li>
         <li class="nav-item">
             <button class="btn btn-dark" onclick="loadContent('admingeneratereport.php')">Generate Attendance Report</button>
