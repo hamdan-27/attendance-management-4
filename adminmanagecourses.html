@@ -11,35 +11,41 @@ if (!isset($_SESSION['loggedin'])) {
 include('adminmanagecourses_script.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-course'])) {
-    $course_id = $_POST['course_id'];
-    $course_name = $_POST['course_name'];
-    $course_manager = $_POST['course_manager'];
+    $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
+    $course_name = mysqli_real_escape_string($conn, $_POST['course_name']);
+    $course_manager = mysqli_real_escape_string($conn, $_POST['course_manager']);
 
-    $update_sql = "UPDATE `course`
-    SET `course_name` = '$course_name', `couse_manager_name` = '$course_manager'
-    WHERE `course_id` = '$course_id';";
+    $update_sql = "UPDATE `course` SET `course_name` = '$course_name', `couse_manager_name` = '$course_manager' WHERE `course_id` = '$course_id';";
 
     $update_result = mysqli_query($conn, $update_sql);
     if ($update_result) {
         echo "<script>alert('Course Updated Succesfully');</script>";
+        header("Location: adminpanel.php");
     } else {
         echo "<script> alert('Sorry, there was a problem updating the course.'); </script>";
     }
 }
 
-if (isset($_POST['delete-course'])) {
-    echo "<script>alert('Works');</script>";
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete-course'])) {
+    $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
+    $course_name = mysqli_real_escape_string($conn, $_POST['course_name']);
+    $course_manager = mysqli_real_escape_string($conn, $_POST['course_manager']);
+
+    $delete_sql = "DELETE FROM course WHERE course_id = '$course_id'";
+    $delete_result = mysqli_query($conn, $delete_sql);
+
+    if ($delete_result) {
+        echo "<script>alert('Course deleted successfully');</script>";
+        // header("Location: adminpanel.php");
+    } else {
+        echo "<script>alert('There was a problem deleting this course');</script>";
+    }
+
 }
 
 ?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manage Courses</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
+
 
 <body>
     <div class="card mt-3">
