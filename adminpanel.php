@@ -86,7 +86,7 @@
       <button class="btn btn-dark" onclick="loadContent('admindashboard.html')">Dashboard</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('signup.php')">Add New User</button>
+      <button class="btn btn-dark" onclick="loadContent('adminadduser.php')">Add New User</button>
     </li>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('manageusers.php')">Manage Users</button>
