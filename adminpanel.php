@@ -159,16 +159,16 @@
         </li>
 
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('manageusers.php')">Manage Users</button>
+            <button class="btn btn-dark" onclick="loadContent('manageusers.html')">Manage Users</button>
         </li>
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('adminaddcourses.php')">Add New Courses</button>
+            <button class="btn btn-dark" onclick="loadContent('adminaddcourses.html')">Add New Courses</button>
         </li>
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('adminmanagecourses.php')">Manage Courses</button>
+            <button class="btn btn-dark" onclick="loadContent('adminmanagecourses.html')">Manage Courses</button>
         </li>
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('admingeneratereport.php')">Generate Attendance Report</button>
+            <button class="btn btn-dark" onclick="loadContent('admingeneratereport.html')">Generate Attendance Report</button>
         </li> <br><br><br>
      
     </ul>
