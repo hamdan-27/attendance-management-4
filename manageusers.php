@@ -72,68 +72,9 @@ if (isset($_POST['edit-user'])) {
   <script src="js/adminpanelscript.js"></script>
   <script src="https://kit.fontawesome.com/2ba669933d.js" crossorigin="anonymous"></script>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/stylestudentpanel.css">
+
   
-  <style>
-    #sidebar {
-      position: fixed;
-      height: 100%;
-      width: 250px;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      background-color: #2B5BA4;
-      padding-top: 20px;
-    }
-
-    #content {
-      margin-left: 250px;
-      padding: 16px;
-    }
-
-
-    #sidebar h2 {
-      background-color: white;
-      color: #111;
-      padding: 10px;
-      text-align: center;
-    }
-
-    #sidebar .btn-dark {
-      background-color: white;
-      color: #111;
-      width: 100%;
-      margin-bottom: 10px;
-      margin-left: 5px;
-      border-radius: 10px;
-
-
-    }
-
-    #sidebar .btn-dark.active {
-      background-color: grey;
-    }
-
-    #sidebar .btn-dark:hover {
-      background-color: grey;
-    }
-
-    @media screen and (max-width: 768px) {
-      #sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-      }
-
-      #content {
-        margin-left: 0;
-      }
-
-      #sidebar h2 {
-        padding: 10px;
-      }
-    }
-  </style>
+ 
 </head>
 
 <body>
