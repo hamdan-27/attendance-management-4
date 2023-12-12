@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2023 at 06:48 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.4.25
+-- Generation Time: Dec 12, 2023 at 03:30 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `absent` (
   `note` varchar(255) NOT NULL,
   `date` varchar(255) NOT NULL,
   `time` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `absent`
@@ -56,19 +56,20 @@ CREATE TABLE `attendance` (
   `attendance_status` varchar(255) NOT NULL,
   `date` varchar(255) NOT NULL,
   `class_tutor_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `attendance`
 --
 
 INSERT INTO `attendance` (`attendance_id`, `attendance_student`, `attendance_class`, `attendance_status`, `date`, `class_tutor_name`) VALUES
-(1, 'student', 'biology', 'Present', '2023-12-7', 'teacher'),
-(2, 'student2', 'chemistry', 'Present', '2023-12-7', 'teacher2'),
+(1, 'student', 'biology', 'Absent', '2023-12-7', 'teacher'),
+(2, 'student2', 'chemistry', 'Absent', '2023-12-7', 'teacher2'),
 (3, 'student3', 'computer science', 'present', '2023-12-7', 'teacher3'),
-(5, 'hamdan', 'biology', 'Present', '2023-12-07', 'teacher'),
-(8, 'teststudent', 'software', 'Present', '2023-12-07', 'teacher'),
-(9, 'heba', 'chemistry', 'Present', '2023-12-07', 'teacher2');
+(5, 'hamdan', 'biology', 'Absent', '2023-12-07', 'teacher'),
+(8, 'teststudent', 'software', 'Absent', '2023-12-07', 'teacher'),
+(9, 'heba', 'chemistry', 'Absent', '2023-12-07', 'teacher2'),
+(10, 'saba', 'software', 'Absent', '2023-12-07', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -83,18 +84,16 @@ CREATE TABLE `class` (
   `class_time` varchar(255) NOT NULL,
   `class_location` varchar(255) NOT NULL,
   `class_tutor_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `class`
 --
 
 INSERT INTO `class` (`class_id`, `class_name`, `class_date`, `class_time`, `class_location`, `class_tutor_name`) VALUES
-(1, 'biology', '2023-11-26', '10:25 AM', 'Ras Al Khaimah', 'teacher'),
 (2, 'chemistry', '2023-11-26', '1:00 PM', 'Ras Al Khaimah', 'teacher2'),
 (3, 'computer science', '2023-11-26', '3:00 PM', 'Dubai', 'teacher3'),
-(8, 'computer science', '2023-12-03', '11:44 PM', 'Umm Al Quwain', 'teacher3'),
-(10, 'software', '2023-12-07', '06:11 PM', 'Dubai', 'teacher');
+(16, 'biology', '2023-12-16', '05:34 PM', 'Ras Al Khaimah', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -106,7 +105,7 @@ CREATE TABLE `course` (
   `course_id` varchar(255) NOT NULL,
   `course_name` varchar(255) NOT NULL,
   `course_manager_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `course`
@@ -114,10 +113,40 @@ CREATE TABLE `course` (
 
 INSERT INTO `course` (`course_id`, `course_name`, `course_manager_name`) VALUES
 ('1', 'SWE6209', 'teacher'),
-('2', 'SWE6205', 'teacher2'),
+('2', 'SWE6203', 'teacher2'),
 ('3', 'SWE6204', 'teacher3'),
 ('4', 'SWE6201', 'teacher3'),
 ('5', 'SWE4208', 'teacher3');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `user_id` int(11) NOT NULL,
+  `user_fname` varchar(255) DEFAULT NULL,
+  `student_name` varchar(255) NOT NULL,
+  `alert` varchar(255) DEFAULT NULL,
+  `date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`user_id`, `user_fname`, `student_name`, `alert`, `date`) VALUES
+(1, 'teacher', '', 'afafaf', '2023-12-12'),
+(2, 'teacher', '', 'afafaf', '2023-12-12'),
+(3, 'teacher', '', 'afafaf', '2023-12-12'),
+(4, 'teacher', '', 'we are the best ', '2023-12-12'),
+(18, 'teacher', '', 'Class with ID 31 (Class Name: gennu) was cancelled by: teacher', '2023-12-12'),
+(19, 'teacher2', '', 'Class with ID 34 (Class Name: yoyo) was cancelled by: teacher2', '2023-12-12'),
+(30, 'teacher', 'student', 'You have been marked absent in the class on 2023-12-12 by teacher', '2023-12-12'),
+(31, 'teacher', 'hamdan', 'You have been marked absent in the class on 2023-12-12 by teacher', '2023-12-12'),
+(32, 'teacher', 'teststudent', 'You have been marked absent in the class on 2023-12-12 by teacher', '2023-12-12'),
+(33, 'teacher', 'saba', 'You have been marked absent in the class on 2023-12-12 by teacher', '2023-12-12');
 
 -- --------------------------------------------------------
 
@@ -133,7 +162,7 @@ CREATE TABLE `reports` (
   `attendance_student` varchar(255) DEFAULT NULL,
   `attendance_class` varchar(255) DEFAULT NULL,
   `class_tutor_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reports`
@@ -142,7 +171,15 @@ CREATE TABLE `reports` (
 INSERT INTO `reports` (`report_id`, `attendance_id`, `report_date`, `report_status`, `attendance_student`, `attendance_class`, `class_tutor_name`) VALUES
 (129, '1', '2023-12-07', 'Present', 'student', 'biology', 'teacher'),
 (130, '5', '2023-12-07', 'Present', 'hamdan', 'biology', 'teacher'),
-(131, '6', '2023-12-07', 'Present', 'hadman', 'biology', 'teacher');
+(131, '6', '2023-12-07', 'Present', 'hadman', 'biology', 'teacher'),
+(142, '8', '2023-12-07', 'Present', 'teststudent', 'software', 'teacher'),
+(143, '10', '2023-12-07', 'Present', 'saba', 'software', 'teacher'),
+(148, '2', '2023-12-11', 'Absent', 'student2', 'chemistry', 'teacher2'),
+(149, '9', '2023-12-11', 'Absent', 'heba', 'chemistry', 'teacher2'),
+(162, '1', '2023-12-12', 'Absent', 'student', 'biology', 'teacher'),
+(163, '5', '2023-12-12', 'Absent', 'hamdan', 'biology', 'teacher'),
+(164, '8', '2023-12-12', 'Absent', 'teststudent', 'software', 'teacher'),
+(165, '10', '2023-12-12', 'Absent', 'saba', 'software', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -153,7 +190,7 @@ INSERT INTO `reports` (`report_id`, `attendance_id`, `report_date`, `report_stat
 CREATE TABLE `role` (
   `role_id` varchar(255) NOT NULL,
   `role_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -168,7 +205,7 @@ CREATE TABLE `users` (
   `user_role` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -177,7 +214,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_fname`, `user_email`, `phone_number`, `user_role`, `user_password`, `class_name`) VALUES
 ('admin', 'admin123@gmail.com', '12345', 'admin', 'admin', ''),
 ('student', 'student1@gmail.com', '34252', 'student', 'student', ''),
-('teacher', 'teacher1@gmail.com', '25252523', 'teacher', 'teacher', 'biology'),
+('teacher', 'teacher1@gmail.com', '25242525', 'teacher', 'teacher', 'biology'),
 ('teacher2', 'teacher2@gmail.com', '12345', 'teacher', 'teacher', 'chemistry'),
 ('teacher3', 'teacher3@gmail.com', '12345', 'teacher', 'teacher', 'computer science');
 
@@ -210,6 +247,12 @@ ALTER TABLE `course`
   ADD PRIMARY KEY (`course_id`);
 
 --
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`user_id`);
+
+--
 -- Indexes for table `reports`
 --
 ALTER TABLE `reports`
@@ -229,25 +272,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT for table `course`
+-- AUTO_INCREMENT for table `notifications`
 --
-ALTER TABLE `course`
-  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+ALTER TABLE `notifications`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
