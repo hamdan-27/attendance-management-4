@@ -152,25 +152,23 @@
     <h2>EduTrack</h2>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('admindashboard.html')">Dashboard</button>
+            <button class="btn btn-dark" onclick="loadContent('admindashboard')">Dashboard</button>
         </li>
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('signup.php')">Add New Users</button>
-        </li>
-
-        <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('manageusers.html')">Manage Users</button>
+            <button class="btn btn-dark" onclick="loadContent('adminadduser')">Add New Users</button>
         </li>
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('adminaddcourses.html')">Add New Courses</button>
+            <button class="btn btn-dark" onclick="loadContent('manageusers')">Manage Users</button>
         </li>
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('adminmanagecourses.html')">Manage Courses</button>
+            <button class="btn btn-dark" onclick="loadContent('adminaddcourses')">Add New Courses</button>
         </li>
         <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('admingeneratereport.html')">Generate Attendance Report</button>
-        </li> <br><br><br>
-     
+            <button class="btn btn-dark" onclick="loadContent('adminmanagecourses')">Manage Courses</button>
+        </li>
+        <li class="nav-item">
+            <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance Report</button>
+        </li><br><br><br>
     </ul>
 </div>
 
@@ -182,11 +180,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        loadContent('admindashboard.html');
+        loadContent('admindashboard');
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        loadContent('admindashboard.html');
+        loadContent('admindashboard');
 
         var buttons = document.querySelectorAll('.btn-dark');
         buttons.forEach(function(button) {

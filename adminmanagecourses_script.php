@@ -14,11 +14,11 @@ function update_course()
             $course_manager = $row['course_manager_name'];
 
             echo "<tr>
-                <form method='post'>
-                <td><input name='course_id' class='form-control' value='$course_id' readonly></td>
-                <td><input name='course_name' class='form-control' value='$course_name'></td>
-                <td><input name='course_manager' class='form-control' value='$course_manager'></td>
-                <td><input type='submit' name='update-course' class='btn btn-warning' value='Update'></td>
+                <form action=\"" . htmlspecialchars($_SERVER["PHP_SELF"]) . "\" method='post'>
+                    <td><input name='course_id' class='form-control' value='$course_id' readonly></td>
+                    <td><input name='course_name' class='form-control' value='$course_name'></td>
+                    <td><input name='course_manager' class='form-control' value='$course_manager'></td>
+                    <td><button type='submit' name='update-course' class='btn btn-warning'>Update</button></td>
                 </form>
             </tr>";
         }
@@ -40,11 +40,11 @@ function delete_course()
             $course_manager = $row['course_manager_name'];
 
             echo "<tr>
-                <form method='post'>
-                <td><input name='course_id' class='form-control' value='$course_id' readonly></td>
-                <td><input name='course_name' class='form-control' value='$course_name'></td>
-                <td><input name='course_manager' class='form-control' value='$course_manager'></td>
-                <td><input type='submit' name='delete-course' class='btn btn-danger' value='Delete'></td>
+                <form action=\"" . htmlspecialchars($_SERVER["PHP_SELF"]) . "\" method='post'>
+                    <td><input name='course_id' class='form-control' value='$course_id' readonly></td>
+                    <td><input name='course_name' class='form-control' value='$course_name' readonly></td>
+                    <td><input name='course_manager' class='form-control' value='$course_manager' readonly></td>
+                    <td><button type='submit' name='delete-course' class='btn btn-danger'>Delete</button></td>
                 </form>
             </tr>";
         }
@@ -52,3 +52,4 @@ function delete_course()
         echo "<script>alert('No Courses Found.');</script>";
     }
 }
+?>

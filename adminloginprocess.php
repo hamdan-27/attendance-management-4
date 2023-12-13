@@ -6,7 +6,7 @@ if(isset($_POST['loginsubmit'])){
     $user_email = $_POST['email'];
     $user_password = $_POST['password'];
 
-   
+    
     $sql = "SELECT * FROM users WHERE user_email = '$user_email' AND user_password = '$user_password' AND user_role = 'admin'";
     
     $result = mysqli_query($conn, $sql);

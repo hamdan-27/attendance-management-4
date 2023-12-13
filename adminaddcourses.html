@@ -1,38 +1,40 @@
 <?php
 require('adminloginprocess.php');
 
-if (!isset($_SESSION['loggedin'])) { 
+if (!isset($_SESSION['loggedin'])) {
     header('Location: adminlogin.php');
     exit();
-} 
+}
 
 require('connection.php');
 
 // Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-course'])) {
     $course_name = $_POST['course_name'];
     $course_manager_name = $_POST['course_manager_name'];
 
     // Perform validation if needed
 
     // Insert data into the attendance table
-    $insert_query = "INSERT INTO course VALUES (NULL, '$course_name', '$course_manager_name')";
+    $insert_query = "INSERT INTO course (course_id, course_name, course_manager_name) VALUES (NULL, '$course_name', '$course_manager_name')";
     $insert_result = mysqli_query($conn, $insert_query);
 
     if ($insert_result) {
-        echo "<br><br><center><h3>Course added successfully!</h3></center>";
-        
+        echo "<script>alert('Course added successfully');</script>";
+
         // Redirect to adminpanel.php after a successful insert
         header('Location: adminpanel.php');
-        exit();
+        // exit();
     } else {
-        echo "<br><br><center><h3>Error adding course.</h3></center>";
+        echo "<script>alert('There was a problem adding the course.');</script>";
+        // header('Location: adminpanel.php');
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/stylesignup.css">
 </head>
+
 <body>
     <section class="container">
         <header>Add New Course</header>
@@ -49,12 +52,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" class="form-control" name="course_name" required>
             </div>
             <div class="form-group">
-                <label for="course_manager_name">Course Manager</label>
-                <input type="text" class="form-control" name="course_manager_name" required>
+                <label for="selectCourseManager" class="sr-only">Select Course Manager:</label>
+                <select class="form-control" id="selectCourseManager" name="course_manager" required>
+                    <?php
+                    // Fetch classes for the logged-in teacher
+                    $course_manager_query = "SELECT course_manager_name FROM course";
+                    $course_manager_result = mysqli_query($conn, $teacher_classes_query);
+
+                    if ($course_manager_result) {
+                        while ($manager_row = mysqli_fetch_assoc($course_manager_result)) {
+                            $manager_name = $manager_row['class_name'];
+                            echo "<option value='$manager_name'>$manager_name</option>";
+                        }
+                    }
+                    ?>
+                </select>
             </div>
 
-            <button type="submit" class="btn btn-primary">Add Course</button>
+            <button type="submit" name="add-course" class="btn btn-primary">Add Course</button>
         </form>
-</section>
+    </section>
 </body>
+
 </html>
