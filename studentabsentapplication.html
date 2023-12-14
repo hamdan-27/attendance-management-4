@@ -14,7 +14,7 @@ $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    // Fetch the data
+    // Fetching the data
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
 

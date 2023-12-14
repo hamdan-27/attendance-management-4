@@ -155,7 +155,6 @@
 
 
 <?php
-// Check if the user is logged in
 require("teacherloginprocess.php");
 
 if (!isset($_SESSION['loggedin'])) {
@@ -163,28 +162,24 @@ if (!isset($_SESSION['loggedin'])) {
     exit();
 }
 
-// Get the teacher name from the session
 $user_email = $_SESSION['email'];
 $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    // Fetch the data
+    // Fetching the data
     $row = mysqli_fetch_assoc($result);
     $student_name = $row['user_fname'];
 } else {
-    // Set a default value or handle the case when the query fails
-    $student_name = ''; // Change this to a default value or handle accordingly
+    $student_name = ''; 
 }
 
-// Include your database connection
 include('connection.php');
 
-// Build the SQL query
 $sql = "SELECT user_id, user_fname, student_name, alert, date FROM teachernotifications";
 $whereClause = "";
 
-// Add a condition to fetch data for the specific teacher if the name is available
+// Adding a condition to fetch data for the specific teacher if the name is available
 if (!empty($student_name)) {
     $whereClause = " WHERE user_fname = '$user_fname' OR user_fname IS NULL OR user_fname = ''";
 }
@@ -192,16 +187,14 @@ if (!empty($student_name)) {
 // Append the condition to the query
 $sql .= $whereClause;
 
-// Fetch data from the notifications table
+// Fetching data from the notifications table
 $result = $conn->query($sql);
 
-// Calculate the number of notifications
+// Calculating the number of notifications
 $numNotifications = $result->num_rows;
 
-// Calculate the height of the modal content based on the number of notifications
-$modalContentHeight = max(300, $numNotifications * 50); // Minimum height is 200px, and each notification takes 40px
+$modalContentHeight = max(300, $numNotifications * 50); 
 
-// Close the database connection
 $conn->close();
 ?>
 
@@ -218,9 +211,7 @@ $conn->close();
         <button id="clearNotifications" class="btn btn-sm btn-primary" style="margin-bottom: 10px;">Clear Notifications</button>
         <span class="close">&times;</span>
         <?php
-        // Check if there are any rows in the result
         if ($numNotifications > 0) {
-            // Output data as a list
             echo '<ul>';
             while ($row = $result->fetch_assoc()) {
                 echo '<li style="margin-bottom: 20px;">'; // Adjust the margin-bottom as needed
@@ -237,7 +228,6 @@ $conn->close();
         }
         ?>
 
-        <!-- Add your notification content here -->
     </div>
 </div>
 
@@ -246,23 +236,19 @@ $conn->close();
 <script>
     
     $(document).ready(function () {
-        // Show the modal when the notification icon is clicked
         $("#notificationIcon").click(function () {
             $("#notificationModal").fadeIn();
         });
 
-        // Hide the modal when the close button is clicked
         $(".close").click(function () {
             $("#notificationModal").fadeOut();
         });
 
-        // Clear notifications when the "Clear Notifications" button is clicked
         $("#clearNotifications").click(function () {
-            // Here, you can use AJAX to send a request to the server to clear the notifications for that user
-            // For simplicity, I'm just hiding the notifications in this example
-            $("#notificationModal ul").empty(); // Remove all items from the list
-            $("#notificationModal").fadeOut(); // Hide the modal
-            updateNotificationCount(0); // Reset the notification count
+
+            $("#notificationModal ul").empty(); // Removing all items from the list
+            $("#notificationModal").fadeOut(); // Hiding the modal
+            updateNotificationCount(0); // Reseting the notification count
         });
 
         // Initial update of the notification count
@@ -270,7 +256,7 @@ $conn->close();
     });
 
     function updateNotificationCount(count) {
-        // Update the notification count and show/hide badge based on the count
+        
         var badge = $("#notificationCount");
         badge.text(count);
         count > 0 ? badge.show() : badge.hide();
@@ -280,7 +266,7 @@ $conn->close();
 
 
 <style>
-  /* Style for the modal */
+
 .modal {
     display: none;
     position: fixed;
@@ -288,19 +274,19 @@ $conn->close();
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(169, 169, 169, 0.5); /* Light grey color with alpha (transparency) */
+    background-color: rgba(169, 169, 169, 0.5); 
 }
 
-/* Style for the modal content */
+
 .modal-content {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    width: 80px; /* Adjust the width to your preference */
-    max-width: calc(100% - 40px); /* Set the max-width to ensure it doesn't touch the edges */
-    height: 400px; /* Set the height to the same value as the width */
+    width: 80px; 
+    max-width: calc(100% - 40px); 
+    height: 400px; 
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -309,7 +295,7 @@ $conn->close();
 
 
 
-/* Style for the close button */
+
 .close {
     position: absolute;
     top: 10px;

@@ -50,7 +50,7 @@ if ($result) {
                         echo "<strong>Time:</strong> {$class_row['class_time']}<br>";
                         echo "<strong>Location:</strong> {$class_row['class_location']}<br>";
 
-                        // Adding a delete button with a form for each class
+                
                         echo "<form method='post' action='delete_class.php'>";
                         echo "<input type='hidden' name='class_id' value='{$class_row['class_id']}'>";
                         echo "<button type='submit' class='btn btn-danger btn-sm' style='margin-top: 10px;'>Delete</button>";

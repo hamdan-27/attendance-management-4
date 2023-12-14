@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
         
         $insertResult = mysqli_query($conn, $insertQuery);
 
-         // Insert into teachernotifications table
+         // Inserting into teachernotifications table
         $teacherInsertQuery = "INSERT INTO teachernotifications (user_fname, student_name, alert, date) 
                                VALUES ('$user_fname', '', 'You have sent this alert: $alert', '$date')";
         $teacherInsertResult = mysqli_query($conn, $teacherInsertQuery);

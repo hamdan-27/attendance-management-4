@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
         $attendance_id = $row['attendance_id'];
         $new_attendance_status = $_POST["new_attendance_status"][$attendance_id];
 
-        // Update attendance status
+        // updating attendance status
         $update_query = "UPDATE attendance SET attendance_status = ? WHERE attendance_id = ?";
         $update_statement = mysqli_prepare($conn, $update_query);
         mysqli_stmt_bind_param($update_statement, "si", $new_attendance_status, $attendance_id);

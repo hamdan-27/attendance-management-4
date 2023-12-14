@@ -22,7 +22,7 @@ if ($result) {
     $resultReports = mysqli_query($conn, $queryReports);
 
     if ($resultReports) {
-        // Process the data for the graph
+
         $reportData = array();
 
         while ($rowReports = mysqli_fetch_assoc($resultReports)) {
@@ -37,19 +37,19 @@ if ($result) {
             $reportData[$date][$status]++;
         }
 
-        // Close the reports result set
+
         mysqli_free_result($resultReports);
     } else {
         echo "Error fetching reports: " . mysqli_error($conn);
     }
 
-    // Close the user details result set
+   
     mysqli_free_result($result);
 } else {
     echo "Error fetching user details: " . mysqli_error($conn);
 }
 
-// Close the database connection
+
 mysqli_close($conn);
 ?>
 
@@ -60,7 +60,7 @@ mysqli_close($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graph Page</title>
     
-    <!-- Include Chart.js library -->
+    <!-- Including Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -71,15 +71,15 @@ mysqli_close($conn);
 </div>
 
 <script>
-// Create an array of dates and counts for "Present" and "Absent"
+
 var chartData = <?php echo json_encode($reportData); ?>;
 
-// Extract labels (dates) and data for each status
+
 var dates = Object.keys(chartData);
 var presentData = dates.map(date => chartData[date]['Present']);
 var absentData = dates.map(date => chartData[date]['Absent']);
 
-// Create a line chart
+// Creating line chart
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'line',

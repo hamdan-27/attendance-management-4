@@ -10,29 +10,29 @@ if (!isset($_SESSION['loggedin'])){
 require('connection.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the class ID from the form
+
     $class_id = mysqli_real_escape_string($conn, $_POST['class_id']);
 
-    // Retrieve class information before deletion
+
     $select_query = "SELECT * FROM class WHERE class_id = '$class_id'";
     $select_result = mysqli_query($conn, $select_query);
     $class_data = mysqli_fetch_assoc($select_result);
 
-    // Delete the class from the database
+
     $delete_query = "DELETE FROM class WHERE class_id = '$class_id'";
     $delete_result = mysqli_query($conn, $delete_query);
 
     if ($delete_result) {
         echo "Class deleted successfully!";
         
-        // Get the logged-in teacher's first name
+        // Geting the logged-in teacher's first name
         $user_email = $_SESSION['email'];
 
         $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
         $result = mysqli_query($conn, $query);
 
         if ($result) {
-            // Fetch the data
+         
             $row = mysqli_fetch_assoc($result);
             $user_fname = $row['user_fname'];
 

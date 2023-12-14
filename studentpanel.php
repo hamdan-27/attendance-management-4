@@ -172,18 +172,18 @@ $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    // Fetch the data
+
     $row = mysqli_fetch_assoc($result);
     $student_name = $row['user_fname'];
 } else {
-    // Set a default value or handle the case when the query fails
-    $student_name = ''; // Change this to a default value or handle accordingly
+ 
+    $student_name = ''; 
 }
 
-// Include your database connection
+
 include('connection.php');
 
-// Build the SQL query
+
 $sql = "SELECT user_id, user_fname, student_name, alert, date FROM notifications";
 $whereClause = "";
 
@@ -201,8 +201,7 @@ $result = $conn->query($sql);
 // Calculate the number of notifications
 $numNotifications = $result->num_rows;
 
-// Calculate the height of the modal content based on the number of notifications
-$modalContentHeight = max(300, $numNotifications * 50); // Minimum height is 200px, and each notification takes 40px
+$modalContentHeight = max(300, $numNotifications * 50); 
 
 // Close the database connection
 $conn->close();
