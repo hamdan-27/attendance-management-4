@@ -1,0 +1,85 @@
+<?php
+require("teacherloginprocess.php");
+
+if (!isset($_SESSION['loggedin'])){ 
+    header('Location: teacherlogin.php');
+    exit();
+} 
+
+require('connection.php');
+
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $user_fname = $row['user_fname'];
+
+    echo "<center><hr><h4>View Attendance Analytics For All Previous Classes</h4> <hr></center>";
+
+    // Fetch all data from reports table based on the logged-in teacher's name
+    $query = "SELECT attendance_id, report_date, report_status, attendance_student, attendance_class, class_tutor_name
+              FROM reports
+              WHERE class_tutor_name = '$user_fname'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        // Check if there are any rows
+        if (mysqli_num_rows($result) > 0) {
+            echo "<table class='table'>";
+            echo "<thead>";
+            echo "<tr>";
+            echo "<th>Attendance ID</th>";
+            echo "<th>Report Date</th>";
+            echo "<th>Report Status</th>";
+            echo "<th>Attendance Student</th>";
+            echo "<th>Attendance Class</th>";
+            echo "<th>Class Tutor Name</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tbody>";
+
+            // Fetch and display the data
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>{$row['attendance_id']}</td>";
+                echo "<td>{$row['report_date']}</td>";
+                echo "<td>{$row['report_status']}</td>";
+                echo "<td>{$row['attendance_student']}</td>";
+                echo "<td>{$row['attendance_class']}</td>";
+                echo "<td>{$row['class_tutor_name']}</td>";
+                echo "</tr>";
+            }
+
+            echo "</tbody>";
+            echo "</table>";
+
+            // Add the generate graph button
+            echo "<div style='text-align: center; margin-top: 20px;'>";
+            echo "<a href='graph.php' class='btn btn-success btn-md'>Generate Graph</a>";
+            echo "</div>";
+        } else {
+            echo "<p>No data found.</p>";
+        }
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+} else {
+    echo "Error: " . mysqli_error($conn);
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student's Page</title>
+    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+</body>
+</html>

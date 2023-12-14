@@ -139,11 +139,197 @@
     </div>
    
     <ul class="navbar-nav ml-auto">
-    <li class="nav-item">
+     <!-- Notification Bell Icon -->
+<li class="nav-item">
+    <a class="nav-link" href="#" id="notificationIcon" style="color: white; position: relative;">
+        <i class="fas fa-bell"></i>
+        <span id="notificationCount" class="badge badge-danger" style="position: absolute; top: 0; right: 0; display: none;"></span>
+    </a>
+</li>
+
+<li class="nav-item" style="margin-left: 10px;">
     <a class="nav-link btn btn-danger btn-sm" href="teacherlogout.php" style="color: white;">Logout</a>
-    </li>
-            
+</li>
+</ul>
 </nav>
+
+
+<?php
+// Check if the user is logged in
+require("teacherloginprocess.php");
+
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: teacherlogin.php');
+    exit();
+}
+
+// Get the teacher name from the session
+$user_email = $_SESSION['email'];
+$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    // Fetch the data
+    $row = mysqli_fetch_assoc($result);
+    $student_name = $row['user_fname'];
+} else {
+    // Set a default value or handle the case when the query fails
+    $student_name = ''; // Change this to a default value or handle accordingly
+}
+
+// Include your database connection
+include('connection.php');
+
+// Build the SQL query
+$sql = "SELECT user_id, user_fname, student_name, alert, date FROM teachernotifications";
+$whereClause = "";
+
+// Add a condition to fetch data for the specific teacher if the name is available
+if (!empty($student_name)) {
+    $whereClause = " WHERE user_fname = '$user_fname' OR user_fname IS NULL OR user_fname = ''";
+}
+
+// Append the condition to the query
+$sql .= $whereClause;
+
+// Fetch data from the notifications table
+$result = $conn->query($sql);
+
+// Calculate the number of notifications
+$numNotifications = $result->num_rows;
+
+// Calculate the height of the modal content based on the number of notifications
+$modalContentHeight = max(300, $numNotifications * 50); // Minimum height is 200px, and each notification takes 40px
+
+// Close the database connection
+$conn->close();
+?>
+
+
+
+
+
+
+<div id="notificationModal" class="modal">
+<div class="modal-content" style="width: 600px; height: 500px; overflow-y: auto;">
+
+        <center><h2>Notifications</h2></center>
+        <hr>
+        <button id="clearNotifications" class="btn btn-sm btn-primary" style="margin-bottom: 10px;">Clear Notifications</button>
+        <span class="close">&times;</span>
+        <?php
+        // Check if there are any rows in the result
+        if ($numNotifications > 0) {
+            // Output data as a list
+            echo '<ul>';
+            while ($row = $result->fetch_assoc()) {
+                echo '<li style="margin-bottom: 20px;">'; // Adjust the margin-bottom as needed
+                echo '<strong>Notification ID:</strong> ' . $row['user_id'] . '<br>';
+                echo '<strong>Teacher Name:</strong> ' . $row['user_fname'] . '<br>';
+                echo '<strong>Student Name:</strong> ' . $row['student_name'] . '<br>';
+                echo '<strong>Alert Message:</strong> ' . $row['alert'] . '<br>';
+                echo '<strong>Date:</strong> ' . $row['date'] . '<br>';
+                echo '</li>';
+            }
+            echo '</ul>';
+        } else {
+            echo 'No notifications found.';
+        }
+        ?>
+
+        <!-- Add your notification content here -->
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    
+    $(document).ready(function () {
+        // Show the modal when the notification icon is clicked
+        $("#notificationIcon").click(function () {
+            $("#notificationModal").fadeIn();
+        });
+
+        // Hide the modal when the close button is clicked
+        $(".close").click(function () {
+            $("#notificationModal").fadeOut();
+        });
+
+        // Clear notifications when the "Clear Notifications" button is clicked
+        $("#clearNotifications").click(function () {
+            // Here, you can use AJAX to send a request to the server to clear the notifications for that user
+            // For simplicity, I'm just hiding the notifications in this example
+            $("#notificationModal ul").empty(); // Remove all items from the list
+            $("#notificationModal").fadeOut(); // Hide the modal
+            updateNotificationCount(0); // Reset the notification count
+        });
+
+        // Initial update of the notification count
+        updateNotificationCount(<?php echo $numNotifications; ?>);
+    });
+
+    function updateNotificationCount(count) {
+        // Update the notification count and show/hide badge based on the count
+        var badge = $("#notificationCount");
+        badge.text(count);
+        count > 0 ? badge.show() : badge.hide();
+    }
+</script>
+
+
+
+<style>
+  /* Style for the modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(169, 169, 169, 0.5); /* Light grey color with alpha (transparency) */
+}
+
+/* Style for the modal content */
+.modal-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 80px; /* Adjust the width to your preference */
+    max-width: calc(100% - 40px); /* Set the max-width to ensure it doesn't touch the edges */
+    height: 400px; /* Set the height to the same value as the width */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+/* Style for the close button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -172,14 +358,20 @@
         </li>
         <li class="nav-item">
             <button class="btn btn-dark" onclick="loadContent('viewabsentapplications')">View Absent Application</button>
-        </li> <br><br><br>
+        </li> 
+        <li class="nav-item">
+            <button class="btn btn-dark" onclick="loadContent('sendalert')">Send Alerts To Students</button>
+        </li> 
+        <li class="nav-item">
+            <button class="btn btn-dark" onclick="loadContent('viewgraph')">View Class Analytics</button>
+        </li> 
      
     </ul>
 </div>
 
 <div id="content"></div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 

@@ -1,7 +1,7 @@
 <?php
-require("studentloginprocess.php");
+require("teacherloginprocess.php");
 if (!isset($_SESSION['loggedin'])){ 
-    header('Location: studentlogin.php');
+    header('Location: teacherlogin.php');
     exit();
 } 
 ?>
@@ -18,7 +18,7 @@ if ($result) {
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
 
-    echo "<center><hr><h4>Send a absent application to teachers</h4> <hr></center>";
+    echo "<center><hr><h4>Send Important Announcments/Alerts To Students</h4> <hr></center>";
 }
 ?>
 <!DOCTYPE html>
@@ -27,30 +27,18 @@ if ($result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student's Page</title>
-   
+    
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container mt-4">
         <div class="card">
-            <div class="card-header bg-warning text-white"><h4>Absent Application Form</h4></div>
+            <div class="card-header bg-info text-white"><h5>Type The Alert:</h5></div>
             <div class="card-body">
-                <form action="absentapplication.php" method="post" class="form">
+                <form action="sendalert.php" method="post" class="form">
                     <div class="form-group">
-                        <label for="first_name">First Name:</label>
-                        <input type="text" class="form-control" id="first_name" name="first_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="class">Class Name:</label>
-                        <input type="class" class="form-control" id="class" name="class" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="note">Reason for Absence:</label>
-                        <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
+                        <label for="alert">Send Alerts:</label>
+                        <textarea class="form-control" id="alert" name="alert" rows="3" required></textarea>
                     </div>
                     <input type="hidden" name="submit" value="submit">
                     <button type="submit" class="button" onclick="validate()">Submit Application</button>
@@ -63,16 +51,17 @@ if ($result) {
 <style>
 
     .button {
-        background-color: #4CAF50;
+        background-color: #0331af;
         color: white;
         padding: 10px 20px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s;
+        font-size: 15px; 
     }
 
     .button:hover {
-        background-color: #08860f;
+        background-color: #5355fc;
     }
 </style>

@@ -11,8 +11,11 @@ require('connection.php');
 $user_email = $_SESSION['email'];
 
 // Fetching user details from the users table
-$user_query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
-$user_result = mysqli_query($conn, $user_query);
+$user_query = "SELECT user_fname FROM users WHERE user_email = ?";
+$user_statement = mysqli_prepare($conn, $user_query);
+mysqli_stmt_bind_param($user_statement, "s", $user_email);
+mysqli_stmt_execute($user_statement);
+$user_result = mysqli_stmt_get_result($user_statement);
 
 if ($user_result) {
     $user_row = mysqli_fetch_assoc($user_result);
@@ -20,16 +23,22 @@ if ($user_result) {
 }
 
 // Fetching class_tutor_name from the class table
-$class_query = "SELECT class_tutor_name FROM class WHERE class_tutor_name = '$user_fname'";
-$class_result = mysqli_query($conn, $class_query);
+$class_query = "SELECT class_tutor_name FROM class WHERE class_tutor_name = ?";
+$class_statement = mysqli_prepare($conn, $class_query);
+mysqli_stmt_bind_param($class_statement, "s", $user_fname);
+mysqli_stmt_execute($class_statement);
+$class_result = mysqli_stmt_get_result($class_statement);
 
 if ($class_result) {
     $class_row = mysqli_fetch_assoc($class_result);
     $class_tutor_name = $class_row['class_tutor_name'];
 }
 
-$attendance_query = "SELECT * FROM attendance WHERE class_tutor_name = '$class_tutor_name'";
-$attendance_result = mysqli_query($conn, $attendance_query);
+$attendance_query = "SELECT * FROM attendance WHERE class_tutor_name = ?";
+$attendance_statement = mysqli_prepare($conn, $attendance_query);
+mysqli_stmt_bind_param($attendance_statement, "s", $class_tutor_name);
+mysqli_stmt_execute($attendance_statement);
+$attendance_result = mysqli_stmt_get_result($attendance_statement);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
     while ($row = mysqli_fetch_assoc($attendance_result)) {
@@ -37,37 +46,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["final_submit"])) {
         $new_attendance_status = $_POST["new_attendance_status"][$attendance_id];
 
         // Update attendance status
-        $update_query = "UPDATE attendance SET attendance_status = '$new_attendance_status' WHERE attendance_id = '$attendance_id'";
-        $update_result = mysqli_query($conn, $update_query);
+        $update_query = "UPDATE attendance SET attendance_status = ? WHERE attendance_id = ?";
+        $update_statement = mysqli_prepare($conn, $update_query);
+        mysqli_stmt_bind_param($update_statement, "si", $new_attendance_status, $attendance_id);
+        $update_result = mysqli_stmt_execute($update_statement);
 
         if (!$update_result) {
             echo "<br><br><center><h3>Error updating attendance status. Please try again.</h3></center>";
             exit;
         }
 
-     
-       
         // Inserting data into reports table
-    
         $report_date = date("Y-m-d"); // Adjust this based on your date input
         $insert_report_query = "INSERT INTO reports (attendance_id, report_date, report_status, 
                                                       attendance_student, attendance_class, 
-                                                       class_tutor_name) 
-                                VALUES ('$attendance_id', '$report_date', '$new_attendance_status', 
-                                        '{$row['attendance_student']}', '{$row['attendance_class']}', ";
+                                                      class_tutor_name) 
+                                VALUES (?, ?, ?, ?, ?, ?)";
         
-   
-        $insert_report_query .= "'$class_tutor_name')";
+        $insert_report_statement = mysqli_prepare($conn, $insert_report_query);
+        mysqli_stmt_bind_param($insert_report_statement, "isssss", $attendance_id, $report_date, 
+            $new_attendance_status, $row['attendance_student'], $row['attendance_class'], $class_tutor_name);
         
-        $insert_report_result = mysqli_query($conn, $insert_report_query);
+        $insert_report_result = mysqli_stmt_execute($insert_report_statement);
         
         if (!$insert_report_result) {
             echo "<br><br><center><h3>Error inserting data into reports. Please try again.</h3></center>";
             exit;
         }
+
+        // Checking if the attendance status is 'Absent' and insert into notifications and teachernotifications tables
+        if ($new_attendance_status == 'Absent') {
+            $student_name = $row['attendance_student'];
+            $notification_alert = "You have been marked absent in the class on $report_date by $user_fname";
+            $teacher_notification_alert = "You have marked $student_name absent on $report_date";
+            $notification_date = date("Y-m-d H:i:s");
         
+            // Insert into notifications table
+            $insert_notification_query = "INSERT INTO notifications (user_fname, student_name, alert, date) 
+                                          VALUES ('$user_fname', '$student_name', '$notification_alert', '$notification_date')";
+            $insert_notification_result = mysqli_query($conn, $insert_notification_query);
+        
+            if (!$insert_notification_result) {
+                echo "<br><br><center><h3>Error inserting notification. Please try again.</h3></center>";
+                exit;
+            }
+        
+            // Inserting into teachernotifications table
+            $insert_teacher_notification_query = "INSERT INTO teachernotifications (user_fname, student_name, alert, date) 
+                                                  VALUES ('$user_fname', '$student_name', '$teacher_notification_alert', '$notification_date')";
+            $insert_teacher_notification_result = mysqli_query($conn, $insert_teacher_notification_query);
+        
+            if (!$insert_teacher_notification_result) {
+                echo "<br><br><center><h3>Error inserting teacher notification. Please try again.</h3></center>";
+                exit;
+            }
+        }
+
+
+
+        // Checking if the attendance status is 'Present' and insert into teachernotifications table
+elseif ($new_attendance_status == 'Present') {
+    $student_name = $row['attendance_student'];
+    $teacher_notification_alert = "You have marked $student_name present on $report_date";
+    $notification_date = date("Y-m-d H:i:s");
+
+    // Insert into teachernotifications table
+    $insert_teacher_notification_query = "INSERT INTO teachernotifications (user_fname, student_name, alert, date) 
+                                          VALUES ('$user_fname', '$student_name', '$teacher_notification_alert', '$notification_date')";
+    $insert_teacher_notification_result = mysqli_query($conn, $insert_teacher_notification_query);
+
+    if (!$insert_teacher_notification_result) {
+        echo "<br><br><center><h3>Error inserting teacher notification. Please try again.</h3></center>";
+        exit;
     }
-    echo "<br><br><center><h3>Attendance status  and report data updated successfully!</h3></center>";
+}
+    }        
+
+    echo "<br><br><center><h3>Attendance status and report data updated successfully!</h3></center>";
     echo "<script>window.location.href = 'teacherpanel.php';</script>";
 }
 
