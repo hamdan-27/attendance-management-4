@@ -29,7 +29,7 @@ if ($result) {
             $date = $rowReports['report_date'];
             $status = $rowReports['report_status'];
 
-            // Count occurrences of "Present" and "Absent" for each date
+            // Counting occurrences of "Present" and "Absent" for each date
             if (!isset($reportData[$date])) {
                 $reportData[$date] = array('Present' => 0, 'Absent' => 0);
             }
@@ -66,15 +66,12 @@ mysqli_close($conn);
 <body>
 
 <!-- Chart container -->
-<div style="width: 80%; margin: auto;">
-    <canvas id="myChart"></canvas>
+<div style="width:90%; margin: auto;">
+<canvas id="myChart" width="800" height="400"></canvas>
 </div>
 
 <script>
-
 var chartData = <?php echo json_encode($reportData); ?>;
-
-
 var dates = Object.keys(chartData);
 var presentData = dates.map(date => chartData[date]['Present']);
 var absentData = dates.map(date => chartData[date]['Absent']);
@@ -90,13 +87,13 @@ var myChart = new Chart(ctx, {
             data: presentData,
             borderColor: 'green',
             borderWidth: 2,
-            fill: false
+            fill: false,
         }, {
             label: 'Absent',
             data: absentData,
             borderColor: 'red',
             borderWidth: 2,
-            fill: false
+            fill: false,
         }]
     },
     options: {
@@ -107,13 +104,13 @@ var myChart = new Chart(ctx, {
                 type: 'category',
                 title: {
                     display: true,
-                    text: 'Report Date'
+                    text: 'Attendance Date'
                 }
             },
             y: {
                 title: {
                     display: true,
-                    text: 'Count'
+                    text: 'Student Count'
                 }
             }
         }
