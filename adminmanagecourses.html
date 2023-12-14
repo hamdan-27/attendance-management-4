@@ -8,19 +8,32 @@ if (!isset($_SESSION['loggedin'])) {
     exit();
 }
 
+require('connection.php');
+
+$course_manager_query = "SELECT course_manager_name FROM course";
+$manager_result = $conn->query($course_manager_query);
+
+if ($manager_result->num_rows > 0) {
+    while ($row = $manager_result->fetch_assoc()) {
+        $courseManagerNames[] = $row['course_manager_name'];
+    }
+}
+
 include('adminmanagecourses_script.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update-course'])) {
-    $course_id = mysqli_real_escape_string($conn, $_POST['course_id']);
-    $course_name = mysqli_real_escape_string($conn, $_POST['course_name']);
-    $course_manager = mysqli_real_escape_string($conn, $_POST['course_manager']);
+    $course_id = $_POST['course_id'];
+    $course_name = $_POST['course_name'];
+    $course_manager = $_POST['course_manager'];
 
-    $update_sql = "UPDATE `course` SET `course_name` = '$course_name', `couse_manager_name` = '$course_manager' WHERE `course_id` = '$course_id';";
+    $update_sql = "UPDATE `course` 
+    SET `course_name` = '$course_name', `course_manager_name` = '$course_manager' 
+    WHERE `course_id` = '$course_id';";
 
     $update_result = mysqli_query($conn, $update_sql);
     if ($update_result) {
         echo "<script>alert('Course Updated Succesfully');</script>";
-        header("Location: adminpanel.php");
+        // header("Location: adminpanel.php");
     } else {
         echo "<script> alert('Sorry, there was a problem updating the course.'); </script>";
     }
@@ -40,51 +53,228 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete-course'])) {
     } else {
         echo "<script>alert('There was a problem deleting this course');</script>";
     }
-
 }
 
 ?>
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Manage Users</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <script src="js/adminpanelscript.js"></script>
+    <script src="https://kit.fontawesome.com/2ba669933d.js" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylestudentpanel.css">
+    <style>
+        #sidebar {
+            position: fixed;
+            height: 100%;
+            width: 250px;
+            z-index: 1;
+            top: 60px;
+            left: 0;
+            background-color: #2B5BA4;
+            padding-top: 20px;
+            transition: left 0.3s;
+        }
+
+        #content {
+            margin-left: 250px;
+            padding: 10px 0px 10px 10px;
+            margin-top: 100px;
+        }
+
+        .navbar {
+            background-color: #2B5BA4;
+        }
+
+
+        .navbar-brand {
+            font-size: 26px;
+            color: white;
+        }
+
+        .navbar-toggler-icon {
+            color: white;
+        }
+
+        .navbar-nav .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+        }
+
+        #sidebar h2 {
+            background-color: #2B5BA4;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #sidebar .btn-dark {
+            background-color: white;
+            color: #111;
+            width: 100%;
+            margin-bottom: 10px;
+            margin-left: 5px;
+            border-radius: 7px;
+        }
+
+        #sidebar .btn-dark.active {
+            background-color: grey;
+        }
+
+        #sidebar .btn-dark:hover {
+            background-color: grey;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        @media screen and (max-width: 768px) {
+            #sidebar {
+                left: -250px;
+            }
+
+            #content {
+                margin-left: 0;
+                padding-top: 16px;
+            }
+
+            #sidebar h2 {
+                padding: 10px;
+            }
+        }
+    </style>
+
+</head>
 
 
 <body>
-    <div class="card mt-3">
-        <div class="card-body">
-            <h2>Edit Courses</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Course ID</th>
-                        <th scope="col">Course Name</th>
-                        <th scope="col">Course Manager</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand" href="#" style="color: white;">
+            EduTrack
+        </a>
 
-                <tbody>
-                    <?php update_course() ?>
-                </tbody>
-            </table>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="mx-auto d-flex justify-content-center">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-left: 17px;">
+                            Manage Users</span>
+                    </li>
+
+                    <!-- Displaying the logged-in user's name -->
+                    <?php
+
+
+                    $user_email = $_SESSION['email'];
+                    $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+                    $result = mysqli_query($conn, $query);
+                    if ($result) {
+                        // Fetching the data
+                        $row = mysqli_fetch_assoc($result);
+                        $user_fname = $row['user_fname'];
+
+                        echo '<li class="nav-item"> <!-- Remove text-center class -->
+                            <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-right: 10px; padding-top: 8px;">
+                                <i class="fas fa-user"></i> ' . $user_fname . '
+                            </span>
+                          </li>';
+                    }
+                    ?>
+
+                </ul>
+            </div>
         </div>
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger btn-sm" href="adminlogout.php" style="color: white;">Logout</a>
+            </li>
+
+    </nav>
+
+    <div id="sidebar">
+        <h2>EduTrack</h2>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('admindashboard')">Dashboard</button> -->
+                <a class="btn btn-dark" href="admindashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminadduser')">Add New Users</button> -->
+                <a class="btn btn-dark" href="adminadduser.html">Add New User</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('manageusers')">Manage Users</button> -->
+                <a class="btn btn-dark" href="manageusers.html">Manage Users</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminaddcourses')">Add New Courses</button> -->
+                <a class="btn btn-dark" href="adminaddcourses.html">Add New Courses</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminmanagecourses')">Manage Courses</button> -->
+                <a class="btn btn-dark" href="adminmanagecourses.html">Manage Courses</a>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance
+                    Report</button>
+                <!-- <a class="btn btn-dark" href="admingeneratereport">Generate Attendance Report</a> -->
+            </li><br><br><br>
+        </ul>
     </div>
-    <div class="card mt-3">
-        <div class="card-body">
-            <h2>Delete Courses</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Course ID</th>
-                        <th scope="col">Course Name</th>
-                        <th scope="col">Course Manager</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
 
-                <tbody>
-                    <?php delete_course() ?>
-                </tbody>
-            </table>
-        </div>
+    <div id="content">
+        <center>
+            <h2>Edit Courses</h2>
+        </center>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Course Manager</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php update_course() ?>
+            </tbody>
+        </table>
+
+        <br><hr><br>
+        
+        <!-- <center>
+            <h2>Delete Courses</h2>
+        </center>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Course Name</th>
+                    <th scope="col">Course Manager</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php //delete_course() ?>
+            </tbody>
+        </table> -->
+
     </div>
 </body>
 

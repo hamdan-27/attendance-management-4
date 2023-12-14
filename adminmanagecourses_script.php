@@ -15,10 +15,11 @@ function update_course()
 
             echo "<tr>
                 <form action=\"" . htmlspecialchars($_SERVER["PHP_SELF"]) . "\" method='post'>
-                    <td><input name='course_id' class='form-control' value='$course_id' readonly></td>
+                    <td><input type='hidden' name='course_id' class='form-control' value='$course_id' readonly></td>
                     <td><input name='course_name' class='form-control' value='$course_name'></td>
                     <td><input name='course_manager' class='form-control' value='$course_manager'></td>
                     <td><button type='submit' name='update-course' class='btn btn-warning'>Update</button></td>
+                    <td><button type='submit' name='delete-course' class='btn btn-danger'>Delete</button></td>
                 </form>
             </tr>";
         }
@@ -41,7 +42,7 @@ function delete_course()
 
             echo "<tr>
                 <form action=\"" . htmlspecialchars($_SERVER["PHP_SELF"]) . "\" method='post'>
-                    <td><input name='course_id' class='form-control' value='$course_id' readonly></td>
+                    <td><input type='hidden' name='course_id' class='form-control' value='$course_id' readonly></td>
                     <td><input name='course_name' class='form-control' value='$course_name' readonly></td>
                     <td><input name='course_manager' class='form-control' value='$course_manager' readonly></td>
                     <td><button type='submit' name='delete-course' class='btn btn-danger'>Delete</button></td>
