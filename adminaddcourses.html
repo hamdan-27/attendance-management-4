@@ -8,26 +8,35 @@ if (!isset($_SESSION['loggedin'])) {
 
 require('connection.php');
 
+$course_manager_query = "SELECT course_manager_name FROM course";
+$manager_result = $conn->query($course_manager_query);
+
+if ($manager_result->num_rows > 0) {
+    while ($row = $manager_result->fetch_assoc()) {
+        $courseManagerNames[] = $row['course_manager_name'];
+    }
+}
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-course'])) {
     $course_name = $_POST['course_name'];
-    $course_manager_name = $_POST['course_manager_name'];
+    $course_manager_name = $_POST['course_manager'];
 
     // Perform validation if needed
 
     // Insert data into the attendance table
-    $insert_query = "INSERT INTO course (course_id, course_name, course_manager_name) VALUES (NULL, '$course_name', '$course_manager_name')";
+    $insert_query = "INSERT INTO course (course_name, course_manager_name) VALUES ('$course_name', '$course_manager_name')";
     $insert_result = mysqli_query($conn, $insert_query);
 
     if ($insert_result) {
         echo "<script>alert('Course added successfully');</script>";
 
-        // Redirect to adminpanel.php after a successful insert
-        header('Location: adminpanel.php');
+        // Redirect to adminaddcourses.html after a successful insert
+        // header('Location: adminaddcourses.html');
         // exit();
     } else {
         echo "<script>alert('There was a problem adding the course.');</script>";
-        // header('Location: adminpanel.php');
+        // header('Location: adminaddcourses.html');
     }
 }
 ?>
@@ -39,13 +48,181 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-course'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin's Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <script src="js/adminpanelscript.js"></script>
+    <script src="https://kit.fontawesome.com/2ba669933d.js" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylestudentpanel.css">
     <link rel="stylesheet" href="css/stylesignup.css">
+    <style>
+        #sidebar {
+            position: fixed;
+            height: 100%;
+            width: 250px;
+            z-index: 1;
+            top: 60px;
+            left: 0;
+            background-color: #2B5BA4;
+            padding-top: 20px;
+            transition: left 0.3s;
+        }
+
+        #content {
+            margin-left: 250px;
+            padding: 10px 0px 10px 10px;
+            margin-top: 100px;
+        }
+
+        .navbar {
+            background-color: #2B5BA4;
+        }
+
+
+        .navbar-brand {
+            font-size: 26px;
+            color: white;
+        }
+
+        .navbar-toggler-icon {
+            color: white;
+        }
+
+        .navbar-nav .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+        }
+
+        #sidebar h2 {
+            background-color: #2B5BA4;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #sidebar .btn-dark {
+            background-color: white;
+            text-align: left;
+            color: #111;
+            width: 100%;
+            margin-bottom: 10px;
+            /* margin-left: 5px; */
+            border-radius: 7px;
+        }
+
+        #sidebar .btn-dark.active {
+            background-color: grey;
+        }
+
+        #sidebar .btn-dark:hover {
+            background-color: grey;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        @media screen and (max-width: 768px) {
+            #sidebar {
+                left: -250px;
+            }
+
+            #content {
+                margin-left: 0;
+                padding-top: 16px;
+            }
+
+            #sidebar h2 {
+                padding: 10px;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
-    <section class="container">
-        <header>Add New Course</header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand" href="#" style="color: white;">
+            EduTrack
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="mx-auto d-flex justify-content-center">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-left: 17px;">
+                            Add Courses</span>
+                    </li>
+
+                    <!-- Displaying the logged-in user's name -->
+                    <?php
+
+
+                    $user_email = $_SESSION['email'];
+                    $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+                    $result = mysqli_query($conn, $query);
+                    if ($result) {
+                        // Fetching the data
+                        $row = mysqli_fetch_assoc($result);
+                        $user_fname = $row['user_fname'];
+
+                        echo '<li class="nav-item"> <!-- Remove text-center class -->
+                            <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-right: 10px; padding-top: 8px;">
+                                <i class="fas fa-user"></i> ' . $user_fname . '
+                            </span>
+                          </li>';
+                    }
+                    ?>
+
+                </ul>
+            </div>
+        </div>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger btn-sm" href="adminlogout.php" style="color: white;">Logout</a>
+            </li>
+    </nav>
+
+    <div id="sidebar">
+        <h2>EduTrack</h2>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('admindashboard')">Dashboard</button> -->
+                <a class="btn btn-dark" href="admindashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminadduser')">Add New Users</button> -->
+                <a class="btn btn-dark" href="adminadduser.html">Add New User</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('manageusers')">Manage Users</button> -->
+                <a class="btn btn-dark" href="manageusers.html">Manage Users</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminaddcourses')">Add New Courses</button> -->
+                <a class="btn btn-dark" href="adminaddcourses.html">Add New Courses</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminmanagecourses')">Manage Courses</button> -->
+                <a class="btn btn-dark" href="adminmanagecourses.html">Manage Courses</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance -->
+                <!-- Report</button> -->
+                <a class="btn btn-dark" href="admingeneratereport.html">Generate Attendance Report</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container" style="margin-top: 75px; margin-left: 467px;">
+        <h3>Add New Course</h3>
         <form method="post" class="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="input-box">
                 <label for="course_name">Course Name</label>
@@ -54,16 +231,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-course'])) {
             <div class="form-group">
                 <label for="selectCourseManager" class="sr-only">Select Course Manager:</label>
                 <select class="form-control" id="selectCourseManager" name="course_manager" required>
+                    <option value="" disabled selected>Select a Teacher</option>
                     <?php
-                    // Fetch classes for the logged-in teacher
-                    $course_manager_query = "SELECT course_manager_name FROM course";
-                    $course_manager_result = mysqli_query($conn, $teacher_classes_query);
-
-                    if ($course_manager_result) {
-                        while ($manager_row = mysqli_fetch_assoc($course_manager_result)) {
-                            $manager_name = $manager_row['class_name'];
-                            echo "<option value='$manager_name'>$manager_name</option>";
+                    if (!empty($courseManagerNames)) {
+                        foreach ($courseManagerNames as $managerName) {
+                            echo "<option value=\"$managerName\">$managerName</option>";
                         }
+                    } else {
+                        echo "<option value=\"\">No course managers available</option>";
                     }
                     ?>
                 </select>
@@ -71,7 +246,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-course'])) {
 
             <button type="submit" name="add-course" class="btn btn-primary">Add Course</button>
         </form>
-    </section>
+    </div>
 </body>
 
 </html>
