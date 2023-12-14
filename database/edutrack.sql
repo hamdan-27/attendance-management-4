@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2023 at 11:15 AM
+-- Generation Time: Dec 14, 2023 at 03:50 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -63,13 +63,54 @@ CREATE TABLE `attendance` (
 --
 
 INSERT INTO `attendance` (`attendance_id`, `attendance_student`, `attendance_class`, `attendance_status`, `date`, `class_tutor_name`) VALUES
-(1, 'student', 'biology', 'Present', '2023-12-7', 'teacher'),
-(2, 'student2', 'chemistry', 'Present', '2023-12-7', 'teacher2'),
-(3, 'student3', 'computer science', 'present', '2023-12-7', 'teacher3'),
-(5, 'hamdan', 'biology', 'Present', '2023-12-07', 'teacher'),
-(9, 'heba', 'chemistry', 'Present', '2023-12-07', 'teacher2'),
-(10, 'saba', 'biology', 'Present', '2023-12-07', 'teacher'),
-(16, 'salman', 'chemistry', 'Present', '2023-12-15', 'teacher2');
+(19, 'student', 'biology', 'Present', '', 'teacher'),
+(20, 'student2', 'biology', 'Absent', '', 'teacher'),
+(21, 'student3', 'biology', 'Absent', '', 'teacher'),
+(22, 'student4', 'biology', 'Present', '', 'teacher'),
+(23, 'student5', 'biology', 'Absent', '', 'teacher'),
+(24, 'student6', 'biology', 'Present', '', 'teacher'),
+(25, 'student7', 'biology', 'Present', '', 'teacher'),
+(26, 'student8', 'biology', 'Present', '', 'teacher'),
+(27, 'student', 'botany', 'Absent', '', 'teacher'),
+(28, 'student2', 'botany', 'Absent', '', 'teacher'),
+(29, 'student3', 'botany', 'Present', '', 'teacher'),
+(30, 'student4', 'botany', 'Present', '', 'teacher'),
+(31, 'student5', 'botany', 'Absent', '', 'teacher'),
+(32, 'student6', 'botany', 'Absent', '', 'teacher'),
+(33, 'student7', 'botany', 'Present', '', 'teacher'),
+(34, 'student8', 'botany', 'Present', '', 'teacher'),
+(35, 'student', 'chemistry', '', '', 'teacher2'),
+(36, 'student2', 'chemistry', '', '', 'teacher2'),
+(37, 'student3', 'chemistry', '', '', 'teacher2'),
+(38, 'student4', 'chemistry', '', '', 'teacher2'),
+(39, 'student5', 'chemistry', '', '', 'teacher2'),
+(40, 'student6', 'chemistry', '', '', 'teacher2'),
+(41, 'student7', 'chemistry', '', '', 'teacher2'),
+(42, 'student8', 'chemistry', '', '', 'teacher2'),
+(57, 'student', 'biochemistry', '', '', 'teacher2'),
+(58, 'student2', 'biochemistry', '', '', 'teacher2'),
+(59, 'student3', 'biochemistry', '', '', 'teacher2'),
+(60, 'student4', 'biochemistry', '', '', 'teacher2'),
+(61, 'student5', 'biochemistry', '', '', 'teacher2'),
+(62, 'student6', 'biochemistry', '', '', 'teacher2'),
+(63, 'student7', 'biochemistry', '', '', 'teacher2'),
+(64, 'student8', 'biochemistry', '', '', 'teacher2'),
+(65, 'student', 'computer science', '', '', 'teacher3'),
+(66, 'student2', 'computer science', '', '', 'teacher3'),
+(67, 'student3', 'computer science', '', '', 'teacher3'),
+(68, 'student4', 'computer science', '', '', 'teacher3'),
+(69, 'student5', 'computer science', '', '', 'teacher3'),
+(70, 'student6', 'computer science', '', '', 'teacher3'),
+(71, 'student7', 'computer science', '', '', 'teacher3'),
+(72, 'student8', 'computer science', '', '', 'teacher3'),
+(73, 'student', 'javascript', '', '', 'teacher3'),
+(74, 'student2', 'javascript', '', '', 'teacher3'),
+(75, 'student3', 'javascript', '', '', 'teacher3'),
+(76, 'student4', 'javascript', '', '', 'teacher3'),
+(77, 'student5', 'javascript', '', '', 'teacher3'),
+(78, 'student6', 'javascript', '', '', 'teacher3'),
+(79, 'student7', 'javascript', '', '', 'teacher3'),
+(80, 'student8', 'javascript', '', '', 'teacher3');
 
 -- --------------------------------------------------------
 
@@ -92,8 +133,11 @@ CREATE TABLE `class` (
 
 INSERT INTO `class` (`class_id`, `class_name`, `class_date`, `class_time`, `class_location`, `class_tutor_name`) VALUES
 (2, 'chemistry', '2023-11-26', '1:00 PM', 'Ras Al Khaimah', 'teacher2'),
-(3, 'computer science', '2023-11-26', '3:00 PM', 'Dubai', 'teacher3'),
-(16, 'biology', '2023-12-16', '05:34 PM', 'Ras Al Khaimah', 'teacher');
+(3, 'computer science', '2023-11-26', '3:00 PM', 'Ras Al Khaimah', 'teacher3'),
+(16, 'biology', '2023-12-16', '05:34 PM', 'Ras Al Khaimah', 'teacher'),
+(39, 'biochemistry', '2023-12-15', '11:00 AM', 'Ras Al Khaimah', 'teacher2'),
+(40, 'javascript', '2023-12-15', '10:00 AM', 'Ras Al Khaimah', 'teacher3'),
+(41, 'botany', '2023-12-15', '8:00 AM', 'Ras Al Khaimah', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -115,8 +159,7 @@ INSERT INTO `course` (`course_id`, `course_name`, `course_manager_name`) VALUES
 ('1', 'SWE6209', 'teacher'),
 ('2', 'SWE6203', 'teacher2'),
 ('3', 'SWE6204', 'teacher3'),
-('4', 'SWE6201', 'teacher3'),
-('5', 'SWE4208', 'teacher3');
+('4', 'SWE6201', 'teacher4');
 
 -- --------------------------------------------------------
 
@@ -137,14 +180,52 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`user_id`, `user_fname`, `student_name`, `alert`, `date`) VALUES
-(39, 'teacher', '', 'i will be on leave', '2023-12-13'),
-(45, 'teacher', 'student', 'You have been marked absent in the class on 2023-12-13 by teacher', '2023-12-13'),
-(46, 'teacher', 'hamdan', 'You have been marked absent in the class on 2023-12-13 by teacher', '2023-12-13'),
-(47, 'teacher', 'teststudent', 'You have been marked absent in the class on 2023-12-13 by teacher', '2023-12-13'),
-(48, 'teacher', 'saba', 'You have been marked absent in the class on 2023-12-13 by teacher', '2023-12-13'),
-(49, 'teacher', '', 'bss kardo', '2023-12-13'),
-(54, 'teacher', 'student', 'You have been marked absent in the class on 2023-12-13 by teacher', '2023-12-13'),
-(57, 'teacher', '', 'National warning, stay indoors', '2023-12-13');
+(122, 'teacher', 'student', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(123, 'teacher', 'student2', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(124, 'teacher', 'student3', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(125, 'teacher', 'student4', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(126, 'teacher', 'student5', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(127, 'teacher', 'student6', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(128, 'teacher', 'student7', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(129, 'teacher', 'student8', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(130, 'teacher', 'student', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(131, 'teacher', 'student2', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(132, 'teacher', 'student3', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(133, 'teacher', 'student4', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(134, 'teacher', 'student5', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(135, 'teacher', 'student6', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(136, 'teacher', 'student7', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(137, 'teacher', 'student8', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(138, 'teacher', 'student', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(139, 'teacher', 'student2', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(140, 'teacher', 'student3', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(141, 'teacher', 'student4', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(142, 'teacher', 'student5', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(143, 'teacher', 'student6', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(144, 'teacher', 'student7', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(145, 'teacher', 'student8', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(146, 'teacher', 'student', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(147, 'teacher', 'student2', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(148, 'teacher', 'student3', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(149, 'teacher', 'student4', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(150, 'teacher', 'student5', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(151, 'teacher', 'student6', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(152, 'teacher', 'student7', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(153, 'teacher', 'student8', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(154, 'teacher', 'student', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(155, 'teacher', 'student2', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(156, 'teacher', 'student4', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(157, 'teacher', 'student8', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(158, 'teacher', 'student2', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(159, 'teacher', 'student3', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(160, 'teacher', 'student5', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(161, 'teacher', 'student2', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(162, 'teacher', 'student3', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(163, 'teacher', 'student5', 'You have been marked absent in the class biology on 2023-12-14 by teacher', '2023-12-14'),
+(164, 'teacher', 'student', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(165, 'teacher', 'student2', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(166, 'teacher', 'student5', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14'),
+(167, 'teacher', 'student6', 'You have been marked absent in the class botany on 2023-12-14 by teacher', '2023-12-14');
 
 -- --------------------------------------------------------
 
@@ -167,21 +248,54 @@ CREATE TABLE `reports` (
 --
 
 INSERT INTO `reports` (`report_id`, `attendance_id`, `report_date`, `report_status`, `attendance_student`, `attendance_class`, `class_tutor_name`) VALUES
-(129, '1', '2023-12-07', 'Absent', 'student', 'biology', 'teacher'),
-(130, '5', '2023-12-07', 'Absent', 'hamdan', 'biology', 'teacher'),
-(131, '6', '2023-12-07', 'Absent', 'hadman', 'biology', 'teacher'),
-(148, '2', '2023-12-11', 'Absent', 'student2', 'chemistry', 'teacher2'),
-(149, '9', '2023-12-11', 'Absent', 'heba', 'chemistry', 'teacher2'),
-(203, '1', '2023-12-13', 'Present', 'student', 'biology', 'teacher'),
-(204, '5', '2023-12-13', 'Present', 'hamdan', 'biology', 'teacher'),
-(205, '10', '2023-12-13', 'Present', 'saba', 'biology', 'teacher'),
-(207, '2', '2023-12-14', 'Present', 'student2', 'chemistry', 'teacher2'),
-(208, '9', '2023-12-14', 'Present', 'heba', 'chemistry', 'teacher2'),
-(209, '2', '2023-12-14', 'Present', 'student2	', 'chemistry', 'teacher2'),
-(210, '9', '2023-12-15', 'Present', 'heba	', 'chemistry', 'teacher2'),
-(211, '2', '2023-12-16', 'Present', 'student2', 'chemistry', 'teacher2'),
-(212, '9', '2023-12-15', 'Present', 'heba', 'chemistry', 'teacher2'),
-(215, '16', '2023-12-14', 'Present', 'salman', 'chemistry', 'teacher2');
+(464, '19', '2023-12-16', 'Absent', 'student', 'biology', 'teacher'),
+(465, '20', '2023-12-16', 'Present', 'student2', 'biology', 'teacher'),
+(466, '21', '2023-12-16', 'Absent', 'student3', 'biology', 'teacher'),
+(467, '22', '2023-12-16', 'Present', 'student4', 'biology', 'teacher'),
+(468, '23', '2023-12-16', 'Absent', 'student5', 'biology', 'teacher'),
+(469, '24', '2023-12-16', 'Absent', 'student6', 'biology', 'teacher'),
+(470, '25', '2023-12-16', 'Present', 'student7', 'biology', 'teacher'),
+(471, '26', '2023-12-16', 'Present', 'student8', 'biology', 'teacher'),
+(472, '27', '2023-12-16', 'Present', 'student', 'botany', 'teacher'),
+(473, '28', '2023-12-16', 'Absent', 'student2', 'botany', 'teacher'),
+(474, '29', '2023-12-16', 'Present', 'student3', 'botany', 'teacher'),
+(475, '30', '2023-12-16', 'Absent', 'student4', 'botany', 'teacher'),
+(476, '31', '2023-12-16', 'Absent', 'student5', 'botany', 'teacher'),
+(477, '32', '2023-12-16', 'Present', 'student6', 'botany', 'teacher'),
+(478, '33', '2023-12-16', 'Absent', 'student7', 'botany', 'teacher'),
+(479, '34', '2023-12-16', 'Present', 'student8', 'botany', 'teacher'),
+(480, '19', '2023-12-12', 'Absent', 'student', 'biology', 'teacher'),
+(481, '20', '2023-12-12', 'Absent', 'student2', 'biology', 'teacher'),
+(482, '21', '2023-12-12', 'Present', 'student3', 'biology', 'teacher'),
+(483, '22', '2023-12-12', 'Absent', 'student4', 'biology', 'teacher'),
+(484, '23', '2023-12-12', 'Present', 'student5', 'biology', 'teacher'),
+(485, '24', '2023-12-12', 'Present', 'student6', 'biology', 'teacher'),
+(486, '25', '2023-12-12', 'Present', 'student7', 'biology', 'teacher'),
+(487, '26', '2023-12-12', 'Absent', 'student8', 'biology', 'teacher'),
+(488, '27', '2023-12-12', 'Present', 'student', 'botany', 'teacher'),
+(489, '28', '2023-12-12', 'Absent', 'student2', 'botany', 'teacher'),
+(490, '29', '2023-12-12', 'Absent', 'student3', 'botany', 'teacher'),
+(491, '30', '2023-12-12', 'Present', 'student4', 'botany', 'teacher'),
+(492, '31', '2023-12-12', 'Absent', 'student5', 'botany', 'teacher'),
+(493, '32', '2023-12-12', 'Present', 'student6', 'botany', 'teacher'),
+(494, '33', '2023-12-12', 'Present', 'student7', 'botany', 'teacher'),
+(495, '34', '2023-12-12', 'Present', 'student8', 'botany', 'teacher'),
+(496, '19', '2023-12-14', 'Present', 'student', 'biology', 'teacher'),
+(497, '20', '2023-12-14', 'Absent', 'student2', 'biology', 'teacher'),
+(498, '21', '2023-12-14', 'Absent', 'student3', 'biology', 'teacher'),
+(499, '22', '2023-12-14', 'Present', 'student4', 'biology', 'teacher'),
+(500, '23', '2023-12-14', 'Absent', 'student5', 'biology', 'teacher'),
+(501, '24', '2023-12-14', 'Present', 'student6', 'biology', 'teacher'),
+(502, '25', '2023-12-14', 'Present', 'student7', 'biology', 'teacher'),
+(503, '26', '2023-12-14', 'Present', 'student8', 'biology', 'teacher'),
+(504, '27', '2023-12-14', 'Absent', 'student', 'botany', 'teacher'),
+(505, '28', '2023-12-14', 'Absent', 'student2', 'botany', 'teacher'),
+(506, '29', '2023-12-14', 'Present', 'student3', 'botany', 'teacher'),
+(507, '30', '2023-12-14', 'Present', 'student4', 'botany', 'teacher'),
+(508, '31', '2023-12-14', 'Absent', 'student5', 'botany', 'teacher'),
+(509, '32', '2023-12-14', 'Absent', 'student6', 'botany', 'teacher'),
+(510, '33', '2023-12-14', 'Present', 'student7', 'botany', 'teacher'),
+(511, '34', '2023-12-14', 'Present', 'student8', 'botany', 'teacher');
 
 -- --------------------------------------------------------
 
@@ -213,19 +327,7 @@ CREATE TABLE `teachernotifications` (
 --
 
 INSERT INTO `teachernotifications` (`user_id`, `user_fname`, `student_name`, `alert`, `date`) VALUES
-(7, 'teacher', 'student', 'You have marked student present on 2023-12-13', '2023-12-13'),
-(8, 'teacher', 'hamdan', 'You have marked hamdan present on 2023-12-13', '2023-12-13'),
-(9, 'teacher', 'teststudent', 'You have marked teststudent present on 2023-12-13', '2023-12-13'),
-(10, 'teacher', 'saba', 'You have marked saba present on 2023-12-13', '2023-12-13'),
-(11, 'teacher', 'student', 'You have marked student absent on 2023-12-13', '2023-12-13'),
-(12, 'teacher', 'hamdan', 'You have marked hamdan absent on 2023-12-13', '2023-12-13'),
-(13, 'teacher', 'teststudent', 'You have marked teststudent absent on 2023-12-13', '2023-12-13'),
-(14, 'teacher', 'saba', 'You have marked saba absent on 2023-12-13', '2023-12-13'),
-(15, 'teacher', 'student', 'You have marked student absent on 2023-12-13', '2023-12-13'),
-(21, 'teacher', '', 'You have sent this alert: National warning, stay indoors', '2023-12-13'),
-(27, 'teacher2', 'student2', 'You have marked student2 present on 2023-12-14', '2023-12-14'),
-(28, 'teacher2', 'heba', 'You have marked heba present on 2023-12-14', '2023-12-14'),
-(29, 'teacher2', 'salman', 'You have marked salman present on 2023-12-14', '2023-12-14');
+(278, 'teacher2', 'frq2', 'r22', '2023-12-14');
 
 -- --------------------------------------------------------
 
@@ -249,6 +351,13 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_fname`, `user_email`, `phone_number`, `user_role`, `user_password`, `class_name`) VALUES
 ('admin', 'admin123@gmail.com', '12345', 'admin', 'admin', ''),
 ('student', 'student1@gmail.com', '34252', 'student', 'student', ''),
+('student2', 'student2@gmail.com', '85838573', 'student', 'student', ''),
+('student3', 'student3@gmail.com', '53552', 'student', 'student', ''),
+('student4', 'student4@gmail.com', '57976', 'student', 'student', ''),
+('student5', 'student5@gmail.com', '99974', 'student', 'student', ''),
+('student6', 'student6@gmail.com', '98764', 'Student', 'student', ''),
+('student7', 'student7@gmail.com', '9985265', 'Student', 'student', ''),
+('student8', 'student8@gmail.com', '0765552', 'Student', 'student', ''),
 ('teacher', 'teacher1@gmail.com', '25242525', 'teacher', 'teacher', 'biology'),
 ('teacher2', 'teacher2@gmail.com', '12345', 'teacher', 'teacher', 'chemistry'),
 ('teacher3', 'teacher3@gmail.com', '12345', 'teacher', 'teacher', 'computer science');
@@ -313,31 +422,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=512;
 
 --
 -- AUTO_INCREMENT for table `teachernotifications`
 --
 ALTER TABLE `teachernotifications`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=279;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
