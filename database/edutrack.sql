@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2023 at 03:50 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 14, 2023 at 10:13 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.4.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,7 +34,7 @@ CREATE TABLE `absent` (
   `note` varchar(255) NOT NULL,
   `date` varchar(255) NOT NULL,
   `time` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `absent`
@@ -56,38 +56,38 @@ CREATE TABLE `attendance` (
   `attendance_status` varchar(255) NOT NULL,
   `date` varchar(255) NOT NULL,
   `class_tutor_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `attendance`
 --
 
 INSERT INTO `attendance` (`attendance_id`, `attendance_student`, `attendance_class`, `attendance_status`, `date`, `class_tutor_name`) VALUES
-(19, 'student', 'biology', 'Present', '', 'teacher'),
-(20, 'student2', 'biology', 'Absent', '', 'teacher'),
-(21, 'student3', 'biology', 'Absent', '', 'teacher'),
-(22, 'student4', 'biology', 'Present', '', 'teacher'),
-(23, 'student5', 'biology', 'Absent', '', 'teacher'),
-(24, 'student6', 'biology', 'Present', '', 'teacher'),
-(25, 'student7', 'biology', 'Present', '', 'teacher'),
-(26, 'student8', 'biology', 'Present', '', 'teacher'),
-(27, 'student', 'botany', 'Absent', '', 'teacher'),
-(28, 'student2', 'botany', 'Absent', '', 'teacher'),
-(29, 'student3', 'botany', 'Present', '', 'teacher'),
-(30, 'student4', 'botany', 'Present', '', 'teacher'),
-(31, 'student5', 'botany', 'Absent', '', 'teacher'),
-(32, 'student6', 'botany', 'Absent', '', 'teacher'),
-(33, 'student7', 'botany', 'Present', '', 'teacher'),
-(34, 'student8', 'botany', 'Present', '', 'teacher'),
-(35, 'student', 'chemistry', '', '', 'teacher2'),
-(36, 'student2', 'chemistry', '', '', 'teacher2'),
-(37, 'student3', 'chemistry', '', '', 'teacher2'),
-(38, 'student4', 'chemistry', '', '', 'teacher2'),
-(39, 'student5', 'chemistry', '', '', 'teacher2'),
-(40, 'student6', 'chemistry', '', '', 'teacher2'),
-(41, 'student7', 'chemistry', '', '', 'teacher2'),
-(42, 'student8', 'chemistry', '', '', 'teacher2'),
-(57, 'student', 'biochemistry', '', '', 'teacher2'),
+(19, 'student', 'biology', 'Present', '2023-12-15', 'teacher'),
+(20, 'student2', 'biology', 'Absent', '2023-12-15', 'teacher'),
+(21, 'student3', 'biology', 'Absent', '2023-12-15', 'teacher'),
+(22, 'student4', 'biology', 'Present', '2023-12-15', 'teacher'),
+(23, 'student5', 'biology', 'Absent', '2023-12-14', 'teacher'),
+(24, 'student6', 'biology', 'Present', '2023-12-14', 'teacher'),
+(25, 'student7', 'biology', 'Present', '2023-12-14', 'teacher'),
+(26, 'student8', 'biology', 'Present', '2023-12-14', 'teacher'),
+(27, 'student', 'botany', 'Absent', '2023-12-14', 'teacher'),
+(28, 'student2', 'botany', 'Absent', '2023-12-13', 'teacher'),
+(29, 'student3', 'botany', 'Present', '2023-12-13', 'teacher'),
+(30, 'student4', 'botany', 'Present', '2023-12-13', 'teacher'),
+(31, 'student5', 'botany', 'Absent', '2023-12-13', 'teacher'),
+(32, 'student6', 'botany', 'Absent', '2023-12-13', 'teacher'),
+(33, 'student7', 'botany', 'Present', '2023-12-15', 'teacher'),
+(34, 'student8', 'botany', 'Present', '2023-12-13', 'teacher'),
+(35, 'student', 'chemistry', 'Absent', '2023-12-12', 'teacher2'),
+(36, 'student2', 'chemistry', 'Present', '2023-12-12', 'teacher2'),
+(37, 'student3', 'chemistry', 'Present', '2023-12-12', 'teacher2'),
+(38, 'student4', 'chemistry', 'Present', '2023-12-12', 'teacher2'),
+(39, 'student5', 'chemistry', 'Absent', '2023-12-11', 'teacher2'),
+(40, 'student6', 'chemistry', 'Absent', '2023-12-11', 'teacher2'),
+(41, 'student7', 'chemistry', 'Present', '2023-12-11', 'teacher2'),
+(42, 'student8', 'chemistry', 'Present', '2023-12-11', 'teacher2'),
+(57, 'student', 'biochemistry', 'Present', '2023-12-10', 'teacher2'),
 (58, 'student2', 'biochemistry', '', '', 'teacher2'),
 (59, 'student3', 'biochemistry', '', '', 'teacher2'),
 (60, 'student4', 'biochemistry', '', '', 'teacher2'),
@@ -125,7 +125,7 @@ CREATE TABLE `class` (
   `class_time` varchar(255) NOT NULL,
   `class_location` varchar(255) NOT NULL,
   `class_tutor_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `class`
@@ -149,7 +149,7 @@ CREATE TABLE `course` (
   `course_id` varchar(255) NOT NULL,
   `course_name` varchar(255) NOT NULL,
   `course_manager_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `course`
@@ -173,7 +173,7 @@ CREATE TABLE `notifications` (
   `student_name` varchar(255) NOT NULL,
   `alert` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `notifications`
@@ -241,7 +241,7 @@ CREATE TABLE `reports` (
   `attendance_student` varchar(255) DEFAULT NULL,
   `attendance_class` varchar(255) DEFAULT NULL,
   `class_tutor_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reports`
@@ -306,7 +306,7 @@ INSERT INTO `reports` (`report_id`, `attendance_id`, `report_date`, `report_stat
 CREATE TABLE `role` (
   `role_id` varchar(255) NOT NULL,
   `role_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -320,7 +320,7 @@ CREATE TABLE `teachernotifications` (
   `student_name` varchar(255) DEFAULT NULL,
   `alert` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `teachernotifications`
@@ -342,15 +342,16 @@ CREATE TABLE `users` (
   `user_role` varchar(255) NOT NULL,
   `user_password` varchar(255) NOT NULL,
   `class_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_fname`, `user_email`, `phone_number`, `user_role`, `user_password`, `class_name`) VALUES
-('admin', 'admin123@gmail.com', '12345', 'admin', 'admin', ''),
-('student', 'student1@gmail.com', '34252', 'student', 'student', ''),
+('admin', 'admin@gmail.com', '0504142166', 'admin', 'admin', ''),
+('Ahmed Mohsin', 'tutututu@gmail.com', '0501234567', 'Student', 'ahmed', ''),
+('Avinash Ajay', 'avi.ajay6@gmail.com', '0506723647', 'student', 'iloveCollege123', ''),
 ('student2', 'student2@gmail.com', '85838573', 'student', 'student', ''),
 ('student3', 'student3@gmail.com', '53552', 'student', 'student', ''),
 ('student4', 'student4@gmail.com', '57976', 'student', 'student', ''),
@@ -429,6 +430,12 @@ ALTER TABLE `attendance`
 --
 ALTER TABLE `class`
   MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT for table `course`
+--
+ALTER TABLE `course`
+  MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `notifications`
