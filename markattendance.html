@@ -168,6 +168,7 @@ while ($row = mysqli_fetch_assoc($attendance_result)) {
         foreach ($grouped_attendance as $class => $class_attendance) {
             echo "<div class='card'>";
             echo "<div class='card-body'>";
+            echo "<h5 class='card-title'>Class: {$class}</h5>"; 
             echo "<form method='post' action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "'>";
             echo "<input type='hidden' name='attendance_class' value='" . htmlspecialchars($class) . "'>";
             echo "<table class='table'>";
