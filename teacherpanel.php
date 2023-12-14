@@ -133,7 +133,6 @@
                       </li>';
             }
             ?>
-      
           </ul>
         </div>
     </div>
@@ -155,47 +154,62 @@
 
 
 <?php
-require("teacherloginprocess.php");
+    require("teacherloginprocess.php");
 
-if (!isset($_SESSION['loggedin'])) {
-    header('Location: teacherlogin.php');
-    exit();
-}
+    if (!isset($_SESSION['loggedin'])) {
+        header('Location: teacherlogin.php');
+        exit();
+    }
 
-$user_email = $_SESSION['email'];
-$query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
-$result = mysqli_query($conn, $query);
+    $user_email = $_SESSION['email'];
+    $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+    $result = mysqli_query($conn, $query);
 
-if ($result) {
-    // Fetching the data
-    $row = mysqli_fetch_assoc($result);
-    $student_name = $row['user_fname'];
-} else {
-    $student_name = ''; 
-}
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $user_fname = $row['user_fname'];
+    } else {
+        $user_fname = '';
+    }
 
-include('connection.php');
+    include('connection.php');
 
-$sql = "SELECT user_id, user_fname, student_name, alert, date FROM teachernotifications";
-$whereClause = "";
+    $sql = "SELECT user_id, user_fname, student_name, alert, date FROM teachernotifications";
+    $whereClause = "";
 
-// Adding a condition to fetch data for the specific teacher if the name is available
-if (!empty($student_name)) {
-    $whereClause = " WHERE user_fname = '$user_fname' OR user_fname IS NULL OR user_fname = ''";
-}
+    if (!empty($user_fname)) {
+        $whereClause = " WHERE user_fname = '$user_fname' OR user_fname IS NULL OR user_fname = ''";
+    }
 
-// Append the condition to the query
-$sql .= $whereClause;
+    $sql .= $whereClause;
+    $result = $conn->query($sql);
+    $numNotifications = $result->num_rows;
+    $modalContentHeight = max(300, $numNotifications * 50);
 
-// Fetching data from the notifications table
-$result = $conn->query($sql);
-
-// Calculating the number of notifications
-$numNotifications = $result->num_rows;
-
-$modalContentHeight = max(300, $numNotifications * 50); 
-
-$conn->close();
+    
+    if (isset($_POST['clearNotifications'])) {
+        // Geting an array of user IDs for notifications displayed in the modal
+        $notificationIds = array();
+        while ($row = $result->fetch_assoc()) {
+            $notificationIds[] = $row['user_id'];
+        }
+    
+        // Performing the deletion query based on the user_id 
+        if (!empty($notificationIds)) {
+            $notificationIdsString = implode(',', $notificationIds);
+            $deleteQuery = "DELETE FROM teachernotifications WHERE user_id IN ($notificationIdsString)";
+            $deleteResult = $conn->query($deleteQuery);
+    
+            // Checking if the deletion was successful
+            if ($deleteResult) {
+                echo '<script>window.location.href = "teacherpanel.php";</script>';
+                exit();
+            } else {
+                die('Error: Unable to clear notifications.');
+            }
+        }
+    }
+    
 ?>
 
 
@@ -204,56 +218,59 @@ $conn->close();
 
 
 <div id="notificationModal" class="modal">
-<div class="modal-content" style="width: 600px; height: 500px; overflow-y: auto;">
+        <div class="modal-content" style="width: 600px; height: 500px; overflow-y: auto;">
+            <center>
+                <h2>Notifications</h2>
+            </center>
+            <hr>
+            <button id="clearNotifications" class="btn btn-sm btn-primary" style="margin-bottom: 10px;" data-action="clearNotifications">Clear Notifications</button>
 
-        <center><h2>Notifications</h2></center>
-        <hr>
-        <button id="clearNotifications" class="btn btn-sm btn-primary" style="margin-bottom: 10px;">Clear Notifications</button>
-        <span class="close">&times;</span>
-        <?php
-        if ($numNotifications > 0) {
-            echo '<ul>';
-            while ($row = $result->fetch_assoc()) {
-                echo '<li style="margin-bottom: 20px;">'; // Adjust the margin-bottom as needed
-                echo '<strong>Notification ID:</strong> ' . $row['user_id'] . '<br>';
-                echo '<strong>Teacher Name:</strong> ' . $row['user_fname'] . '<br>';
-                echo '<strong>Student Name:</strong> ' . $row['student_name'] . '<br>';
-                echo '<strong>Alert Message:</strong> ' . $row['alert'] . '<br>';
-                echo '<strong>Date:</strong> ' . $row['date'] . '<br>';
-                echo '</li>';
+<form id="clearNotificationsForm" method="post" style="display: none;">
+    <input type="hidden" name="clearNotifications" value="1">
+</form>
+            <span class="close">&times;</span>
+            <?php
+            if ($numNotifications > 0) {
+                echo '<ul>';
+                while ($row = $result->fetch_assoc()) {
+                    echo '<li style="margin-bottom: 20px;">';
+                    echo '<strong>Notification ID:</strong> ' . $row['user_id'] . '<br>';
+                    echo '<strong>Teacher Name:</strong> ' . $row['user_fname'] . '<br>';
+                    echo '<strong>Student Name:</strong> ' . $row['student_name'] . '<br>';
+                    echo '<strong>Alert Message:</strong> ' . $row['alert'] . '<br>';
+                    echo '<strong>Date:</strong> ' . $row['date'] . '<br>';
+                    echo '</li>';
+                }
+                echo '</ul>';
+            } else {
+                echo 'No notifications found.';
             }
-            echo '</ul>';
-        } else {
-            echo 'No notifications found.';
-        }
-        ?>
+            ?>
 
+        </div>
     </div>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
     
     $(document).ready(function () {
-        $("#notificationIcon").click(function () {
-            $("#notificationModal").fadeIn();
-        });
-
-        $(".close").click(function () {
-            $("#notificationModal").fadeOut();
-        });
-
-        $("#clearNotifications").click(function () {
-
-            $("#notificationModal ul").empty(); // Removing all items from the list
-            $("#notificationModal").fadeOut(); // Hiding the modal
-            updateNotificationCount(0); // Reseting the notification count
-        });
-
-        // Initial update of the notification count
-        updateNotificationCount(<?php echo $numNotifications; ?>);
+    $("#notificationIcon").click(function () {
+        $("#notificationModal").fadeIn();
     });
+
+    $(".close").click(function () {
+        $("#notificationModal").fadeOut();
+    });
+
+    $("#clearNotifications").click(function () {
+        // Submiting the form for deletion
+        $("#clearNotificationsForm").submit();
+    });
+
+    // Initial update of the notification count
+    updateNotificationCount(<?php echo $numNotifications; ?>);
+});
 
     function updateNotificationCount(count) {
         
@@ -357,7 +374,7 @@ $conn->close();
 
 <div id="content"></div>
 
-<
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 

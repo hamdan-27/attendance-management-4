@@ -149,6 +149,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_class'])) {
         </div>
     </div>
 
+    <?php
+    // Assuming $user_fname is already defined in your code
+    $class_query = "SELECT class_name FROM class WHERE class_tutor_name = '$user_fname'";
+    $class_result = mysqli_query($conn, $class_query);
+    ?>
+    
     <!-- Additional HTML for Create a Class section -->
     <hr>
     <div class="card">
@@ -157,25 +163,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_class'])) {
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="form-group">
                     <label for="new_class_name">Class Name:</label>
-                    <input type="text" class="form-control" name="new_class_name" required>
+                    <select class="form-control" name="new_class_name" required>
+                        <?php
+                        // Displaying class names in the dropdown
+                        if ($class_result) {
+                            while ($class_row = mysqli_fetch_assoc($class_result)) {
+                                $class_name = $class_row['class_name'];
+                                echo "<option value=\"$class_name\">$class_name</option>";
+                            }
+                        }
+                        ?>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="class_date">Class Date:</label>
-                    <input type="date" class="form-control" name="class_date" required>
+                    <input type="date" class="form-control" name="class_date" placeholder="Select Class Date" required>
                 </div>
                 <div class="form-group">
                     <label for="class_time">Class Time:</label>
-                    <input type="time" class="form-control" name="class_time" required>
+                    <input type="time" class="form-control" name="class_time" placeholder="Enter Class Time" required>
                 </div>
                 <div class="form-group">
                     <label for="class_location">Class Location:</label>
-                    <input type="text" class="form-control" name="class_location" required>
+                    <input type="text" class="form-control" name="class_location" placeholder="Enter Class Location" required>
                 </div>
                 <button type="submit" class="btn btn-primary" name="create_class">Create Class</button>
             </form>
         </div>
     </div>
 
+    
     <style>
         hr {
             width: 90%;
