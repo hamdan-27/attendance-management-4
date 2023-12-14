@@ -21,16 +21,18 @@ function edit_user()
       $class_name = $row['class_name'];
 
       echo "<tr>
-              <form method='post'>
-                <td><input name='name' class='form-control' value='$name'></td>
-                <td><input name='email' class='form-control' value='$email'></td>
-                <td><input name='phone' class='form-control' value='$phone'></td>
-                <td><input name='user_role' class='form-control' value='$user_role'></td>
-                <td><input name='password' class='form-control' value='$password'></td>
-                <td><input name='class_name' class='form-control' value='$class_name'></td>
-                <td><input type='submit' name='edit-user' class='btn btn-primary' value='Edit'></td>
-              </form>
-            </tr>";
+        <form method='post'>
+            <td><input name='name' class='form-control' value='$name'></td>
+            <td><input name='email' class='form-control' value='$email'></td>
+            <td><input name='phone' class='form-control' value='$phone'></td>
+            <td><input name='user_role' class='form-control' value='$user_role'></td>
+            <td><input name='password' class='form-control' value='$password'></td>
+            <td><input name='class_name' class='form-control' value='$class_name'></td>
+            <td><input type='hidden' name='email' value='$email'></td>
+            <td><input type='submit' name='edit-user' class='btn btn-primary' value='Edit'></td>
+        </form>
+    </tr>";
+    
     }
   } else {
     echo "<script>alert('No users found');</script>";
@@ -45,9 +47,10 @@ if (isset($_POST['edit-user'])) {
   $password = $_POST['password'];
   $class_name = $_POST['class_name'];
     
+  $email = $_POST['email']; 
   $sql = "UPDATE `users` 
-  SET `user_fname`='$name',`user_email`='$email',`phone_number`='$phone',`user_role`='$user_role',`user_password`='$password' , `class_name`='$class_name'
-  WHERE `id` = '$id'";
+  SET `user_fname`='$name', `user_email`='$email', `phone_number`='$phone', `user_role`='$user_role', `user_password`='$password', `class_name`='$class_name'
+  WHERE `user_email`='$email'";
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
