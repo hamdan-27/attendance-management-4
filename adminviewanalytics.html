@@ -1,0 +1,277 @@
+<?php
+session_start();
+require('connection.php');
+
+
+$query = "SELECT * FROM reports";
+$result = mysqli_query($conn, $query);
+
+?>
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Manage Users</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <script src="js/adminpanelscript.js"></script>
+    <script src="https://kit.fontawesome.com/2ba669933d.js" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylestudentpanel.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+            text-align: right;
+        }
+        #sidebar {
+            position: fixed;
+            height: 100%;
+            width: 250px;
+            z-index: 1;
+            top: 60px;
+            left: 0;
+            background-color: #2B5BA4;
+            padding-top: 20px;
+            transition: left 0.3s;
+        }
+
+        #content {
+            margin-left: 250px;
+            padding: 10px 0px 10px 10px;
+            margin-top: 100px;
+        }
+
+        .navbar {
+            background-color: #2B5BA4;
+        }
+
+
+        .navbar-brand {
+            font-size: 26px;
+            color: white;
+        }
+
+        .navbar-toggler-icon {
+            color: white;
+        }
+
+        .navbar-nav .nav-link {
+            display: inline-block;
+            padding: 8px 10px;
+        }
+
+        #sidebar h2 {
+            background-color: #2B5BA4;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #sidebar .btn-dark {
+            background-color: white;
+            color: #111;
+            width: 100%;
+            margin-bottom: 10px;
+            margin-left: 5px;
+            border-radius: 7px;
+        }
+
+        #sidebar .btn-dark.active {
+            background-color: grey;
+        }
+
+        #sidebar .btn-dark:hover {
+            background-color: grey;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        @media screen and (max-width: 768px) {
+            #sidebar {
+                left: -250px;
+            }
+
+            #content {
+                margin-left: 0;
+                padding-top: 16px;
+            }
+
+            #sidebar h2 {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <a class="navbar-brand" href="#" style="color: white;">
+        EduTrack
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="mx-auto d-flex justify-content-center">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-left: 17px;">
+                        Manage Users</span>
+                </li>
+
+            
+                <?php
+
+
+                $user_email = $_SESSION['email'];
+                $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+                $result = mysqli_query($conn, $query);
+                if ($result) {
+                    // Fetching the data
+                    $row = mysqli_fetch_assoc($result);
+                    $user_fname = $row['user_fname'];
+
+                    echo '<li class="nav-item"> 
+                        <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-right: 10px; padding-top: 8px;">
+                            <i class="fas fa-user"></i> ' . $user_fname . '
+                        </span>
+                      </li>';
+                }
+                ?>
+
+            </ul>
+        </div>
+    </div>
+
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link btn btn-danger btn-sm" href="adminlogout.php" style="color: white;">Logout</a>
+        </li>
+
+</nav>
+
+<div id="sidebar">
+    <h2>EduTrack</h2>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <!-- <button onclick="loadContent('admindashboard')">Dashboard</button> -->
+            <a class="btn btn-dark" href="admindashboard.html">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <!-- <button onclick="loadContent('adminadduser')">Add New Users</button> -->
+            <a class="btn btn-dark" href="adminadduser.html">Add New User</a>
+        </li>
+        <li class="nav-item">
+            <!-- <button onclick="loadContent('manageusers')">Manage Users</button> -->
+            <a class="btn btn-dark" href="manageusers.html">Manage Users</a>
+        </li>
+        <li class="nav-item">
+            <!-- <button onclick="loadContent('adminaddcourses')">Add New Courses</button> -->
+            <a class="btn btn-dark" href="adminaddcourses.html">Add New Courses</a>
+        </li>
+        <li class="nav-item">
+            <!-- <button onclick="loadContent('adminmanagecourses')">Manage Courses</button> -->
+            <a class="btn btn-dark active" href="adminmanagecourses.html">Manage Courses</a>
+        </li>
+        <li class="nav-item">
+     
+            <a class="btn btn-dark" href="admingeneratereport.html">Generate Attendance Report</a>
+        </li>  <li class="nav-item">
+            <a class="btn btn-dark" href="adminsendalert.html">Send Alerts</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-dark" href="adminviewanalytics.html">View Analytics</a>
+          </li><br><br><br>
+    </ul>
+</div>
+
+
+<div id="content">
+    <div class="container">
+        <h2>View Attendance Records</h2>
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="generateGraph()">Generate Graph</button>
+        </div>
+        <div class="table-container">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Report ID</th>
+                        <th scope="col">Attendance ID</th>
+                        <th scope="col">Report Date</th>
+                        <th scope="col">Report Status</th>
+                        <th scope="col">Attendance Student</th>
+                        <th scope="col">Attendance Class</th>
+                        <th scope="col">Class Tutor Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $reportsQuery = "SELECT * FROM reports";
+                    $reportsResult = mysqli_query($conn, $reportsQuery);
+
+                    // Loop through the result set and display data in the table
+                    while ($row = mysqli_fetch_assoc($reportsResult)) {
+                        echo '<tr>';
+                        echo '<td>' . $row['report_id'] . '</td>';
+                        echo '<td>' . $row['attendance_id'] . '</td>';
+                        echo '<td>' . $row['report_date'] . '</td>';
+                        echo '<td>' . $row['report_status'] . '</td>';
+                        echo '<td>' . $row['attendance_student'] . '</td>';
+                        echo '<td>' . $row['attendance_class'] . '</td>';
+                        echo '<td>' . $row['class_tutor_name'] . '</td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function generateGraph() {
+        window.location.href = 'admingraph.php';
+    }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</body>
+
+</html>

@@ -27,6 +27,12 @@ if ($result) {
     if ($result) {
         // Check if there are any rows
         if (mysqli_num_rows($result) > 0) {
+            // This button will take us to graph file which shows the graph
+            echo "<div style='text-align: center; margin-top: 20px; margin-bottom: 20px;'>";
+            echo "<a href='graph.php' class='btn btn-success btn-md'>Generate Graph</a>";
+            echo "</div>";
+
+            // Display the table
             echo "<table class='table'>";
             echo "<thead>";
             echo "<tr>";
@@ -54,11 +60,6 @@ if ($result) {
 
             echo "</tbody>";
             echo "</table>";
-
-            // Add the generate graph button
-            echo "<div style='text-align: center; margin-top: 20px;'>";
-            echo "<a href='graph.php' class='btn btn-success btn-md'>Generate Graph</a>";
-            echo "</div>";
         } else {
             echo "<p>No data found.</p>";
         }

@@ -29,7 +29,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-course'])) {
     $insert_result = mysqli_query($conn, $insert_query);
 
     if ($insert_result) {
-        echo "<script>alert('Course added successfully');</script>";
+        $today = date("Y-m-d");
+        $alert_message = "You have been added to course: $course_name by the admin on $today";
+
+        $notification_query = "INSERT INTO teachernotifications (user_fname, alert, date) VALUES ('$course_manager_name', '$alert_message', '$today')";
+        $notification_result = mysqli_query($conn, $notification_query);
+
+        if ($notification_result) {
+            echo "<script>alert('Course added successfully and notification sent');</script>";
+        } else {
+            echo "<script>alert('Course added successfully, but there was an issue sending the notification.');</script>";
+        }
 
         // Redirect to adminaddcourses.html after a successful insert
         // header('Location: adminaddcourses.html');
@@ -40,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-course'])) {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -218,6 +229,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add-course'])) {
                 Report</button> -->
                 <a class="btn btn-dark" href="admingeneratereport.html">Generate Attendance Report</a>
             </li>
+            <li class="nav-item">
+                <a class="btn btn-dark" href="adminsendalert.html">Send Alerts</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-dark" href="adminviewanalytics.html">View Analytics</a>
+              </li>
         </ul>
     </div>
 

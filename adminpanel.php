@@ -173,7 +173,10 @@
             <li class="nav-item">
                 <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance Report</button>
                 <!-- <a class="btn btn-dark" href="admingeneratereport.html">Generate Attendance Report</a> -->
-            </li><br><br><br>
+            </li> 
+            <li class="nav-item">
+                <a class="btn btn-dark" href="adminsendalert.html">Send Alert</a>
+              </li><br><br><br>
         </ul>
     </div>
 
