@@ -1,7 +1,6 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +18,7 @@
             height: 100%;
             width: 250px;
             z-index: 1;
-            top: 60px; 
+            top: 60px;
             left: 0;
             background-color: #2B5BA4;
             padding-top: 20px;
@@ -35,7 +34,7 @@
         .navbar {
             background-color: #2B5BA4;
         }
-    
+
 
         .navbar-brand {
             font-size: 26px;
@@ -45,10 +44,12 @@
         .navbar-toggler-icon {
             color: white;
         }
+
         .navbar-nav .nav-link {
             display: inline-block;
-            padding: 8px 10px; 
+            padding: 8px 10px;
         }
+
         #sidebar h2 {
             background-color: #2B5BA4;
             color: white;
@@ -76,7 +77,7 @@
 
         @media screen and (max-width: 768px) {
             #sidebar {
-                left: -250px; 
+                left: -250px;
             }
 
             #content {
@@ -90,112 +91,115 @@
         }
     </style>
 </head>
+
 <body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light fixed-top">
-    <a class="navbar-brand" href="#" style="color: white;">
-        EduTrack
-    </a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <a class="navbar-brand" href="#" style="color: white;">
+            EduTrack
+        </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-    <div class="mx-auto d-flex justify-content-center">
-    <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-            <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-left: 17px;">Admin Dashboard</span>
-            </li>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="mx-auto d-flex justify-content-center">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-left: 17px;">Admin Dashboard</span>
+                    </li>
 
-            <!-- Displaying the logged-in user's name -->
-            <?php
-            require("adminloginprocess.php");
-            if (!isset($_SESSION['loggedin'])){ 
-                header('Location: adminlogin.php');
-                exit();
-            } 
+                    <!-- Displaying the logged-in user's name -->
+                    <?php
+                    require("adminloginprocess.php");
+                    if (!isset($_SESSION['loggedin'])) {
+                        header('Location: adminlogin.php');
+                        exit();
+                    }
 
-            require('connection.php');
+                    require('connection.php');
 
-            $user_email = $_SESSION['email'];
-            $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
-            $result = mysqli_query($conn, $query);
-            if ($result) {
-                // Fetching the data
-                $row = mysqli_fetch_assoc($result);
-                $user_fname = $row['user_fname'];
+                    $user_email = $_SESSION['email'];
+                    $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
+                    $result = mysqli_query($conn, $query);
+                    if ($result) {
+                        // Fetching the data
+                        $row = mysqli_fetch_assoc($result);
+                        $user_fname = $row['user_fname'];
 
-                echo '<li class="nav-item"> <!-- Remove text-center class -->
+                        echo '<li class="nav-item"> <!-- Remove text-center class -->
                         <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-right: 10px; padding-top: 8px;">
                             <i class="fas fa-user"></i> ' . $user_fname . '
                         </span>
                       </li>';
-            }
-            ?>
-      
-          </ul>
+                    }
+                    ?>
+
+                </ul>
+            </div>
         </div>
+
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger btn-sm" href="adminlogout.php" style="color: white;">Logout</a>
+            </li>
+
+    </nav>
+
+    <div id="sidebar">
+        <h2>EduTrack</h2>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('admindashboard')">Dashboard</button> -->
+                <a class="btn btn-dark" href="admindashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminadduser')">Add New Users</button> -->
+                <a class="btn btn-dark" href="adminadduser.html">Add New User</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('manageusers')">Manage Users</button> -->
+                <a class="btn btn-dark" href="manageusers.html">Manage Users</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminaddcourses')">Add New Courses</button> -->
+                <a class="btn btn-dark" href="adminaddcourses.html">Add New Courses</a>
+            </li>
+            <li class="nav-item">
+                <!-- <button onclick="loadContent('adminmanagecourses')">Manage Courses</button> -->
+                <a class="btn btn-dark" href="adminmanagecourses.html">Manage Courses</a>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance Report</button>
+                <!-- <a class="btn btn-dark" href="admingeneratereport.html">Generate Attendance Report</a> -->
+            </li><br><br><br>
+        </ul>
     </div>
-   
-    <ul class="navbar-nav ml-auto">
-    <li class="nav-item">
-    <a class="nav-link btn btn-danger btn-sm" href="adminlogout.php" style="color: white;">Logout</a>
-    </li>
-            
-</nav>
 
+    <div id="content"></div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadContent('admindashboard');
+        });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            loadContent('admindashboard');
 
-<div id="sidebar">
-    <h2>EduTrack</h2>
-    <ul class="nav flex-column">
-        <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('admindashboard')">Dashboard</button>
-        </li>
-        <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('adminadduser')">Add New Users</button>
-        </li>
-        <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('manageusers')">Manage Users</button>
-        </li>
-        <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('adminaddcourses')">Add New Courses</button>
-        </li>
-        <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('adminmanagecourses')">Manage Courses</button>
-        </li>
-        <li class="nav-item">
-            <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance Report</button>
-        </li><br><br><br>
-    </ul>
-</div>
-
-<div id="content"></div>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        loadContent('admindashboard');
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        loadContent('admindashboard');
-
-        var buttons = document.querySelectorAll('.btn-dark');
-        buttons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                buttons.forEach(function(btn) {
-                    btn.classList.remove('active');
+            var buttons = document.querySelectorAll('.btn-dark');
+            buttons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    buttons.forEach(function(btn) {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
                 });
-                button.classList.add('active');
             });
         });
-    });
-</script>
+    </script>
+
 </body>
-</html>

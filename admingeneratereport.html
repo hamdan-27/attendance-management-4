@@ -14,8 +14,6 @@ $result = mysqli_query($conn, $query);
 if ($result) {
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
-
-    echo "<br><br><center><h1>Welcome Back, $user_fname!</h1> <h5>Generate Attendance Reports</h5> <hr></center>";
 }
 ?>
 
@@ -186,7 +184,7 @@ if ($result) {
             </li>
             <li class="nav-item">
                 <!-- <button onclick="loadContent('adminaddcourses')">Add New Courses</button> -->
-                <a class="btn btn-dark active" href="adminaddcourses.html">Add New Courses</a>
+                <a class="btn btn-dark" href="adminaddcourses.html">Add New Courses</a>
             </li>
             <li class="nav-item">
                 <!-- <button onclick="loadContent('adminmanagecourses')">Manage Courses</button> -->
@@ -195,80 +193,91 @@ if ($result) {
             <li class="nav-item">
                 <!-- <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance
                 Report</button> -->
-                <a class="btn btn-dark" href="admingeneratereport.html">Generate Attendance Report</a>
+                <a class="btn btn-dark active" href="admingeneratereport.html">Generate Attendance Report</a>
             </li>
         </ul>
     </div>
-    
-    <div class="container-fluid mt-3">
-        <!-- <div class="card">
-            <div class="card-body"> -->
-                <h2>Generate the whole student attendance report</h2>
+    <div id="content" style="margin-top: 400px;">
+        <div></div>
+        <div class="card">
+            <div class="card-body">
+                <h2>Generate Complete Attendance Report</h2>
+                <br>    
+                <div class="row">
+                    <div class="col">
+                        <center>
+                        <form method="post" action="generate_pdf.php" target="_blank">
+                            <button type="submit" id="pdf" name="generate_pdf" class="btn btn-primary">
+                                <i class="fa fa-pdf" aria-hidden="true"></i>
+                                Generate PDF
+                            </button>
+                        </form></center>
+                    </div>
+                    <div class="col">
+                        <center>
+                        <!-- form for generating Excel  -->
+                        <form method="post" action="generate_excel.php">
+                            <button type="submit" id="excel" name="generate_excel" class="btn btn-success">
+                                <i class="fa fa-file-excel" aria-hidden="true"></i>
+                                Download Excel
+                            </button>
+                        </form></center>
+                    </div>
 
-                <form class="form-inline" method="post" action="generate_pdf.php">
-                    <button type="submit" id="pdf" name="generate_pdf" class="btn btn-primary">
+                    <br>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!-- Box for generating attendance report by date -->
+        <div class="card mt-3">
+            <div class="card-body">
+                <h2>Generate Attendance Report by Date</h2>
+
+                <!-- PDF Form -->
+                <form class="form-inline" method="post" action="generate_date_report.php" target="_blank">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="inputDate" class="sr-only">Select Date:</label>
+                        <input type="date" class="form-control" id="inputDate" name="attendance_date" required>
+                    </div>
+                    <button type="submit" id="datePdf" name="generate_date_pdf" class="btn btn-primary">
                         <i class="fa fa-pdf" aria-hidden="true"></i>
                         Generate PDF
                     </button>
                 </form>
-                <br>
 
-                <!-- form for generating Excel  -->
-                <form class="form-inline" method="post" action="generate_excel.php">
-                    <button type="submit" id="excel" name="generate_excel" class="btn btn-success">
+                <!-- Excel Form -->
+                <form class="form-inline mt-3" method="post" action="generate_date_report_excel.php">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="inputDateExcel" class="sr-only">Select Date:</label>
+                        <input type="date" class="form-control" id="inputDateExcel" name="attendance_date_excel"
+                            required>
+                    </div>
+                    <button type="submit" id="excel" name="generate_date_excel" class="btn btn-success">
                         <i class="fa fa-file-excel" aria-hidden="true"></i>
                         Download Excel
                     </button>
                 </form>
-            <!-- </div>
-        </div> -->
-    </div>
-
-
-
-    <!-- Box for generating attendance report by date -->
-    <div class="card mt-3">
-        <div class="card-body">
-            <h2>Generate Attendance Report by Date</h2>
-
-            <!-- PDF Form -->
-            <form class="form-inline" method="post" action="generate_date_report.php">
-                <div class="form-group mx-sm-3 mb-2">
-                    <label for="inputDate" class="sr-only">Select Date:</label>
-                    <input type="date" class="form-control" id="inputDate" name="attendance_date" required>
-                </div>
-                <button type="submit" id="datePdf" name="generate_date_pdf" class="btn btn-primary">
-                    <i class="fa fa-pdf" aria-hidden="true"></i>
-                    Generate PDF
-                </button>
-            </form>
-
-            <!-- Excel Form -->
-            <form class="form-inline mt-3" method="post" action="generate_date_report_excel.php">
-                <div class="form-group mx-sm-3 mb-2">
-                    <label for="inputDateExcel" class="sr-only">Select Date:</label>
-                    <input type="date" class="form-control" id="inputDateExcel" name="attendance_date_excel" required>
-                </div>
-                <button type="submit" id="excel" name="generate_date_excel" class="btn btn-success">
-                    <i class="fa fa-file-excel" aria-hidden="true"></i>
-                    Download Excel
-                </button>
-            </form>
+            </div>
         </div>
-    </div>
 
 
-    <!-- Box for generating attendance report by subject (class) -->
-    <div class="card mt-3">
-        <div class="card-body">
-            <h2>Generate Attendance Report by Class</h2>
+        <!-- Box for generating attendance report by subject (class) -->
+        <div class="card mt-3">
+            <div class="card-body">
+                <h2>Generate Attendance Report by Class</h2>
 
-            <!-- PDF Form -->
-            <form class="form-inline" method="post" action="generate_subject_report.php">
-                <div class="form-group mx-sm-3 mb-2">
-                    <label for="selectClass" class="sr-only">Select Class:</label>
-                    <select class="form-control" id="selectClass" name="selected_class" required>
-                        <?php
+                <!-- PDF Form -->
+                <form class="form-inline" method="post" action="generate_subject_report.php" target="_blank">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="selectClass" class="sr-only">Select Class:</label>
+                        <select class="form-control" id="selectClass" name="selected_class" required>
+                            <?php
                     // Fetch classes for the logged-in teacher
                     $teacher_classes_query = "SELECT class_name FROM class";
                     $teacher_classes_result = mysqli_query($conn, $teacher_classes_query);
@@ -280,20 +289,20 @@ if ($result) {
                         }
                     }
                     ?>
-                    </select>
-                </div>
-                <button type="submit" id="subjectPdf" name="generate_subject_pdf" class="btn btn-primary">
-                    <i class="fa fa-pdf" aria-hidden="true"></i>
-                    Generate PDF
-                </button>
-            </form>
+                        </select>
+                    </div>
+                    <button type="submit" id="subjectPdf" name="generate_subject_pdf" class="btn btn-primary">
+                        <i class="fa fa-pdf" aria-hidden="true"></i>
+                        Generate PDF
+                    </button>
+                </form>
 
 
-            <form class="form-inline mt-3" method="post" action="generate_subject_report_excel.php">
-                <div class="form-group mx-sm-3 mb-2">
-                    <label for="selectClass" class="sr-only">Select Class:</label>
-                    <select class="form-control" id="selectClass" name="selected_class" required>
-                        <?php
+                <form class="form-inline mt-3" method="post" action="generate_subject_report_excel.php">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="selectClass" class="sr-only">Select Class:</label>
+                        <select class="form-control" id="selectClass" name="selected_class" required>
+                            <?php
                     // Re-fetch classes for the logged-in teacher (for Excel form)
                     mysqli_data_seek($teacher_classes_result, 0); // Reset pointer to the beginning
                     if ($teacher_classes_result) {
@@ -303,26 +312,26 @@ if ($result) {
                         }
                     }
                     ?>
-                    </select>
-                </div>
-                <button type="submit" id="excel" name="generate_subject_excel" class="btn btn-success">
-                    <i class="fa fa-file-excel" aria-hidden="true"></i>
-                    Download Excel
-                </button>
-            </form>
+                        </select>
+                    </div>
+                    <button type="submit" id="excel" name="generate_subject_excel" class="btn btn-success">
+                        <i class="fa fa-file-excel" aria-hidden="true"></i>
+                        Download Excel
+                    </button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <div class="card mt-3">
-        <div class="card-body">
-            <h2>Generate Attendance Report by Student</h2>
+        <div class="card mt-3">
+            <div class="card-body">
+                <h2>Generate Attendance Report by Student</h2>
 
-            <!-- PDF Form -->
-            <form class="form-inline" method="post" action="generate_student_report.php">
-                <div class="form-group mx-sm-3 mb-2">
-                    <label for="selectStudent" class="sr-only">Select Student:</label>
-                    <select class="form-control" id="selectStudent" name="selected_student" required>
-                        <?php
+                <!-- PDF Form -->
+                <form class="form-inline" method="post" action="generate_student_report.php" target="_blank">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="selectStudent" class="sr-only">Select Student:</label>
+                        <select class="form-control" id="selectStudent" name="selected_student" required>
+                            <?php
                     // Fetching students for the logged-in teacher
                     $teacher_name = $user_fname;
                     $students_query = "SELECT DISTINCT attendance_student FROM attendance";
@@ -335,20 +344,20 @@ if ($result) {
                         }
                     }
                     ?>
-                    </select>
-                </div>
-                <button type="submit" id="studentPdf" name="generate_student_pdf" class="btn btn-primary">
-                    <i class="fa fa-pdf" aria-hidden="true"></i>
-                    Generate PDF
-                </button>
-            </form>
+                        </select>
+                    </div>
+                    <button type="submit" id="studentPdf" name="generate_student_pdf" class="btn btn-primary">
+                        <i class="fa fa-pdf" aria-hidden="true"></i>
+                        Generate PDF
+                    </button>
+                </form>
 
-            <!-- Excel Form -->
-            <form class="form-inline" method="post" action="generate_student_report_excel.php">
-                <div class="form-group mx-sm-3 mb-2">
-                    <label for="selectStudent" class="sr-only">Select Student:</label>
-                    <select class="form-control" id="selectStudent" name="selected_student" required>
-                        <?php
+                <!-- Excel Form -->
+                <form class="form-inline" method="post" action="generate_student_report_excel.php">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="selectStudent" class="sr-only">Select Student:</label>
+                        <select class="form-control" id="selectStudent" name="selected_student" required>
+                            <?php
                     // Fetching students for the logged-in teacher
                     $teacher_name = $user_fname;
                     $students_query = "SELECT DISTINCT attendance_student FROM attendance";
@@ -361,12 +370,13 @@ if ($result) {
                         }
                     }
                     ?>
-                    </select>
-                </div>
-                <button type="submit" id="excel" name="generate_student_excel" class="btn btn-success">
-                    Download Excel
-                </button>
-            </form>
+                        </select>
+                    </div>
+                    <button type="submit" id="excel" name="generate_student_excel" class="btn btn-success">
+                        Download Excel
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
