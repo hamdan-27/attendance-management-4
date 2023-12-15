@@ -171,6 +171,7 @@
     $totalCourses = ($coursesResult) ? $coursesResult->fetch_assoc()['totalCourses'] : 0;
     ?>
 
+    <hr>
     <div class="row">
 
       <div class="col-md-4">
@@ -240,7 +241,7 @@
             echo "</tr>";
         }
     } else {
-        echo "<tr><td colspan='4'>No attendance records for today.</td></tr>";
+        echo "<tr><td colspan='4'>No attendance records to show.</td></tr>";
     }
 
     echo "</tbody>";
@@ -276,7 +277,6 @@
         <a class="btn btn-dark" href="adminmanagecourses.html">Manage Courses</a>
       </li>
       <li class="nav-item">
-        <!-- <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance Report</button> -->
         <a class="btn btn-dark" href="admingeneratereport.html">Generate Attendance Report</a>
       </li>
       <li class="nav-item">

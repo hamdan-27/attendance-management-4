@@ -170,7 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete-course'])) {
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <span class="nav-link" style="color: white; border-right: 1px solid #fff; padding-left: 17px;">
-                            Manage Users</span>
+                            Manage Courses</span>
                     </li>
 
                     <!-- Displaying the logged-in user's name -->
@@ -205,34 +205,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete-course'])) {
     </nav>
 
     <div id="sidebar">
-        <h2>EduTrack</h2>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <!-- <button onclick="loadContent('admindashboard')">Dashboard</button> -->
                 <a class="btn btn-dark" href="admindashboard.html">Dashboard</a>
             </li>
             <li class="nav-item">
-                <!-- <button onclick="loadContent('adminadduser')">Add New Users</button> -->
                 <a class="btn btn-dark" href="adminadduser.html">Add New User</a>
             </li>
             <li class="nav-item">
-                <!-- <button onclick="loadContent('manageusers')">Manage Users</button> -->
                 <a class="btn btn-dark" href="manageusers.html">Manage Users</a>
             </li>
             <li class="nav-item">
-                <!-- <button onclick="loadContent('adminaddcourses')">Add New Courses</button> -->
                 <a class="btn btn-dark" href="adminaddcourses.html">Add New Courses</a>
             </li>
             <li class="nav-item">
-                <!-- <button onclick="loadContent('adminmanagecourses')">Manage Courses</button> -->
                 <a class="btn btn-dark active" href="adminmanagecourses.html">Manage Courses</a>
             </li>
             <li class="nav-item">
-                <!-- <button class="btn btn-dark" onclick="loadContent('admingeneratereport')">Generate Attendance
-                    Report</button> -->
                 <a class="btn btn-dark" href="admingeneratereport.html">Generate Attendance Report</a>
             </li>  <li class="nav-item">
-                <a class="btn btn-dark" href="adminsendalert.html">Send Alert</a>
+                <a class="btn btn-dark" href="adminsendalert.html">Send Alerts</a>
               </li>
             </li>  <li class="nav-item">
                 <a class="btn btn-dark" href="adminviewanalytics.html">View Analytics</a>
