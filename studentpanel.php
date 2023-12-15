@@ -187,7 +187,7 @@ include('connection.php');
 $sql = "SELECT user_id, user_fname, student_name, alert, date FROM notifications";
 $whereClause = "";
 
-// Add a condition to fetch data for the specific student if the name is available
+// Adding a condition to fetch data for the specific student if the name is available
 if (!empty($student_name)) {
     $whereClause = " WHERE student_name = '$student_name' OR student_name IS NULL OR student_name = ''";
 }
@@ -203,8 +203,33 @@ $numNotifications = $result->num_rows;
 
 $modalContentHeight = max(300, $numNotifications * 50); 
 
-// Close the database connection
-$conn->close();
+if (isset($_POST['clearNotifications'])) {
+    $notificationIds = array();
+    
+    while ($row = $result->fetch_assoc()) {
+        // Check if the user_fname is 'admin'; if so, skip it
+        if ($row['user_fname'] !== 'admin') {
+            $notificationIds[] = $row['user_id'];
+        }
+    }
+
+    // Performing the deletion query based on the user_id
+    if (!empty($notificationIds)) {
+        $notificationIdsString = implode(',', $notificationIds);
+        $deleteQuery = "DELETE FROM notifications WHERE user_id IN ($notificationIdsString)";
+        $deleteResult = $conn->query($deleteQuery);
+
+        // Checking if the deletion was successful
+        if ($deleteResult) {
+            echo '<script>window.location.href = "studentpanel.php";</script>';
+            exit();
+        } else {
+            die('Error: Unable to clear notifications.');
+        }
+    }
+}
+
+
 ?>
 
 
@@ -218,6 +243,10 @@ $conn->close();
         <center><h2>Notifications</h2></center>
         <hr>
         <button id="clearNotifications" class="btn btn-sm btn-primary" style="margin-bottom: 10px;">Clear Notifications</button>
+       
+<form id="clearNotificationsForm" method="post" style="display: none;">
+    <input type="hidden" name="clearNotifications" value="1">
+</form>
         <span class="close">&times;</span>
         <?php
         // Check if there are any rows in the result
@@ -227,7 +256,7 @@ $conn->close();
             while ($row = $result->fetch_assoc()) {
                 echo '<li style="margin-bottom: 20px;">'; // Adjust the margin-bottom as needed
                 echo '<strong>Notification ID:</strong> ' . $row['user_id'] . '<br>';
-                echo '<strong>Teacher Name:</strong> ' . $row['user_fname'] . '<br>';
+                echo '<strong>User Name:</strong> ' . $row['user_fname'] . '<br>';
                 echo '<strong>Student Name:</strong> ' . $row['student_name'] . '<br>';
                 echo '<strong>Alert Message:</strong> ' . $row['alert'] . '<br>';
                 echo '<strong>Date:</strong> ' . $row['date'] . '<br>';
@@ -258,12 +287,9 @@ $conn->close();
 
         // Clear notifications when the "Clear Notifications" button is clicked
         $("#clearNotifications").click(function () {
-            // Here, you can use AJAX to send a request to the server to clear the notifications for that user
-            // For simplicity, I'm just hiding the notifications in this example
-            $("#notificationModal ul").empty(); // Remove all items from the list
-            $("#notificationModal").fadeOut(); // Hide the modal
-            updateNotificationCount(0); // Reset the notification count
-        });
+        // Submiting the form for deletion
+        $("#clearNotificationsForm").submit();
+    });
 
         // Initial update of the notification count
         updateNotificationCount(<?php echo $numNotifications; ?>);

@@ -178,7 +178,9 @@
     $whereClause = "";
 
     if (!empty($user_fname)) {
-        $whereClause = " WHERE user_fname = '$user_fname' OR user_fname IS NULL OR user_fname = ''";
+        $whereClause = " WHERE (user_fname = '$user_fname' OR user_fname IS NULL OR user_fname = '') OR user_fname = 'admin'";
+    } else {
+        $whereClause = " WHERE user_fname = 'admin'";
     }
 
     $sql .= $whereClause;
@@ -188,13 +190,16 @@
 
     
     if (isset($_POST['clearNotifications'])) {
-        // Geting an array of user IDs for notifications displayed in the modal
         $notificationIds = array();
+        
         while ($row = $result->fetch_assoc()) {
-            $notificationIds[] = $row['user_id'];
+            // Check if the user_fname is 'admin'; if so, skip it
+            if ($row['user_fname'] !== 'admin') {
+                $notificationIds[] = $row['user_id'];
+            }
         }
     
-        // Performing the deletion query based on the user_id 
+        // Performing the deletion query based on the user_id
         if (!empty($notificationIds)) {
             $notificationIdsString = implode(',', $notificationIds);
             $deleteQuery = "DELETE FROM teachernotifications WHERE user_id IN ($notificationIdsString)";
@@ -235,7 +240,7 @@
                 while ($row = $result->fetch_assoc()) {
                     echo '<li style="margin-bottom: 20px;">';
                     echo '<strong>Notification ID:</strong> ' . $row['user_id'] . '<br>';
-                    echo '<strong>Teacher Name:</strong> ' . $row['user_fname'] . '<br>';
+                    echo '<strong>User Name:</strong> ' . $row['user_fname'] . '<br>';
                     echo '<strong>Student Name:</strong> ' . $row['student_name'] . '<br>';
                     echo '<strong>Alert Message:</strong> ' . $row['alert'] . '<br>';
                     echo '<strong>Date:</strong> ' . $row['date'] . '<br>';

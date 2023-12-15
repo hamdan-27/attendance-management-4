@@ -39,11 +39,26 @@ mysqli_close($conn);
     
     <!-- Including Chart.js library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #chart-container {
+            width: 100%;
+            max-width: 1300px;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
 
 <!-- Chart container -->
-<div style="width:90%; margin: auto;">
+<div id="chart-container">
     <canvas id="myChart" width="800" height="400"></canvas>
 </div>
 
