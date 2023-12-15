@@ -24,3 +24,8 @@
  - **.htaccess** => High-Level Server configuration file
 
 ## How to Use
+
+1. Launch XAMMP Server and run Apache and MySQL Services
+2. Paste the root directory of this project to the path: `C:\xampp\htdocs`
+3. Open your preferred browser and enter `localhost/attendance-management-4/` into the URL bar
+4. The application should launch as expected.
