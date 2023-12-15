@@ -152,7 +152,7 @@
   <div id="content">
     <center>
       <h2>Welcome, Admin</h2>
-      <p>Welcome to the admin dashboard of the Edutrack &copy; Attendance Management System.</p>
+      <p>Welcome to the Admin Dashboard of the Edutrack &copy; Attendance Management System.</p>
     </center>
 
     <?php
@@ -165,10 +165,24 @@
     $teachersQuery = "SELECT COUNT(*) as totalTeachers FROM users WHERE user_role = 'teacher'";
     $teachersResult = $conn->query($teachersQuery);
     $totalTeachers = ($teachersResult) ? $teachersResult->fetch_assoc()['totalTeachers'] : 0;
+
+    $coursesQuery = "SELECT COUNT(*) as totalCourses FROM course";
+    $coursesResult = $conn->query($coursesQuery);
+    $totalCourses = ($coursesResult) ? $coursesResult->fetch_assoc()['totalCourses'] : 0;
     ?>
 
     <div class="row">
-      <div class="col-md-6">
+
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Teachers</h5>
+            <p class="card-text">There are <?php echo $totalTeachers ?> teachers in the system.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Total Students</h5>
@@ -177,15 +191,17 @@
         </div>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Total Teachers</h5>
-            <p class="card-text">There are <?php echo $totalTeachers ?> teachers in the system.</p>
+            <h5 class="card-title">Total Courses</h5>
+            <p class="card-text">There are <?php echo $totalTeachers ?> courses in the system.</p>
           </div>
         </div>
       </div>
+
     </div>
+    
     <br>
     <hr style="border: 1px solid #666666">
     <!-- <h3>Recent Attendance</h3> -->
@@ -196,18 +212,17 @@
     $todayDate = date("Y-m-d");
 
     // SQL query to select records from the 'attendance' table where the date is today
-    $sql = "SELECT * FROM `attendance` ORDER BY `date` DESC LIMIT 15";
+    $sql = "SELECT * FROM `reports` ORDER BY `report_date` DESC LIMIT 15";
     $result = $conn->query($sql);
 
     echo "<h3>Recent Attendance</h3>";
     echo "<table class='table'>";
     echo "<thead>";
     echo "<tr>";
-    echo "<th>ID</th>";
-    echo "<th>Student</th>";
-    echo "<th>Class</th>";
-    echo "<th>Status</th>";
     echo "<th>Date</th>";
+    echo "<th>Student</th>";
+    echo "<th>Status</th>";
+    echo "<th>Class</th>";
     echo "<th>Tutor</th>";
     echo "</tr>";
     echo "</thead>";
@@ -217,11 +232,10 @@
         // Output data of each row
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
-            echo "<td>" . $row["attendance_id"] . "</td>";
+            echo "<td>" . $row["report_date"] . "</td>";
             echo "<td>" . $row["attendance_student"] . "</td>";
+            echo "<td>" . $row["report_status"] . "</td>";
             echo "<td>" . $row["attendance_class"] . "</td>";
-            echo "<td>" . $row["attendance_status"] . "</td>";
-            echo "<td>" . $row["date"] . "</td>";
             echo "<td>" . $row["class_tutor_name"] . "</td>";
             echo "</tr>";
         }
@@ -244,7 +258,7 @@
 
 
   <div id="sidebar">
-    <h2>EduTrack</h2>
+    
     <ul class="nav flex-column">
       <li class="nav-item">
         <a class="btn btn-dark active" href="admindashboard.html">Dashboard</a>
