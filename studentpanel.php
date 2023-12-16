@@ -351,7 +351,6 @@ if (isset($_POST['clearNotifications'])) {
 
 
 <div id="sidebar">
-  <h2>&nbsp; EduTrack</h2> <br>
   <ul class="nav flex-column">
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('studentdashboard')">Dashboard</button>
@@ -363,7 +362,7 @@ if (isset($_POST['clearNotifications'])) {
       <button class="btn btn-dark" onclick="loadContent('studentmanageclass')">View My Class</button>
     </li>
     <li class="nav-item">
-      <button class="btn btn-dark" onclick="loadContent('studentabsentapplication')">Absente Application</button>
+      <button class="btn btn-dark" onclick="loadContent('studentabsentapplication')">Absentee Application</button>
     </li>
     <li class="nav-item">
       <button class="btn btn-dark" onclick="loadContent('studenteditprofile')">Edit My Profile</button>

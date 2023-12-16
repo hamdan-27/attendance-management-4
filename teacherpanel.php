@@ -341,7 +341,6 @@
 
 
 <div id="sidebar">
-    <h2>EduTrack</h2>
     <ul class="nav flex-column">
         <li class="nav-item">
             <button class="btn btn-dark" onclick="loadContent('teacherdashboard')">Dashboard</button>
