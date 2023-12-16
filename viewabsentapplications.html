@@ -14,14 +14,18 @@ $query = "SELECT user_fname FROM users WHERE user_email = '$user_email'";
 $result = mysqli_query($conn, $query);
 
 if ($result) {
-    // Fetch the user data
+    // Fetching the user data
     $row = mysqli_fetch_assoc($result);
     $user_fname = $row['user_fname'];
 
     echo "<center><hr><h4>View Student's Absent Applications</h4> <hr></center>";
 
-    // Display data from the "absent" table
-    $absentQuery = "SELECT * FROM absent";
+    // Displaying data from the "absent" table for the specific teacher so it only fetches details based on teacher name and not whole table
+    $absentQuery = "SELECT a.user_fname, a.user_email, a.class, a.note, a.date, a.time
+                    FROM absent a
+                    JOIN class c ON a.class = c.class_name
+                    WHERE c.class_tutor_name = '$user_fname'";
+                    
     $absentResult = mysqli_query($conn, $absentQuery);
 
     if ($absentResult) {
@@ -64,4 +68,3 @@ if ($result) {
   
 </body>
 </html>
-
