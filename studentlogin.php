@@ -61,7 +61,7 @@
 
                 <div class="d-flex flex-column align-items-center">
                     <div class="input-box mb-3">
-                        <a href="#" class="text-body-secondary">Forgot password?</a>
+                    
                     </div>
                 
                     <div class="button-container text-center">
