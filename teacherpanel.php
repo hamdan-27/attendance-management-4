@@ -327,19 +327,6 @@
 </style>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div id="sidebar">
     <ul class="nav flex-column">
         <li class="nav-item">
